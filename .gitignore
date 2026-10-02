@@ -25,3 +25,7 @@ npm-debug.log*
 Thumbs.db
 .idea/
 .vscode/
+
+# local working files
+_hitl-tmp.html
+motion-katalog.html
