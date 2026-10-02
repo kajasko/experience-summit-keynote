@@ -75,7 +75,7 @@ function VisionHorizon({ step, reduced }: { step: number; reduced: boolean }) {
       if (!coreNode) return;
 
       const flashlight = { x: 348, y: 498, r: 11 };
-      const compass = { x: 612, y: 360, r: 58 };
+      const compass = { x: 560, y: 360, r: 58 };
       const start = from === 1 ? compass : flashlight;
       const end = lit ? compass : flashlight;
       const pos = { x: start.x, y: start.y };
@@ -246,6 +246,7 @@ function BeamField() {
             </g>
           </g>
           <g data-beam-ring>
+            <circle cx="0" cy="0" r="214" className="vision-disc" />
             <circle cx="0" cy="0" r="168" fill="rgba(195,213,82,.12)" />
             <circle cx="0" cy="0" r="108" fill="rgba(195,213,82,.22)" />
           </g>
@@ -260,10 +261,30 @@ function BeamField() {
           <line data-beam-stem x1="-210" y1="0" x2="-8" y2="0" stroke="var(--lime)" strokeWidth="3" />
           <circle data-beam-origin cx="0" cy="0" r="11" fill="var(--lime)" />
           <text data-beam-ai x="0" y="9" textAnchor="middle" fill="var(--text-deep)" fontSize="26" fontWeight="800" fontFamily="Montserrat, sans-serif">AI</text>
-          <text data-beam-label x="0" y="-278" textAnchor="middle">Tělo</text>
-          <text data-beam-label x="278" y="8" textAnchor="start">Agenti</text>
-          <text data-beam-label x="0" y="298" textAnchor="middle">Tempo</text>
-          <text data-beam-label x="-278" y="8" textAnchor="end">Věda</text>
+          <g data-beam-label className="vision-plate">
+            <rect x="-92" y="-293" width="184" height="62" rx="31" />
+            <circle cx="-61" cy="-262" r="18" className="vision-plate-n" />
+            <text x="-61" y="-257" textAnchor="middle" className="vision-plate-num">01</text>
+            <text x="-32" y="-255" textAnchor="start">Tělo</text>
+          </g>
+          <g data-beam-label className="vision-plate">
+            <rect x="168" y="-31" width="196" height="62" rx="31" />
+            <circle cx="199" cy="0" r="18" className="vision-plate-n" />
+            <text x="199" y="5" textAnchor="middle" className="vision-plate-num">04</text>
+            <text x="228" y="7" textAnchor="start">Agenti</text>
+          </g>
+          <g data-beam-label className="vision-plate">
+            <rect x="-92" y="231" width="184" height="62" rx="31" />
+            <circle cx="-61" cy="262" r="18" className="vision-plate-n" />
+            <text x="-61" y="267" textAnchor="middle" className="vision-plate-num">02</text>
+            <text x="-32" y="269" textAnchor="start">Tempo</text>
+          </g>
+          <g data-beam-label className="vision-plate">
+            <rect x="-358" y="-31" width="184" height="62" rx="31" />
+            <circle cx="-327" cy="0" r="18" className="vision-plate-n" />
+            <text x="-327" y="5" textAnchor="middle" className="vision-plate-num">03</text>
+            <text x="-298" y="7" textAnchor="start">Věda</text>
+          </g>
         </g>
       </svg>
     </div>

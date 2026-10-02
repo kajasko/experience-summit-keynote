@@ -159,12 +159,117 @@ export function UxAx({ step, reduced }: SceneProps) {
 }
 
 const NEED_FLOW = [
-  { id: "need", label: "Need" },
-  { id: "context", label: "Context" },
-  { id: "intent", label: "Intent" },
-  { id: "action", label: "Action" },
-  { id: "outcome", label: "Outcome" },
+  { id: "need", label: "Need", example: "Odpočinout si bez plánování" },
+  { id: "context", label: "Context", example: "Pátek 18:40, mobil, po práci" },
+  { id: "intent", label: "Intent", example: "Wellness víkend do 2 h od Prahy" },
+  { id: "action", label: "Action", example: "Rezervuje pokoj se snídaní" },
+  { id: "outcome", label: "Outcome", example: "Odpočatá. Vrátí se znovu." },
 ] as const;
+
+const PERSONA_ROWS = [
+  { k: "Cíl", v: "Klid a čas pro sebe" },
+  { k: "Kanál", v: "Mobil, večer po práci" },
+  { k: "Bariéra", v: "Složité rezervace" },
+] as const;
+
+/** Slide 26 / 75 (understanding · un2): one persona's need travels to an outcome. */
+function NeedPath({ chrome, reduced }: { chrome: { kicker: string; page: string; caption: string }; reduced: boolean }) {
+  const root = useRef<HTMLDivElement>(null);
+  useLayoutEffect(() => {
+    const el = root.current;
+    if (!el) return;
+    const ctx = gsap.context(() => {
+      const q = (sel: string) => gsap.utils.toArray<HTMLElement>(sel, el);
+      const title = q("[data-np-title]");
+      const persona = q("[data-np-persona]");
+      const rows = q("[data-np-row]");
+      const card = q("[data-np-card]");
+      const rail = q("[data-np-rail]");
+      const fill = q("[data-np-fill]");
+      const nodes = q("[data-np-node]");
+      const examples = q("[data-np-example]");
+      const nodeCount = nodes.length;
+      const activate = (i: number) => nodes[i]?.classList.add("is-on");
+      if (reduced) {
+        nodes.forEach((_, i) => activate(i));
+        gsap.set(fill, { scaleX: 1 });
+        return;
+      }
+      nodes.forEach((n) => n.classList.remove("is-on"));
+      gsap.set(title, { autoAlpha: 0, y: 18 });
+      gsap.set(persona, { autoAlpha: 0, x: 80, rotate: 7 });
+      gsap.set(rows, { autoAlpha: 0, y: 10 });
+      gsap.set(card, { autoAlpha: 0, y: 24 });
+      gsap.set(rail, { scaleX: 0, transformOrigin: "left center" });
+      gsap.set(fill, { scaleX: 0, transformOrigin: "left center" });
+      gsap.set(nodes, { autoAlpha: 0, scale: 0.7 });
+      gsap.set(examples, { autoAlpha: 0, y: 14 });
+      const tl = gsap.timeline({ delay: 0.15 });
+      tl.to(title, { autoAlpha: 1, y: 0, duration: T.enter, ease: EASE.enter }, 0.05);
+      tl.to(persona, { autoAlpha: 1, x: 0, rotate: 3, duration: 0.7, ease: EASE.move }, 0.3);
+      tl.to(rows, { autoAlpha: 1, y: 0, duration: 0.3, stagger: 0.1, ease: EASE.enter }, 0.8);
+      tl.to(card, { autoAlpha: 1, y: 0, duration: 0.5, ease: EASE.enter }, 0.55);
+      tl.to(rail, { scaleX: 1, duration: 0.6, ease: EASE.move }, 0.85);
+      tl.to(nodes, { autoAlpha: 1, scale: 1, duration: 0.34, stagger: 0.07, ease: "back.out(1.8)" }, 0.9);
+      // The need travels: each step lights up and shows what it means for this persona.
+      for (let i = 0; i < nodeCount; i++) {
+        const t = 1.5 + i * 0.5;
+        if (i > 0) tl.to(fill, { scaleX: i / (nodeCount - 1), duration: 0.42, ease: EASE.move }, t - 0.42);
+        tl.call(() => activate(i), undefined, t);
+        tl.fromTo(nodes[i], { scale: 1 }, { scale: 1.1, duration: 0.16, yoyo: true, repeat: 1, ease: "power1.inOut" }, t);
+        tl.to(examples[i], { autoAlpha: 1, y: 0, duration: 0.34, ease: EASE.enter }, t + 0.08);
+      }
+    }, el);
+    return () => ctx.revert();
+  }, [reduced]);
+
+  return (
+    <div ref={root} className="scene is-need-path np2">
+      <SlideChrome {...chrome} captionDot mark={false} />
+      <div data-np-title data-hero-title className="np2-title">Potřeba vede k výsledku<span>.</span></div>
+      <section data-np-card className="np2-card">
+        <div className="np2-flow">
+          <span data-np-rail className="np2-rail" />
+          <span data-np-fill className="np2-rail is-fill" />
+          {NEED_FLOW.map((item, i) => (
+            <div key={item.id} className="np2-col" data-need-step={i}>
+              <div data-np-node className={`np2-node${i === NEED_FLOW.length - 1 ? " is-outcome" : ""}`}>
+                <NeedIcon id={item.id} />
+              </div>
+              <div className="np2-label"><i>{String(i + 1).padStart(2, "0")}</i>{item.label}</div>
+              <div data-np-example className="np2-example">{item.example}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+      <div data-np-persona data-need-split className="np2-persona">
+        <div className="need-persona-card np2-persona-card">
+          <div className="need-persona-head">
+            <span className="need-persona-mark">C</span>
+            <span>Personas</span>
+          </div>
+          <div className="need-persona-hero">
+            <img data-art src={`${asset("persona-need.png")}?v=2`} alt="" />
+            <div className="need-persona-tags">
+              <span className="is-lilac">Persona</span>
+              <span className="is-teal">✦ Strategic</span>
+              <span className="is-mint">Active Customer</span>
+            </div>
+          </div>
+          <p className="need-persona-quote">„Život je nejkrásnější tehdy, když nespěcháš.“</p>
+          <div className="np2-rows">
+            {PERSONA_ROWS.map((row) => (
+              <div key={row.k} data-np-row className="np2-row">
+                <span className="np2-row-dot" />
+                <span><em>{row.k}</em><b>{row.v}</b></span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function NeedIcon({ id }: { id: (typeof NEED_FLOW)[number]["id"] }) {
   const common = {
@@ -452,52 +557,7 @@ function UnderstandingPair({
 
 export function Understanding({ step, reduced }: SceneProps) {
   const chrome = chromeFor("understanding", step);
-  if (step === 0) {
-    return (
-    <div className="scene is-need-path">
-      <SlideChrome {...chrome} captionDot mark={false} />
-      <svg className="need-path-wave" viewBox="0 0 1920 240" preserveAspectRatio="none" aria-hidden="true">
-        <path d="M0 118 C 420 188 780 52 1180 128 C 1480 180 1720 150 1920 96 L 1920 240 L 0 240 Z" fill="rgba(255,255,255,.42)" />
-      </svg>
-      <div className="need-path-copy">
-        <div data-hero-title className="need-path-title">
-          Potřeba vede k výsledku.
-        </div>
-        <div className="need-path-flow">
-          {NEED_FLOW.map((stepItem, i) => (
-            <div key={stepItem.id} className="need-path-item" data-need-step={i}>
-              <div className="need-path-node">
-                <NeedIcon id={stepItem.id} />
-              </div>
-              <div className="need-path-label">{stepItem.label}</div>
-              {i < NEED_FLOW.length - 1 ? <span className="need-path-arrow" aria-hidden="true">→</span> : null}
-            </div>
-          ))}
-        </div>
-      </div>
-      <div data-need-split className="need-persona">
-        <div className="need-persona-card">
-          <div className="need-persona-head">
-            <span className="need-persona-mark">C</span>
-            <span>Personas</span>
-          </div>
-          <div className="need-persona-hero">
-            <img data-art src={`${asset("persona-need.png")}?v=2`} alt="" />
-            <div className="need-persona-tags">
-              <span className="is-lilac">Persona</span>
-              <span className="is-teal">✦ Strategic</span>
-              <span className="is-mint">Active Customer</span>
-            </div>
-          </div>
-          <p className="need-persona-quote">„Život je nejkrásnější tehdy, když nespěcháš.“</p>
-          <div className="need-persona-list">
-            <div /><div /><div />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-  }
+  if (step === 0) return <NeedPath chrome={chrome} reduced={reduced} />;
   return <UnderstandingPair step={1} chrome={chrome} reduced={reduced} />;
 }
 

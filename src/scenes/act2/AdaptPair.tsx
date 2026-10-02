@@ -2,13 +2,20 @@ import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { EASE, MOTION as T } from "../../engine/motion";
 
-/* Slide 33 · Personalizace — one product, four layers of personalization. */
+/* Slide 33 · Personalizace — what the system knows about me flows into one recommended product. */
 const LAYERS = [
-  { id: "rec", n: "01", label: "Doporučení" },
-  { id: "var", n: "02", label: "Varianta" },
-  { id: "cfg", n: "03", label: "Konfigurace" },
-  { id: "det", n: "04", label: "Detail" },
+  { id: "profile", n: "01", label: "Profil" },
+  { id: "pref", n: "02", label: "Preference" },
+  { id: "rec", n: "03", label: "Doporučení" },
+  { id: "result", n: "04", label: "Personalizovaný výsledek" },
 ] as const;
+
+const SIGNALS = [
+  { id: "profile", cls: "is-rec", n: "01", kind: "Profil", text: "Běhá 20 km týdně" },
+  { id: "need", cls: "is-var", n: "02", kind: "Potřeba", text: "Více tlumení" },
+  { id: "habit", cls: "is-cfg", n: "03", kind: "Chování", text: "Preferuje silniční modely" },
+] as const;
+const MATCH = 92;
 
 /* Slide 34 · Adaptace — one journey changing over time. */
 const JOURNEY = ["Objevím", "Vyberu", "Koupím", "Používám", "Potřebuji pomoc"] as const;
@@ -56,7 +63,7 @@ function Sneaker() {
       <path d="M470 64 C480 50 494 50 500 60 L506 86 C498 80 488 78 478 80 Z" fill="#c3d552" />
       {/* soft highlight */}
       <path d="M100 168 C150 160 196 146 232 124" stroke="rgba(255,255,255,0.28)" strokeWidth="6" strokeLinecap="round" fill="none" />
-      {/* side stripe — "preferovaná barva" */}
+      {/* side stripe */}
       <path data-adx-colour d="M168 200 C238 152 330 120 432 110 C444 128 440 150 424 160 C344 172 262 188 192 206 Z" fill="url(#adxStripe)" />
       {/* eyelets + laces */}
       <g stroke="#f4f6f1" strokeWidth="5" strokeLinecap="round">
@@ -71,8 +78,6 @@ function Sneaker() {
         <circle cx="272" cy="110" r="3.4" />
         <circle cx="294" cy="102" r="3.4" />
       </g>
-      {/* heel name — "Anna" */}
-      <text data-adx-name x="474" y="146" textAnchor="middle" transform="rotate(-6 474 146)" className="adx-shoe-name">Anna</text>
       {/* midsole + outsole */}
       <path d="M30 204 L530 204 C538 220 532 238 514 240 L62 240 C38 240 24 224 30 204 Z" fill="url(#adxSole)" stroke="#d3dcdb" strokeWidth="1.5" />
       <path d="M44 240 L512 240 C510 252 500 258 486 258 L76 258 C58 258 46 252 44 240 Z" fill="#2a3b3d" />
@@ -108,12 +113,24 @@ function RefreshIcon() {
   );
 }
 
+function SignalIcon({ id }: { id: string }) {
+  const common = { fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+  return (
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+      {id === "profile" && <><circle cx="12" cy="8" r="3.6" {...common} /><path d="M5 20c.8-4 3.6-6 7-6s6.2 2 7 6" {...common} /></>}
+      {id === "need" && <><path d="M3 15c3 0 3-4 6-4s3 4 6 4 3-4 6-4" {...common} /><path d="M3 19h18" {...common} /></>}
+      {id === "habit" && <><path d="M4 20 10 4h4l6 16" {...common} /><path d="M12 8v2M12 13v2M12 18v1" {...common} /></>}
+      {id === "result" && <path d="m5 12.5 4.2 4.2L19 7" {...common} strokeWidth={2.4} />}
+    </svg>
+  );
+}
+
 function PersonalFace() {
   return (
     <div data-face="who" className="adx-face adx-who">
       <ol className="adx-layers">
         {LAYERS.map((layer, i) => (
-          <li key={layer.id} data-who-layer className="adx-layer">
+          <li key={layer.id} data-who-layer className={`adx-layer${i === LAYERS.length - 1 ? " is-result" : ""}`}>
             <i>{layer.n}</i>
             <b>{layer.label}</b>
             {i < LAYERS.length - 1 ? <span className="adx-layer-arrow" aria-hidden="true">→</span> : null}
@@ -126,41 +143,36 @@ function PersonalFace() {
           <path data-who-lead d="M318 118 C 350 170, 340 260, 348 334" />
           <path data-who-lead d="M822 140 C 760 190, 660 260, 605 305" />
           <path data-who-lead d="M318 500 C 380 470, 430 420, 477 389" />
-          <path data-who-lead d="M822 512 C 810 440, 800 380, 787 330" />
+          <path data-who-lead className="is-out" d="M787 330 C 800 380, 810 440, 822 512" />
           <circle data-who-dot cx="348" cy="334" r="9" />
           <circle data-who-dot cx="605" cy="305" r="9" />
           <circle data-who-dot cx="477" cy="389" r="9" />
           <circle data-who-dot cx="787" cy="330" r="9" />
+          <circle data-who-spark className="adx-spark" cx="0" cy="0" r="7" />
+          <circle data-who-spark className="adx-spark" cx="0" cy="0" r="7" />
+          <circle data-who-spark className="adx-spark" cx="0" cy="0" r="7" />
         </svg>
 
-        <div data-who-shoe className="adx-shoe-wrap"><Sneaker /></div>
+        <div data-who-shoe className="adx-shoe-wrap">
+          <Sneaker />
+          <span data-who-badge className="adx-badge"><SignalIcon id="result" />Best match</span>
+        </div>
 
-        <div data-who-note className="adx-note is-rec">
-          <i>01 · Doporučení</i>
-          <b>doporučený model</b>
-        </div>
-        <div data-who-note className="adx-note is-var">
-          <i>02 · Varianta</i>
-          <b>preferovaná barva</b>
-          <span className="adx-swatches" aria-hidden="true">
-            <em style={{ background: "#2c3e50" }} />
-            <em className="is-on" style={{ background: "#c3d552" }} />
-            <em style={{ background: "#ef6a5b" }} />
-            <em style={{ background: "#f4f6f1" }} />
+        {SIGNALS.map((sig) => (
+          <div key={sig.id} data-who-note className={`adx-note adx-signal ${sig.cls}`}>
+            <span className="adx-signal-ico"><SignalIcon id={sig.id} /></span>
+            <i>{sig.n} · {sig.kind}</i>
+            <b>{sig.text}</b>
+          </div>
+        ))}
+        <div data-who-note className="adx-note adx-signal is-det is-result">
+          <span className="adx-signal-ico"><SignalIcon id="result" /></span>
+          <i>04 · Výsledek</i>
+          <b>Doporučeno pro vás</b>
+          <span className="adx-match">
+            <span className="adx-match-bar"><em data-who-meter /></span>
+            <span><span data-who-match>{MATCH}</span> % shoda s vaším profilem</span>
           </span>
-        </div>
-        <div data-who-note className="adx-note is-cfg">
-          <i>03 · Konfigurace</i>
-          <b>velikost 38</b>
-          <span className="adx-sizes" aria-hidden="true">
-            <em>37</em>
-            <em className="is-on">38</em>
-            <em>39</em>
-          </span>
-        </div>
-        <div data-who-note className="adx-note is-det">
-          <i>04 · Detail</i>
-          <b>„Anna“</b>
         </div>
       </section>
     </div>
@@ -244,6 +256,10 @@ export function AdaptPair({ step, reduced }: { step: number; reduced: boolean })
       notes: q("[data-who-note]"),
       leads: q("[data-who-lead]") as unknown as SVGPathElement[],
       dots: q("[data-who-dot]"),
+      sparks: q("[data-who-spark]"),
+      badge: q("[data-who-badge]"),
+      meter: q("[data-who-meter]"),
+      match: el.querySelector<HTMLElement>("[data-who-match]"),
     };
     const now = {
       rail: q("[data-now-rail]"),
@@ -263,8 +279,11 @@ export function AdaptPair({ step, reduced }: { step: number; reduced: boolean })
       const pinLen = now.pin.map((p) => p.getTotalLength());
 
       const settleWho = () => {
-        gsap.set([...who.layers, ...who.card, ...who.shoe, ...who.notes, ...who.dots], { autoAlpha: 1, x: 0, y: 0, scale: 1 });
+        gsap.set([...who.layers, ...who.card, ...who.shoe, ...who.notes, ...who.dots, ...who.badge], { autoAlpha: 1, x: 0, y: 0, scale: 1 });
         who.leads.forEach((p) => gsap.set(p, { strokeDasharray: "none", strokeDashoffset: 0 }));
+        gsap.set(who.sparks, { autoAlpha: 0 });
+        gsap.set(who.meter, { scaleX: MATCH / 100, transformOrigin: "left center" });
+        if (who.match) who.match.textContent = String(MATCH);
       };
       const settleNow = () => {
         gsap.set([...now.nodes, ...now.moment, ...now.arrow, ...now.system, ...now.claim], { autoAlpha: 1, x: 0, y: 0, scale: 1 });
@@ -316,13 +335,42 @@ export function AdaptPair({ step, reduced }: { step: number; reduced: boolean })
         who.leads.forEach((p, i) => gsap.set(p, { strokeDasharray: leadLen[i], strokeDashoffset: leadLen[i] }));
         tl.to(who.card, { autoAlpha: 1, y: 0, duration: 0.46, ease: EASE.enter }, at + 0.16);
         tl.to(who.shoe, { autoAlpha: 1, y: 0, scale: 1, duration: 0.62, ease: EASE.enter }, at + 0.3);
-        who.layers.forEach((layer, i) => {
-          const t = at + 0.82 + i * 0.36;
-          tl.to(layer, { autoAlpha: 1, x: 0, duration: 0.32, ease: EASE.enter }, t);
-          if (who.leads[i]) tl.to(who.leads[i], { strokeDashoffset: 0, duration: 0.42, ease: EASE.move }, t + 0.04);
-          if (who.dots[i]) tl.to(who.dots[i], { autoAlpha: 1, scale: 1, duration: 0.24, ease: EASE.enter }, t + 0.34);
-          if (who.notes[i]) tl.to(who.notes[i], { autoAlpha: 1, y: 0, duration: 0.32, ease: EASE.enter }, t + 0.1);
-        });
+        gsap.set(who.badge, { autoAlpha: 0, scale: 0.7, y: 8 });
+        gsap.set(who.meter, { scaleX: 0, transformOrigin: "left center" });
+        gsap.set(who.sparks, { autoAlpha: 0 });
+        if (who.match) who.match.textContent = "0";
+        // INPUT: three signals about me appear one by one and flow into the product.
+        for (let i = 0; i < 3; i++) {
+          const t = at + 0.82 + i * 0.42;
+          tl.to(who.notes[i], { autoAlpha: 1, y: 0, duration: 0.32, ease: EASE.enter }, t);
+          if (i < 2) tl.to(who.layers[i], { autoAlpha: 1, x: 0, duration: 0.32, ease: EASE.enter }, t);
+          tl.to(who.leads[i], { strokeDashoffset: 0, duration: 0.42, ease: EASE.move }, t + 0.14);
+          const lead = who.leads[i];
+          const spark = who.sparks[i];
+          if (lead && spark) {
+            const len = leadLen[i];
+            const p = { d: 0 };
+            const put = () => { const pt = lead.getPointAtLength(p.d * len); gsap.set(spark, { attr: { cx: pt.x, cy: pt.y } }); };
+            tl.set(spark, { autoAlpha: 1 }, t + 0.5);
+            tl.to(p, { d: 1, duration: 0.46, ease: "power1.in", onUpdate: put, onStart: put }, t + 0.5);
+            tl.to(spark, { autoAlpha: 0, duration: 0.12 }, t + 0.96);
+          }
+          tl.to(who.dots[i], { autoAlpha: 1, scale: 1, duration: 0.24, ease: EASE.enter }, t + 0.9);
+        }
+        // SYSTEM: the product absorbs the signals and becomes the recommendation.
+        const sys = at + 2.42;
+        tl.to(who.shoe, { scale: 1.035, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut" }, sys);
+        tl.to(who.layers[2], { autoAlpha: 1, x: 0, duration: 0.32, ease: EASE.enter }, sys);
+        tl.to(who.badge, { autoAlpha: 1, scale: 1, y: 0, duration: 0.4, ease: "back.out(2)" }, sys + 0.22);
+        // OUTPUT: the personalised result with its match score.
+        const out = sys + 0.62;
+        tl.to(who.dots[3], { autoAlpha: 1, scale: 1, duration: 0.24, ease: EASE.enter }, out);
+        tl.to(who.leads[3], { strokeDashoffset: 0, duration: 0.42, ease: EASE.move }, out + 0.04);
+        tl.to(who.layers[3], { autoAlpha: 1, x: 0, duration: 0.32, ease: EASE.enter }, out + 0.2);
+        tl.to(who.notes[3], { autoAlpha: 1, y: 0, duration: 0.34, ease: EASE.enter }, out + 0.32);
+        tl.to(who.meter, { scaleX: MATCH / 100, duration: 0.8, ease: EASE.move }, out + 0.5);
+        const m = { v: 0 };
+        tl.to(m, { v: MATCH, duration: 0.8, ease: EASE.move, onUpdate: () => { if (who.match) who.match.textContent = String(Math.round(m.v)); } }, out + 0.5);
       } else {
         now.changes.forEach((c) => c.classList.remove("is-updated"));
         ahead.forEach((n) => n.classList.remove("is-updated"));
@@ -364,8 +412,8 @@ export function AdaptPair({ step, reduced }: { step: number; reduced: boolean })
       <div className="adx-copy">
         <div data-title-a className="adx-copy-block">
           <div className="adx-kicker">Personalizace</div>
-          <div className="adx-title">Pro mě<span className="adapt-dot">.</span></div>
-          <div className="adx-sub">Produkt, obsah nebo nabídka se přizpůsobují tomu, kdo jsem.</div>
+          <div className="adx-title">Ví, co mi sedí<span className="adapt-dot">.</span></div>
+          <div className="adx-sub">Produkt, obsah nebo nabídka se přizpůsobují tomu, co o mně systém ví.</div>
         </div>
         <div data-title-b className="adx-copy-block">
           <div className="adx-kicker">Adaptace</div>

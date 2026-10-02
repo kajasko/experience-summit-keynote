@@ -13,6 +13,7 @@ import "./styles/ui-result.css";
 import "./styles/ui-wall.css";
 import "./styles/adapt-redesign.css";
 import "./styles/distrust-redesign.css";
+import "./styles/polish.css";
 import "./styles/mobile.css";
 
 if (new URLSearchParams(window.location.search).get("thumbs") === "1") {

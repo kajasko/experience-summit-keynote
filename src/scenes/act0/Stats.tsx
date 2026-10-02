@@ -76,36 +76,84 @@ export function Normalization({ step }: SceneProps) {
   );
 }
 
-export function ValueGap({ step }: SceneProps) {
+const GAP_STATS = [
+  { id: "low", value: 5, cap: "vytváří díky AI významnou hodnotu ve velkém měřítku.", tag: "Hodnota ve velkém" },
+  { id: "none", value: 60, cap: "organizací uvádí, že AI přinesla jen malý nebo žádný přínos.", tag: "Malý nebo žádný přínos" },
+] as const;
+
+export function ValueGap({ step, reduced }: SceneProps) {
   void step;
+  const root = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const el = root.current;
+    if (!el) return;
+    const ctx = gsap.context(() => {
+      const cards = gsap.utils.toArray<HTMLElement>("[data-vg-card]", el);
+      const nums = gsap.utils.toArray<HTMLElement>("[data-vg-num]", el);
+      const caps = gsap.utils.toArray<HTMLElement>("[data-vg-cap]", el);
+      const frame = el.querySelector<HTMLElement>("[data-vg-frame]");
+      const source = el.querySelector<HTMLElement>("[data-vg-source]");
+      const grids = cards.map((card) => gsap.utils.toArray<HTMLElement>("[data-vg-dot].is-on", card));
+      const settle = () => {
+        nums.forEach((n, i) => { n.textContent = String(GAP_STATS[i].value); });
+      };
+      settle();
+      if (reduced) return;
+      gsap.set(cards, { autoAlpha: 0, y: 26 });
+      gsap.set(caps, { autoAlpha: 0, y: 8 });
+      gsap.set(grids.flat(), { scale: 0.2, autoAlpha: 0.15 });
+      gsap.set(frame, { autoAlpha: 0, x: 60, rotate: 4 });
+      gsap.set(source, { autoAlpha: 0 });
+      nums.forEach((n) => { n.textContent = "0"; });
+      const tl = gsap.timeline({ delay: 0.25 });
+      tl.to(cards, { autoAlpha: 1, y: 0, duration: 0.5, stagger: 0.14, ease: EASE.enter }, 0.25);
+      // 60 % first: almost everyone uses AI, most see little value…
+      const order = [1, 0];
+      order.forEach((ci, k) => {
+        const t = 0.8 + k * 1.15;
+        const dots = grids[ci];
+        const counter = { v: 0 };
+        tl.to(dots, { scale: 1, autoAlpha: 1, duration: 0.22, stagger: { each: ci === 1 ? 0.012 : 0.14 }, ease: "back.out(2)" }, t);
+        tl.to(counter, { v: GAP_STATS[ci].value, duration: ci === 1 ? 0.8 : 0.7, ease: "power2.out", onUpdate: () => { nums[ci].textContent = String(Math.round(counter.v)); } }, t);
+        tl.to(caps[ci], { autoAlpha: 1, y: 0, duration: 0.36, ease: EASE.enter }, t + 0.4);
+      });
+      // …the source report lands as evidence.
+      tl.to(frame, { autoAlpha: 1, x: 0, rotate: 2, duration: 0.7, ease: EASE.move }, 2.9);
+      tl.to(source, { autoAlpha: 1, duration: 0.4 }, 3.3);
+    }, el);
+    return () => ctx.revert();
+  }, [reduced]);
+
   return (
-    <div className="scene is-value-gap">
+    <div ref={root} className="scene is-value-gap vg2">
       <SlideChrome kicker="11 Hodnota" page="11 / 75" caption="Od aktivity k dopadu" captionDot mark={false} />
-      <div className="value-gap-copy">
-        <div data-hero-title className="value-gap-title">
+      <div className="vg2-copy">
+        <div data-hero-title className="vg2-title">
           AI používá skoro každý.
           <br />
-          Hodnotu vytváří jen málokdo.
+          Hodnotu vytváří jen málokdo<span className="vg2-dot">.</span>
         </div>
-        <div className="value-gap-stats">
-          <div>
-            <div className="value-gap-num is-low">5 %</div>
-            <div className="value-gap-cap">vytváří díky AI významnou hodnotu ve velkém měřítku.</div>
-          </div>
-          <div className="value-gap-rule" />
-          <div>
-            <div className="value-gap-num">60 %</div>
-            <div className="value-gap-cap">organizací uvádí, že AI přinesla jen malý nebo žádný přínos.</div>
-          </div>
-        </div>
-        <div className="source value-gap-source">BCG The Widening AI Value Gap 09/2025</div>
       </div>
-      <div className="value-gap-cover">
-        <img
-          data-hero-visual
-          src={asset("bcg-cover.jpg")}
-          alt="BCG The Widening AI Value Gap"
-        />
+      <div className="vg2-stats">
+        {GAP_STATS.map((stat) => (
+          <section key={stat.id} data-vg-card className={`vg2-card is-${stat.id}`}>
+            <div className="vg2-tag">{stat.tag}</div>
+            <div className="vg2-num"><span data-vg-num>{stat.value}</span><small> %</small></div>
+            <div className="vg2-grid" aria-hidden="true">
+              {Array.from({ length: 100 }, (_, i) => (
+                <i key={i} data-vg-dot className={i < stat.value ? "is-on" : undefined} />
+              ))}
+            </div>
+            <p data-vg-cap className="vg2-cap">{stat.cap}</p>
+          </section>
+        ))}
+      </div>
+      <div data-hero-visual className="vg2-cover">
+        <figure data-vg-frame className="vg2-frame">
+          <img src={asset("bcg-cover.jpg")} alt="BCG The Widening AI Value Gap" />
+        </figure>
+        <div data-vg-source className="vg2-source">Zdroj: BCG, The Widening AI Value Gap, 09/2025</div>
       </div>
     </div>
   );

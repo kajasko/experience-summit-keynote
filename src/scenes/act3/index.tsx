@@ -512,6 +512,12 @@ function ReasonIcon({ name }: { name: (typeof REASON_PROOFS)[number]["icon"] | "
   );
 }
 
+const FIND_ANSWER = [
+  { text: "Stejná fakta na webu i ve Wikipedii", cites: ["Web", "Wikipedia"] },
+  { text: "Jasné odpovědi: podmínky a ceny přímo ve FAQ", cites: ["FAQ", "Ceny"] },
+  { text: "Ověřené recenze a zmínky v médiích", cites: ["Recenze", "Média"] },
+];
+
 function ProveReason({ step, reduced }: SceneProps) {
   const root = useRef<HTMLDivElement>(null);
   const prev = useRef<number | null>(null);
@@ -809,6 +815,8 @@ function ProveReason({ step, reduced }: SceneProps) {
       gsap.set(findResult, { autoAlpha: 0, y: 18 });
       if (findExit) tl.to(findExit, { strokeDashoffset: 0, duration: 0.4, ease: EASE.move }, 0);
       tl.to(findResult, { autoAlpha: 1, y: 0, duration: 0.46, ease: EASE.enter }, 0.16);
+      const answer = gsap.utils.toArray<HTMLElement>("[data-find-answer]", el);
+      tl.fromTo(answer, { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: 0.4, stagger: 0.16, ease: EASE.enter }, 0.5);
     } else if (from === 15 && beat === 14) {
       tl.to(findResult, { autoAlpha: 0, y: 12, duration: 0.24, ease: EASE.exit }, 0);
       if (findExit) tl.to(findExit, { strokeDashoffset: findExit.getTotalLength(), duration: 0.24, ease: EASE.exit }, 0);
@@ -883,6 +891,7 @@ function ProveReason({ step, reduced }: SceneProps) {
       <div className="prove-find-cards">
         {FIND_PILLARS.map((pillar) => (
           <div key={pillar.id} data-find-card className="prove-find-card">
+            <span className="prove-find-card-n">{String(FIND_PILLARS.indexOf(pillar) + 1).padStart(2, "0")}</span>
             <div className="prove-find-card-icon">
               <FindIcon name={pillar.icon} />
             </div>
@@ -909,8 +918,25 @@ function ProveReason({ step, reduced }: SceneProps) {
         </svg>
       </div>
       <div data-find-result className="prove-find-result">
-        <div className="label">AI najde</div>
-        <div className="prove-find-result-title">důvod vás doporučit</div>
+        <div className="prove-find-result-head">
+          <span className="prove-find-result-ai" aria-hidden="true">AI</span>
+          <div>
+            <div className="label">AI najde</div>
+            <div className="prove-find-result-title">důvod vás doporučit</div>
+          </div>
+        </div>
+        <div className="prove-find-answer">
+          <p data-find-answer className="prove-find-answer-lead">Doporučuji tuto značku, protože:</p>
+          {FIND_ANSWER.map((row, index) => (
+            <div key={row.text} data-find-answer className="prove-find-answer-row">
+              <span className="prove-find-answer-n">{String(index + 1).padStart(2, "0")}</span>
+              <span className="prove-find-answer-text">{row.text}</span>
+              <span className="prove-find-answer-cites">
+                {row.cites.map((cite) => <span key={cite} className="prove-find-cite">{cite}</span>)}
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -1045,6 +1071,7 @@ function PrinciplesSystem({ step, reduced }: Pick<SceneProps, "step" | "reduced"
     const routes = gsap.utils.toArray<SVGPathElement>("[data-xp-route]", el);
     const dots = gsap.utils.toArray<SVGCircleElement>("[data-xp-dot]", el);
     const ring = el.querySelector<SVGCircleElement>("[data-xp-ring]");
+    const halo = el.querySelector<HTMLElement>("[data-xp-halo]");
     if (!title || !hub) return;
 
     const local = (node: HTMLElement) => {
@@ -1098,6 +1125,7 @@ function PrinciplesSystem({ step, reduced }: Pick<SceneProps, "step" | "reduced"
         gsap.set(card, { autoAlpha: to >= index + 1 ? 1 : 0, y: 0 });
       });
       gsap.set(hub, { autoAlpha: to >= 5 ? 1 : 0, scale: 1, transformOrigin: "50% 50%" });
+      if (halo) gsap.set(halo, { autoAlpha: to >= 5 ? 1 : 0, scale: 1 });
       pinRoutes(to >= 5);
     };
 
@@ -1153,6 +1181,12 @@ function PrinciplesSystem({ step, reduced }: Pick<SceneProps, "step" | "reduced"
       if (ring) tl.to(ring, { strokeDashoffset: 0, duration: 0.68, ease: EASE.move }, 0.08);
       tl.to(routes, { strokeDashoffset: 0, duration: 0.72, stagger: 0.09, ease: EASE.move }, 0.22);
       tl.to(dots, { autoAlpha: 1, scale: 1, duration: 0.28, stagger: 0.09, ease: EASE.enter }, 0.62);
+      if (halo) {
+        gsap.set(halo, { autoAlpha: 0, scale: 0.7 });
+        tl.to(halo, { autoAlpha: 1, scale: 1.08, duration: 0.5, ease: EASE.enter }, 0.9);
+        tl.to(halo, { scale: 1, duration: 0.5, ease: EASE.move }, 1.4);
+      }
+      tl.fromTo(cards, { scale: 1 }, { scale: 1.02, duration: 0.22, stagger: 0.09, yoyo: true, repeat: 1, ease: EASE.move, transformOrigin: "50% 50%" }, 0.78);
     } else if (from === 5 && beat === 4) {
       tl.to(dots, { autoAlpha: 0, scale: 0.4, duration: 0.18, ease: EASE.exit }, 0);
       routes.forEach((node) => {
@@ -1160,6 +1194,7 @@ function PrinciplesSystem({ step, reduced }: Pick<SceneProps, "step" | "reduced"
       });
       if (ring) tl.to(ring, { strokeDashoffset: 2 * Math.PI * 132, duration: 0.24, ease: EASE.exit }, 0);
       tl.to(hub, { autoAlpha: 0, scale: 0.86, duration: 0.28, ease: EASE.exit }, 0.06);
+      if (halo) tl.to(halo, { autoAlpha: 0, duration: 0.24, ease: EASE.exit }, 0);
     } else {
       apply(beat);
     }
@@ -1197,8 +1232,9 @@ function PrinciplesSystem({ step, reduced }: Pick<SceneProps, "step" | "reduced"
           <circle key={`${block.id}-dot`} data-xp-dot={index} cx="960" cy="540" r="8" fill="var(--lime)" />
         ))}
       </svg>
-      {XP_BLOCKS.map((block) => (
+      {XP_BLOCKS.map((block, index) => (
         <div key={block.id} data-xp-card={block.id} className={`xp-card is-${block.id}`}>
+          <span className="xp-card-n">{String(index + 1).padStart(2, "0")}</span>
           <div className="xp-card-icon">
             <XpIcon name={block.icon} />
           </div>
@@ -1208,6 +1244,7 @@ function PrinciplesSystem({ step, reduced }: Pick<SceneProps, "step" | "reduced"
           </div>
         </div>
       ))}
+      <div data-xp-halo className="xp-halo" aria-hidden="true" />
       <div data-xp-hub className="xp-hub">
         <svg className="xp-hub-ring" viewBox="0 0 280 280" aria-hidden="true">
           <circle data-xp-ring cx="140" cy="140" r="132" fill="none" stroke="var(--lime)" strokeWidth="6" />

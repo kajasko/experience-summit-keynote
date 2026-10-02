@@ -132,7 +132,7 @@ const allScenes: SceneDef[] = [
   {
     id: "adapt", act: 2, actName: "CO?", component: "Adapt",
     steps: [
-      { id: "ad1", title: "Pro mě.", speakerNote: "Personalizace: produkt, obsah nebo nabídka se přizpůsobují tomu, kdo jsem. Na jednom produktu vidíme vrstvy — doporučení, varianta, konfigurace, detail. Pozor: když si jméno napíšu nebo barvu vyberu sám, technicky jde spíš o customizaci než o čistou personalizaci (zdroj: ScienceDirect).", sourcePage: 20 },
+      { id: "ad1", title: "Ví, co mi sedí.", speakerNote: "Personalizace znamená, že systém o člověku něco ví: běhá 20 km týdně, potřebuje víc tlumení, kupuje silniční modely. Z těchto signálů vznikne doporučení — Best match s 92% shodou. Pozor na rozdíl: když si vyberu barvu nebo velikost, je to konfigurace; když si nechám vyšít jméno, je to customizace (ScienceDirect). Personalizace stojí na tom, co systém ví.", sourcePage: 20 },
       { id: "ad2", title: "Podle mě. Právě teď.", speakerNote: "Adaptace: celá zkušenost reaguje na to, kdo jsem, co dělám a v jaké jsem situaci. Rodina s dětmi, let zpožděn 3 h — systém změní transfer, check-in, pokoj, aktivitu i komunikaci. Adaptace není jen „co dostanu“; systém průběžně mění, co se má stát dál. Odpovídá to akademickému pohledu na adaptivní systémy, které se dynamicky přizpůsobují aktuálnímu kontextu použití.", sourcePage: 20 },
     ],
   },
