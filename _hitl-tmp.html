@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Human in the Loop — cyklus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --teal: #005860;
+      --teal-mid: #178f97;
+      --teal-bright: #2eb4bc;
+      --teal-deep: #03383d;
+      --lime: #8bc34a;
+      --lime-deep: #6ea332;
+      --card: #f6f8f9;
+      --ink: #0a4d54;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --move: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 100%; height: 100%;
+      background: #000;
+      overflow: hidden;
+      font-family: Montserrat, system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      color: var(--ink);
+    }
+    .frame {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+    }
+    .stage {
+      position: relative;
+      width: min(100vw, 100vh);
+      height: min(100vw, 100vh);
+      max-width: 1080px;
+      max-height: 1080px;
+    }
+
+    .arrows {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .arrows path.track {
+      fill: none;
+      stroke: #14646c;
+      stroke-width: 14;
+      stroke-linecap: round;
+      opacity: .28;
+    }
+    .arrows path.draw {
+      fill: none;
+      stroke: #1a8f96;
+      stroke-width: 14;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: 0;
+    }
+    .arrows path.draw.is-lit {
+      opacity: 1;
+      filter: drop-shadow(0 0 8px rgba(46, 180, 188, .55));
+    }
+    .arrows .head {
+      fill: #1a8f96;
+      opacity: 0;
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+    .arrows .head.is-on { opacity: 1; }
+
+    .token {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      margin: -9px 0 0 -9px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #e8ff9a, var(--lime) 55%, var(--lime-deep));
+      box-shadow: 0 0 16px rgba(139, 195, 74, .85), 0 0 4px #fff;
+      z-index: 4;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .card, .hub {
+      position: absolute;
+      background: linear-gradient(180deg, #fff 0%, #f3f6f7 100%);
+      box-shadow:
+        0 18px 40px rgba(0, 0, 0, .38),
+        0 2px 0 rgba(255, 255, 255, .9) inset;
+      opacity: 0;
+      transform: scale(.72);
+      z-index: 2;
+    }
+    .card {
+      width: 19.2%;
+      aspect-ratio: 1;
+      border-radius: 18%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 8% 7% 9%;
+    }
+    .hub {
+      width: 22.4%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      left: 50%;
+      top: 49%;
+      display: grid;
+      place-items: center;
+      z-index: 3;
+    }
+    .n1 { left: 40.4%; top: 2.2%; }
+    .n2 { left: 74.6%; top: 35.4%; }
+    .n3 { left: 40.4%; top: 74.8%; }
+    .n4 { left: 6.2%; top: 61.2%; }
+    .n5 { left: 6.2%; top: 18.6%; }
+
+    .card.is-in, .hub.is-in {
+      opacity: 1;
+      transform: scale(1);
+      transition: transform .7s var(--ease), opacity .55s var(--ease), box-shadow .45s var(--ease);
+    }
+    .card.is-on {
+      z-index: 5;
+      transform: scale(1.08) translateY(-4px);
+      box-shadow:
+        0 0 0 4px rgba(195, 213, 82, .35),
+        0 22px 46px rgba(0, 88, 96, .35),
+        0 0 40px rgba(46, 180, 188, .28);
+    }
+    .card.is-dim { filter: saturate(.85) brightness(.92); }
+    .hub.is-in { animation: hubPulse 3.6s var(--ease) infinite; }
+    @keyframes hubPulse {
+      0%, 100% { box-shadow: 0 18px 40px rgba(0,0,0,.38), 0 0 0 0 rgba(139,195,74,0); }
+      50% { box-shadow: 0 18px 40px rgba(0,0,0,.38), 0 0 0 12px rgba(139,195,74,.12); }
+    }
+
+    .ico { width: 62%; height: 58%; display: grid; place-items: center; }
+    .ico svg { width: 100%; height: 100%; overflow: visible; }
+    .lbl {
+      margin-top: 4%;
+      font-size: clamp(10px, 1.45vw, 16px);
+      font-weight: 700;
+      letter-spacing: -.02em;
+      text-align: center;
+      color: var(--teal);
+      line-height: 1.18;
+      white-space: pre-line;
+    }
+
+    .card.is-on .dart { animation: dartIn .7s var(--ease) both; }
+    .card.is-on .bot-ant { animation: bob .9s ease-in-out infinite; }
+    .card.is-on .eye { animation: glow 1.1s ease-in-out infinite; }
+    .card.is-on .gear { animation: spin 4.2s linear infinite; transform-origin: 50px 48px; }
+    .card.is-on .tick { animation: pop .45s var(--ease) both; }
+    .card.is-on .sh { animation: shPulse 1.2s ease-in-out infinite; }
+    @keyframes dartIn {
+      from { transform: translate(18px, -22px) rotate(-28deg); opacity: 0; }
+      to { transform: none; opacity: 1; }
+    }
+    @keyframes bob {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+    @keyframes glow {
+      0%, 100% { filter: drop-shadow(0 0 0 transparent); }
+      50% { filter: drop-shadow(0 0 6px #c3d552); }
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes pop {
+      from { transform: scale(0); }
+      70% { transform: scale(1.18); }
+      to { transform: scale(1); }
+    }
+    @keyframes shPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.06); }
+    }
+
+    .hint {
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      transform: translateX(-50%);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: rgba(215, 230, 231, .55);
+      z-index: 10;
+      transition: opacity .8s;
+      pointer-events: none;
+    }
+    .hint.is-gone { opacity: 0; }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+      .card, .hub { opacity: 1; transform: none; }
+      .arrows path.draw, .arrows .head { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <div class="stage" id="stage">
+      <svg class="arrows" viewBox="0 0 1000 1000" aria-hidden="true">
+        <defs>
+          <linearGradient id="arc" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#2eb4bc" />
+            <stop offset="100%" stop-color="#146f76" />
+          </linearGradient>
+        </defs>
+        <path class="track" d="M 575 95 C 730 40, 905 175, 905 355" />
+        <path class="track" d="M 905 545 C 930 700, 760 885, 575 905" />
+        <path class="track" d="M 425 905 C 250 900, 95 800, 100 730" />
+        <path class="track" d="M 155 605 L 155 390" />
+        <path class="track" d="M 155 210 C 155 70, 330 35, 425 70" />
+
+        <path id="p0" class="draw" d="M 575 95 C 730 40, 905 175, 905 355" />
+        <path id="p1" class="draw" d="M 905 545 C 930 700, 760 885, 575 905" />
+        <path id="p2" class="draw" d="M 425 905 C 250 900, 95 800, 100 730" />
+        <path id="p3" class="draw" d="M 155 605 L 155 390" />
+        <path id="p4" class="draw" d="M 155 210 C 155 70, 330 35, 425 70" />
+
+        <polygon id="h0" class="head" points="0,-16 26,0 0,16" transform="translate(905,355) rotate(92)" />
+        <polygon id="h1" class="head" points="0,-16 26,0 0,16" transform="translate(575,905) rotate(175)" />
+        <polygon id="h2" class="head" points="0,-16 26,0 0,16" transform="translate(100,730) rotate(250)" />
+        <polygon id="h3" class="head" points="0,-16 26,0 0,16" transform="translate(155,390) rotate(-90)" />
+        <polygon id="h4" class="head" points="0,-16 26,0 0,16" transform="translate(425,70) rotate(-12)" />
+      </svg>
+
+      <div class="hub" data-hub>
+        <div class="ico" style="width:70%;height:70%">
+          <svg viewBox="0 0 120 120">
+            <defs>
+              <linearGradient id="gP" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#a8d85a" />
+                <stop offset="100%" stop-color="#6ea332" />
+              </linearGradient>
+              <linearGradient id="gS" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#3ec0c8" />
+                <stop offset="100%" stop-color="#0e5c63" />
+              </linearGradient>
+            </defs>
+            <ellipse cx="48" cy="28" rx="18" ry="18" fill="url(#gP)" />
+            <path d="M18 96c2-28 16-44 30-44s28 16 30 44" fill="url(#gP)" />
+            <g class="sh">
+              <path d="M78 42c14 4 24 8 28 10v22c0 18-12 32-28 40-16-8-28-22-28-40V52c8-4 18-8 28-10z" fill="url(#gS)" />
+              <path d="M72 68l8 8 14-16" fill="none" stroke="#e8f6a8" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <article class="card n1" data-step="0">
+        <div class="ico">
+          <svg viewBox="0 0 100 100">
+            <defs>
+              <linearGradient id="gT" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#49c4cc" />
+                <stop offset="100%" stop-color="#0e5c63" />
+              </linearGradient>
+            </defs>
+            <circle cx="46" cy="58" r="30" fill="url(#gT)" />
+            <circle cx="46" cy="58" r="20" fill="#f7f9f8" />
+            <circle cx="46" cy="58" r="12" fill="url(#gT)" />
+            <circle cx="46" cy="58" r="5" fill="#f7f9f8" />
+            <g class="dart">
+              <polygon points="58,8 86,22 70,30 78,48 64,40 54,58 50,28 58,8" fill="#8bc34a" />
+              <polygon points="58,8 70,30 50,28" fill="#c3d552" />
+            </g>
+          </svg>
+        </div>
+        <div class="lbl">1. Zadání cíle</div>
+      </article>
+
+      <article class="card n2" data-step="1">
+        <div class="ico">
+          <svg viewBox="0 0 100 100">
+            <defs>
+              <linearGradient id="gB" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#3ec0c8" />
+                <stop offset="100%" stop-color="#0d565c" />
+              </linearGradient>
+            </defs>
+            <g class="bot-ant">
+              <rect x="48" y="4" width="5" height="16" rx="2" fill="#178f97" />
+              <circle cx="50.5" cy="6" r="6" fill="#8bc34a" />
+            </g>
+            <rect x="8" y="42" width="14" height="28" rx="7" fill="url(#gB)" />
+            <rect x="78" y="42" width="14" height="28" rx="7" fill="url(#gB)" />
+            <rect x="18" y="24" width="64" height="56" rx="28" fill="#f4f7f8" />
+            <rect x="18" y="24" width="64" height="56" rx="28" fill="none" stroke="#178f97" stroke-width="5" />
+            <rect x="28" y="42" width="44" height="22" rx="11" fill="url(#gB)" />
+            <circle class="eye" cx="40" cy="53" r="5.5" fill="#c3d552" />
+            <circle class="eye" cx="60" cy="53" r="5.5" fill="#c3d552" />
+            <rect x="42" y="70" width="16" height="5" rx="2.5" fill="#8bc34a" />
+          </svg>
+        </div>
+        <div class="lbl">2. AI agent
+pracuje</div>
+      </article>
+
+      <article class="card n3" data-step="2">
+        <div class="ico">
+          <svg viewBox="0 0 100 100">
+            <defs>
+              <linearGradient id="gC" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#3ec0c8" />
+                <stop offset="100%" stop-color="#0e5c63" />
+              </linearGradient>
+            </defs>
+            <rect x="22" y="14" width="56" height="72" rx="8" fill="url(#gC)" />
+            <rect x="28" y="26" width="44" height="52" rx="4" fill="#f7f9f8" />
+            <rect x="38" y="8" width="24" height="12" rx="4" fill="#0e5c63" />
+            <g class="tick" style="transform-origin:36px 40px">
+              <circle cx="36" cy="40" r="6" fill="#8bc34a" />
+              <path d="M33 40l2.2 2.2 4.2-4.4" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" />
+            </g>
+            <g class="tick" style="transform-origin:36px 56px; animation-delay:.12s">
+              <circle cx="36" cy="56" r="6" fill="#8bc34a" />
+              <path d="M33 56l2.2 2.2 4.2-4.4" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" />
+            </g>
+            <rect x="46" y="38" width="20" height="4" rx="2" fill="#178f97" />
+            <rect x="46" y="54" width="18" height="4" rx="2" fill="#178f97" />
+            <g class="tick" style="transform-origin:78px 78px; animation-delay:.24s">
+              <circle cx="78" cy="78" r="14" fill="#8bc34a" />
+              <path d="M71 78l5 5 10-11" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+            </g>
+          </svg>
+        </div>
+        <div class="lbl">3. Kontrolní bod</div>
+      </article>
+
+      <article class="card n4" data-step="3">
+        <div class="ico">
+          <svg viewBox="0 0 120 120">
+            <ellipse cx="48" cy="28" rx="18" ry="18" fill="url(#gP)" />
+            <path d="M18 96c2-28 16-44 30-44s28 16 30 44" fill="url(#gP)" />
+            <g class="sh">
+              <path d="M78 42c14 4 24 8 28 10v22c0 18-12 32-28 40-16-8-28-22-28-40V52c8-4 18-8 28-10z" fill="url(#gS)" />
+              <path d="M72 68l8 8 14-16" fill="none" stroke="#e8f6a8" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+            </g>
+          </svg>
+        </div>
+        <div class="lbl">4. Člověk ověří</div>
+      </article>
+
+      <article class="card n5" data-step="4">
+        <div class="ico">
+          <svg viewBox="0 0 100 100">
+            <g class="gear">
+              <path fill="url(#gT)" d="M46 10h8l3 12 11-5 6 6-5 11 12 3v8l-12 3 5 11-6 6-11-5-3 12h-8l-3-12-11 5-6-6 5-11-12-3v-8l12-3-5-11 6-6 11 5z" />
+              <circle cx="50" cy="50" r="14" fill="#f7f9f8" />
+              <circle cx="50" cy="50" r="7" fill="#0e5c63" />
+            </g>
+            <g class="tick" style="transform-origin:76px 76px">
+              <circle cx="76" cy="76" r="16" fill="#8bc34a" />
+              <path d="M68 76l6 6 12-13" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+            </g>
+          </svg>
+        </div>
+        <div class="lbl">5. Pokračovat /
+upravit</div>
+      </article>
+
+      <div class="token" id="token"></div>
+    </div>
+  </div>
+  <div class="hint" id="hint">F = celá obrazovka · mezerník = znovu</div>
+
+  <script>
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const cards = [...document.querySelectorAll(".card")];
+    const hub = document.querySelector("[data-hub]");
+    const paths = [0, 1, 2, 3, 4].map((i) => document.getElementById("p" + i));
+    const heads = [0, 1, 2, 3, 4].map((i) => document.getElementById("h" + i));
+    const token = document.getElementById("token");
+    const stage = document.getElementById("stage");
+    const hint = document.getElementById("hint");
+
+    const lengths = paths.map((p) => p.getTotalLength());
+    paths.forEach((p, i) => {
+      p.style.strokeDasharray = String(lengths[i]);
+      p.style.strokeDashoffset = String(lengths[i]);
+    });
+
+    let loopTimer = 0;
+    let raf = 0;
+    const STEP = 1600;
+
+    function setToken(path, t) {
+      const pt = path.getPointAtLength(path.getTotalLength() * t);
+      const box = stage.getBoundingClientRect();
+      token.style.left = (pt.x / 1000) * box.width + "px";
+      token.style.top = (pt.y / 1000) * box.height + "px";
+    }
+
+    function clearCycle() {
+      cards.forEach((c) => c.classList.remove("is-on", "is-dim"));
+      paths.forEach((p) => {
+        p.classList.remove("is-lit");
+        p.style.transition = "none";
+        p.style.strokeDashoffset = String(p.getTotalLength());
+      });
+      heads.forEach((h) => h.classList.remove("is-on"));
+      token.style.opacity = "0";
+    }
+
+    function lightArrow(i, ms) {
+      const p = paths[i];
+      const len = lengths[i];
+      p.classList.add("is-lit");
+      p.style.transition = "none";
+      p.style.strokeDashoffset = String(len);
+      p.getBoundingClientRect();
+      p.style.transition = `stroke-dashoffset ${ms}ms var(--move)`;
+      p.style.strokeDashoffset = "0";
+      window.setTimeout(() => heads[i].classList.add("is-on"), ms * 0.82);
+      token.style.opacity = "1";
+      const t0 = performance.now();
+      cancelAnimationFrame(raf);
+      const tick = (now) => {
+        const t = Math.min(1, (now - t0) / ms);
+        setToken(p, t);
+        if (t < 1) raf = requestAnimationFrame(tick);
+      };
+      raf = requestAnimationFrame(tick);
+    }
+
+    function activate(i) {
+      cards.forEach((c, n) => {
+        c.classList.toggle("is-on", n === i);
+        c.classList.toggle("is-dim", n !== i);
+      });
+      const prev = (i + 4) % 5;
+      paths.forEach((p, n) => {
+        if (n !== prev) {
+          p.classList.remove("is-lit");
+          p.style.transition = "none";
+          p.style.strokeDashoffset = String(lengths[n]);
+        }
+      });
+      heads.forEach((h, n) => { if (n !== prev) h.classList.remove("is-on"); });
+      lightArrow(i, 920);
+    }
+
+    function playIntro() {
+      window.clearTimeout(loopTimer);
+      cancelAnimationFrame(raf);
+      clearCycle();
+      hub.classList.remove("is-in");
+      cards.forEach((c) => c.classList.remove("is-in", "is-on", "is-dim"));
+      void hub.offsetWidth;
+
+      if (reduced) {
+        hub.classList.add("is-in");
+        cards.forEach((c) => c.classList.add("is-in"));
+        paths.forEach((p) => { p.classList.add("is-lit"); p.style.strokeDashoffset = "0"; });
+        heads.forEach((h) => h.classList.add("is-on"));
+        return;
+      }
+
+      window.setTimeout(() => hub.classList.add("is-in"), 80);
+      cards.forEach((c, i) => {
+        window.setTimeout(() => c.classList.add("is-in"), 420 + i * 220);
+      });
+      window.setTimeout(() => {
+        paths.forEach((p, i) => {
+          window.setTimeout(() => {
+            p.classList.add("is-lit");
+            p.style.transition = "stroke-dashoffset 520ms var(--move)";
+            p.style.strokeDashoffset = "0";
+            window.setTimeout(() => heads[i].classList.add("is-on"), 400);
+          }, i * 160);
+        });
+      }, 1600);
+
+      window.setTimeout(() => startLoop(), 3200);
+    }
+
+    function startLoop() {
+      let i = 0;
+      const beat = () => {
+        activate(i);
+        i = (i + 1) % 5;
+        loopTimer = window.setTimeout(beat, STEP);
+      };
+      beat();
+    }
+
+    playIntro();
+    window.setTimeout(() => hint.classList.add("is-gone"), 5200);
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "f" || e.key === "F") {
+        if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+        else document.exitFullscreen();
+      }
+      if (e.key === " ") {
+        e.preventDefault();
+        playIntro();
+      }
+    });
+    document.addEventListener("click", () => playIntro());
+  </script>
+</body>
+</html>

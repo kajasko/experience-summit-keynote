@@ -1,0 +1,661 @@
+/* Slide 39 / 75 (uiai · ui1) — "Lidé milují přehledné rozhraní" (strong output / weak input). */
+
+.uxui {
+  position: absolute;
+  inset: 0;
+  z-index: 15;
+  background:
+    radial-gradient(ellipse 42% 48% at 18% 18%, rgba(255, 255, 255, 0.62), transparent 64%),
+    radial-gradient(ellipse 46% 52% at 78% 62%, rgba(255, 255, 255, 0.38), transparent 62%),
+    var(--bg);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  --uxui-ink: #16264a;
+  --uxui-soft: #7d8a91;
+  --uxui-faint: #a3adb2;
+}
+
+.uxui-copy {
+  position: absolute;
+  left: 82px;
+  top: 94px;
+  width: 1000px;
+}
+
+.uxui-title {
+  margin: 0;
+  font-size: 55px;
+  font-weight: 800;
+  line-height: 1.03;
+  letter-spacing: -0.045em;
+  color: var(--text-deep);
+}
+
+.uxui-title [data-uxui-title] {
+  display: block;
+  padding-bottom: 2px;
+}
+
+.uxui-sub {
+  margin: 12px 0 0;
+  font-size: 23px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--muted);
+}
+
+/* Frosted cards — same glass recipe as .uxax-card / .ui-card. */
+.uxui-card {
+  position: absolute;
+  top: 266px;
+  width: 897px;
+  height: 742px;
+  border-radius: 40px;
+  overflow: hidden;
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.52) 0%, rgba(244, 246, 241, 0.2) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.66);
+  box-shadow:
+    0 22px 56px rgba(3, 56, 61, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(22px) saturate(1.35);
+  -webkit-backdrop-filter: blur(22px) saturate(1.35);
+}
+
+.uxui-card[data-uxui-card="left"] { left: 56px; }
+.uxui-card[data-uxui-card="right"] { left: 973px; }
+
+.uxui-card-copy {
+  position: absolute;
+  left: 32px;
+  top: 28px;
+  right: 32px;
+  z-index: 3;
+}
+
+.uxui-kicker {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-deep);
+}
+
+.uxui-card.is-weak .uxui-kicker { color: var(--signal); }
+
+.uxui-head {
+  margin-top: 10px;
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  color: var(--text-deep);
+}
+
+.uxui-note {
+  margin-top: 6px;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--muted);
+}
+
+/* ---------- Strong output: product grid ---------- */
+
+.uxui-grid {
+  position: absolute;
+  left: 30px;
+  right: 30px;
+  top: 141px;
+  bottom: 28px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 12px 14px;
+}
+
+.uxui-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 14px 16px 12px;
+  border-radius: 18px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 10px 26px rgba(3, 56, 61, 0.06);
+  color: var(--uxui-ink);
+}
+
+.uxui-badge {
+  position: absolute;
+  left: 12px;
+  top: 8px;
+  z-index: 2;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: var(--lime);
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text-deep);
+  box-shadow: 0 6px 14px rgba(152, 173, 34, 0.25);
+}
+
+.uxui-heart {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--uxui-ink);
+  box-shadow: 0 4px 10px rgba(22, 38, 74, 0.08);
+}
+
+.uxui-tv {
+  position: relative;
+  height: 120px;
+  margin: 8px 22px 0;
+}
+
+.uxui-screen {
+  position: absolute;
+  inset: 0 0 10px;
+  overflow: hidden;
+  border: 3px solid #121418;
+  border-radius: 3px;
+  background: #111;
+  box-shadow: 0 8px 16px rgba(10, 14, 30, 0.22);
+}
+
+.uxui-screen::before,
+.uxui-screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.uxui-stand {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 70%;
+  height: 10px;
+  transform: translateX(-50%);
+}
+
+.uxui-stand::before,
+.uxui-stand::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 3px;
+  height: 10px;
+  background: #23262c;
+  border-radius: 0 0 2px 2px;
+}
+
+.uxui-stand::before { left: 4%; transform: skewX(18deg); }
+.uxui-stand::after { right: 4%; transform: skewX(-18deg); }
+
+.uxui-tile.is-tcl .uxui-stand::before,
+.uxui-tile.is-tcl .uxui-stand::after,
+.uxui-tile.is-phi .uxui-stand::before,
+.uxui-tile.is-phi .uxui-stand::after { display: none; }
+
+.uxui-tile.is-tcl .uxui-stand {
+  width: 30%;
+  height: 8px;
+  background: #1c1f24;
+  border-radius: 2px;
+  clip-path: polygon(18% 0, 82% 0, 100% 100%, 0 100%);
+}
+
+.uxui-tile.is-phi .uxui-stand {
+  width: 22%;
+  height: 7px;
+  background: linear-gradient(#b9bec4, #8e949b);
+  border-radius: 2px;
+}
+
+.uxui-brand {
+  position: absolute;
+  left: 12px;
+  bottom: 10px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  font-size: 23px;
+  font-weight: 700;
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+.uxui-tile.is-sam .uxui-brand,
+.uxui-tile.is-sony .uxui-brand { font-size: 17px; letter-spacing: 0.02em; }
+.uxui-tile.is-sam .uxui-brand span:last-child,
+.uxui-tile.is-sony .uxui-brand span:last-child { font-size: 19px; letter-spacing: 0; font-weight: 600; }
+.uxui-tile.is-tcl .uxui-brand { font-size: 27px; font-weight: 800; letter-spacing: 0.02em; }
+.uxui-tile.is-phi .uxui-brand { font-size: 22px; letter-spacing: 0.04em; font-weight: 800; }
+
+/* CSS-only "wallpapers" per brand. */
+.uxui-tile.is-lg .uxui-screen {
+  background:
+    radial-gradient(ellipse 34% 60% at 78% 70%, #d8261c 0%, rgba(216, 38, 28, 0) 70%),
+    radial-gradient(ellipse 40% 55% at 64% 34%, #ffb347 0%, rgba(255, 179, 71, 0) 72%),
+    radial-gradient(ellipse 30% 70% at 50% 60%, #ff7a3d 0%, rgba(255, 122, 61, 0) 70%),
+    linear-gradient(118deg, #06143f 0%, #0b2f8a 30%, #1f63d6 46%, #3a8ff0 54%, #f08a3c 70%, #b51d16 100%);
+}
+.uxui-tile.is-lg .uxui-screen::before {
+  background: repeating-linear-gradient(128deg, rgba(255, 255, 255, 0) 0 14px, rgba(255, 255, 255, 0.07) 14px 18px);
+  mix-blend-mode: soft-light;
+}
+
+.uxui-tile.is-sam .uxui-screen {
+  background: linear-gradient(180deg, #2f3fb8 0%, #8a5cd6 26%, #e87fb8 44%, #f6a46e 58%, #2a3d9c 100%);
+}
+.uxui-tile.is-sam .uxui-screen::before {
+  background: linear-gradient(160deg, #ff8a3a 0%, #d94d2a 30%, #2b3fa8 62%, #10206a 100%);
+  clip-path: polygon(0 78%, 22% 58%, 38% 66%, 60% 22%, 74% 46%, 86% 38%, 100% 56%, 100% 100%, 0 100%);
+}
+.uxui-tile.is-sam .uxui-screen::after {
+  background: linear-gradient(180deg, #2747c4, #0d1a5e);
+  clip-path: polygon(0 88%, 28% 70%, 46% 84%, 70% 62%, 100% 78%, 100% 100%, 0 100%);
+}
+
+.uxui-tile.is-tcl .uxui-screen {
+  background:
+    radial-gradient(ellipse 30% 70% at 70% 40%, rgba(240, 220, 150, 0.95) 0%, rgba(240, 220, 150, 0) 70%),
+    radial-gradient(ellipse 30% 60% at 40% 50%, rgba(80, 200, 200, 0.9) 0%, rgba(80, 200, 200, 0) 72%),
+    linear-gradient(135deg, #062226 0%, #0d4d4f 35%, #1a8a86 55%, #c9b56a 78%, #f3ecc6 100%);
+}
+.uxui-tile.is-tcl .uxui-screen::before {
+  background: repeating-linear-gradient(62deg, rgba(255, 255, 255, 0) 0 10px, rgba(255, 255, 255, 0.16) 10px 13px, rgba(0, 40, 40, 0.2) 13px 18px);
+  mix-blend-mode: overlay;
+}
+
+.uxui-tile.is-sony .uxui-screen {
+  background:
+    radial-gradient(ellipse 40% 60% at 70% 45%, #ff7ad9 0%, rgba(255, 122, 217, 0) 70%),
+    radial-gradient(ellipse 34% 50% at 40% 70%, #9a3cff 0%, rgba(154, 60, 255, 0) 72%),
+    linear-gradient(125deg, #1a0638 0%, #4a12a0 35%, #b03ad6 60%, #f06ab0 80%, #3a0c6e 100%);
+}
+.uxui-tile.is-sony .uxui-screen::before {
+  background: repeating-radial-gradient(ellipse at 20% 120%, rgba(255, 255, 255, 0) 0 12px, rgba(255, 200, 255, 0.16) 12px 15px);
+  mix-blend-mode: screen;
+}
+
+.uxui-tile.is-phi .uxui-screen {
+  background:
+    radial-gradient(ellipse 40% 45% at 62% 44%, #ffd27a 0%, #ff8a3a 30%, rgba(240, 90, 40, 0) 72%),
+    linear-gradient(180deg, #123c8c 0%, #3a6fd0 30%, #f08a4a 52%, #b8401e 66%, #1c1430 100%);
+}
+.uxui-tile.is-phi .uxui-screen::before {
+  background: linear-gradient(180deg, #1d2140, #0a0c1c);
+  clip-path: polygon(0 74%, 24% 62%, 44% 70%, 66% 58%, 100% 70%, 100% 100%, 0 100%);
+}
+
+.uxui-tile.is-his .uxui-screen {
+  background:
+    radial-gradient(ellipse 30% 60% at 78% 50%, #ff3a3a 0%, rgba(255, 58, 58, 0) 72%),
+    radial-gradient(ellipse 28% 60% at 52% 40%, #ffd23a 0%, rgba(255, 210, 58, 0) 70%),
+    radial-gradient(ellipse 34% 70% at 22% 50%, #14d6c0 0%, rgba(20, 214, 192, 0) 72%),
+    linear-gradient(120deg, #052a5a 0%, #0f8a8a 30%, #4ad04a 50%, #f0a020 66%, #d02040 84%, #3a0a3a 100%);
+}
+.uxui-tile.is-his .uxui-screen::before {
+  background: repeating-linear-gradient(48deg, rgba(255, 255, 255, 0) 0 9px, rgba(255, 255, 255, 0.14) 9px 12px);
+  mix-blend-mode: soft-light;
+}
+
+.uxui-rating {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--uxui-soft);
+}
+
+.uxui-rating small {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--uxui-faint);
+}
+
+.uxui-stars {
+  font-size: 19px;
+  letter-spacing: 0;
+  line-height: 1;
+  background: linear-gradient(90deg, #f6b40e var(--fill), #d8dde0 var(--fill));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.uxui-name {
+  margin-top: 7px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--uxui-ink);
+  white-space: nowrap;
+}
+
+.uxui-spec {
+  margin-top: 4px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--uxui-soft);
+  white-space: nowrap;
+}
+
+.uxui-buy {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+}
+
+.uxui-buy b {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--uxui-ink);
+}
+
+.uxui-cart {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 14px;
+  border-radius: 10px;
+  background: #e8f1c8;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--uxui-ink);
+}
+
+/* ---------- Weak input: filter hell ---------- */
+
+.uxui-filters {
+  position: absolute;
+  left: 34px;
+  top: 141px;
+  bottom: 28px;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 193px 203px 203px;
+  gap: 11px;
+}
+
+.uxui-col {
+  display: flex;
+  flex-direction: column;
+  padding: 4px 16px 10px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.66);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 10px 26px rgba(3, 56, 61, 0.06);
+}
+
+.uxui-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 0 14px;
+  border-bottom: 1px solid rgba(22, 38, 74, 0.08);
+}
+
+.uxui-group:last-child { border-bottom: 0; }
+
+.uxui-group-name {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2px;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--uxui-ink);
+  white-space: nowrap;
+}
+
+.uxui-chev { color: var(--uxui-soft); flex-shrink: 0; }
+
+.uxui-opt {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #6c7a82;
+  white-space: nowrap;
+}
+
+.uxui-opt small {
+  font-size: 12px;
+  color: var(--uxui-faint);
+}
+
+.uxui-opt i {
+  position: relative;
+  flex-shrink: 0;
+  width: 17px;
+  height: 17px;
+  border: 1.5px solid #cfd6da;
+  border-radius: 4px;
+  background: #fff;
+}
+
+.uxui-opt.is-on { color: var(--uxui-ink); }
+
+.uxui-opt.is-on i {
+  border-color: #6aa630;
+  background: #6aa630;
+  box-shadow: 0 0 0 4px rgba(195, 213, 82, 0.35);
+}
+
+.uxui-opt.is-on i::after {
+  content: "";
+  position: absolute;
+  left: 4.5px;
+  top: 1px;
+  width: 4px;
+  height: 8px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.uxui-more {
+  margin-top: 2px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--uxui-soft);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.uxui-group.is-price {
+  flex: 1;
+  gap: 10px;
+  border-bottom: 0;
+}
+
+.uxui-range {
+  position: relative;
+  height: 16px;
+  margin: 4px 6px 0;
+}
+
+.uxui-range::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 3px;
+  transform: translateY(-50%);
+  border-radius: 2px;
+  background: #1e5fae;
+}
+
+.uxui-range i {
+  position: absolute;
+  top: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #12305e;
+  transform: translateX(-50%);
+}
+
+.uxui-range i:first-child { left: 0; }
+.uxui-range i:last-child { left: 100%; }
+
+.uxui-range-values {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.uxui-range-values em {
+  flex: 1;
+  padding: 7px 0;
+  border: 1px solid #dde3e6;
+  border-radius: 6px;
+  background: #fff;
+  text-align: center;
+  font-size: 12.5px;
+  font-style: normal;
+  font-weight: 600;
+  color: var(--uxui-ink);
+}
+
+.uxui-go {
+  margin-top: 8px;
+  padding: 11px 0;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #2a86da, #1a6bc4);
+  box-shadow: 0 6px 14px rgba(26, 107, 196, 0.28);
+  text-align: center;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.uxui-clear {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--uxui-soft);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Blurred results behind the filters. */
+.uxui-peek {
+  position: absolute;
+  left: 664px;
+  top: 22px;
+  width: 300px;
+  bottom: 18px;
+  z-index: 1;
+  filter: blur(5px);
+  opacity: 0.62;
+}
+
+.uxui-peek-tabs {
+  display: flex;
+  gap: 10px;
+  height: 34px;
+  padding: 0 0 0 10px;
+}
+
+.uxui-peek-tabs i {
+  width: 70px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.uxui-peek-tabs i:not(:first-child) { background: rgba(255, 255, 255, 0.45); }
+
+.uxui-peek-card {
+  position: relative;
+  height: 330px;
+  margin-top: 24px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.uxui-peek-card.is-b { height: 300px; }
+
+.uxui-peek-card > span { position: absolute; display: block; }
+
+.uxui-peek-pill { left: 14px; top: 26px; width: 48px; height: 20px; border-radius: 10px; background: #6fb6ff; }
+.uxui-peek-sale { left: 14px; top: 56px; width: 34px; height: 40px; border-radius: 6px; background: #f05a5a; }
+.uxui-peek-img {
+  left: 44px;
+  top: 48px;
+  right: -20px;
+  height: 140px;
+  border-radius: 6px;
+  background:
+    radial-gradient(ellipse 40% 50% at 40% 40%, #f0a0e0, transparent 70%),
+    linear-gradient(135deg, #4a6ad8, #9a8ae8 50%, #6ab0f0);
+}
+.uxui-peek-stars { left: 18px; top: 212px; font-size: 18px; color: #f6c445; letter-spacing: 2px; }
+.uxui-peek-line { left: 18px; top: 248px; width: 220px; height: 12px; border-radius: 6px; background: #7f8ea8; }
+.uxui-peek-line.is-short { top: 274px; width: 150px; background: #c2cad4; }
+.uxui-peek-price { left: 18px; top: 304px; width: 90px; height: 16px; border-radius: 6px; background: #f07070; }
+.uxui-peek-btn { left: 150px; top: 298px; width: 80px; height: 28px; border-radius: 8px; background: #b9e0a0; }
+.uxui-peek-card.is-b .uxui-peek-price,
+.uxui-peek-card.is-b .uxui-peek-btn { display: none; }
+
+
+.uxui-opt i { transition: background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease; }
+.uxui-opt { transition: color 0.18s ease; }
+.uxui-go { display: block; transform-origin: center; }
+
+.uxui-cursor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 6;
+  width: 34px;
+  height: 34px;
+  margin: -4px 0 0 -6px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform-origin: 6px 4px;
+  filter: drop-shadow(0 4px 6px rgba(3, 30, 40, 0.3));
+}
+
+.uxui-cursor svg { position: relative; z-index: 2; display: block; }
+
+.uxui-ripple {
+  position: absolute;
+  left: -14px;
+  top: -16px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(195, 213, 82, 0.55);
+  border: 2px solid rgba(152, 173, 34, 0.8);
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .uxui-opt, .uxui-opt i { transition: none; }
+}

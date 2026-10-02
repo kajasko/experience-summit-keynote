@@ -1,0 +1,35 @@
+{
+  "name": "experience-summit-keynote",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 4188 --strictPort",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 4173 --strictPort",
+    "validate:deck": "playwright test",
+    "export:frames": "node scripts/export-frames.mjs",
+    "export:montage": "node scripts/montage.mjs",
+    "export:thumbs": "node scripts/export-thumbs.mjs",
+    "export:offline": "node scripts/export-offline.mjs",
+    "export:onedrive": "node scripts/export-onedrive.mjs",
+    "export:pdf": "node scripts/export-pdf.mjs",
+    "export:print": "node scripts/export-print.mjs",
+    "export:share": "npm run export:offline && npm run export:pdf"
+  },
+  "dependencies": {
+    "@fontsource/montserrat": "^5.3.0",
+    "gsap": "^3.13.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0",
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
+    "@vitejs/plugin-react": "^5.0.2",
+    "pdf-lib": "^1.17.1",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.5"
+  }
+}

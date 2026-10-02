@@ -1,0 +1,32 @@
+:root {
+  --bg: #e0e7e8;
+  --text: #005860;
+  --text-deep: #03383d;
+  --teal: #005860;
+  --lime: #c3d552;
+  --lime-deep: #98ad22;
+  --signal: #ef6a5b;
+  --muted: #627779;
+  --line: #c5d0d2;
+  --dark: #03383d;
+  --dark-2: #012a2e;
+  --white: #ffffff;
+  --paper: #f4f6f1;
+
+  --text-gradient: linear-gradient(125deg, #012226 0%, #005860 42%, #178f97 78%, #2eb4bc 100%);
+
+  --safe-x: 80px;
+  --safe-y: 90px;
+
+  --font: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur: 0.8s;
+  --dur-major: 1.15s;
+  --dur-hero: 1.45s;
+
+  --z-chrome: 20;
+  --z-overlay: 40;
+}
