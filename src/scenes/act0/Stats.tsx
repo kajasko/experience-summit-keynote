@@ -169,7 +169,7 @@ export function Twist({ step, reduced }: SceneProps) {
       <SlideChrome kicker="12 Zásadní poznání" page={step === 0 ? "12 / 75" : "13 / 75"} caption="Od technologie k systému" captionDot mark={false} />
       <img
         data-hero-visual
-        src={asset("ai-cutout.png")}
+        src={asset("ai-cutout.webp")}
         alt=""
         className="cutout abs"
         style={{

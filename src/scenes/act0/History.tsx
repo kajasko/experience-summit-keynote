@@ -20,7 +20,7 @@ const ERAS = [
     rail: "Data  Vstup  Výsledek",
     page: "02 / 75",
     kicker: "02 Evoluce",
-    img: asset("punch.png"),
+    img: asset("punch.webp"),
     imgStyle: { width: 1120, right: 72, bottom: 78 },
   },
   {
@@ -32,7 +32,7 @@ const ERAS = [
     rail: "Příkazy  Syntaxe  Pravidla",
     page: "03 / 75",
     kicker: "03 Evoluce",
-    img: asset("terminal.png"),
+    img: asset("terminal.webp"),
     imgStyle: { width: 880, right: 40, top: 200 },
   },
   {
@@ -44,7 +44,7 @@ const ERAS = [
     rail: "Objekty  Akce  Intuice",
     page: "04 / 75",
     kicker: "04 Evoluce",
-    img: asset("gui.png"),
+    img: asset("gui.webp"),
     imgStyle: { width: 900, right: 20, top: 190 },
   },
   {
@@ -56,7 +56,7 @@ const ERAS = [
     rail: "Záměr  Jazyk  Výsledek",
     page: "06 / 75",
     kicker: "05 Evoluce",
-    img: asset("intent-laptop.png"),
+    img: asset("intent-laptop.webp"),
     imgStyle: { width: 980, right: 24, top: 198 },
   },
 ];

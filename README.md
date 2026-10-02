@@ -65,3 +65,10 @@ Live: https://kajasko.github.io/experience-summit-keynote/
 - In the repo settings set **Pages → Build and deployment → Source: GitHub Actions**.
 - The production base path is `/experience-summit-keynote/` (see `vite.config.ts`; override with `PAGES_BASE=/other/ npm run build`). `npm run dev` keeps serving from `/`.
 - Local check of the production build: `npm run build && npm run preview` → http://127.0.0.1:4173/experience-summit-keynote/
+
+## Assets & mobile
+
+- Large images are served as WebP from `public/assets/`; lossless originals live in `source-assets/png/` (not deployed).
+- Images are preloaded only for the current, previous and next 3 scenes (`src/engine/preload.ts`, map in `src/engine/sceneImages.ts`).
+- Phones: tap the right two thirds = next, left third = previous; swipe left/right also works. In landscape the dock sits on the right edge.
+- Overview thumbnails: `npm run export:thumbs` (writes `public/assets/thumbs/`).

@@ -5,6 +5,7 @@ import { asset } from "./assets";
 export type DeckMode = "play" | "chapters" | "sorter";
 
 export const CHAPTERS = [
+  { n: "00", t: "ÚVOD", s: "AI mění svět", sceneId: "opening", act: 0 },
   { n: "01", t: "KDO?", s: "Kdo experience používá", sceneId: "kdo", act: 1 },
   { n: "02", t: "CO?", s: "Správná zkušenost pro situaci", sceneId: "co", act: 2 },
   { n: "03", t: "PROČ VĚŘIT?", s: "Od pozornosti k důvěře", sceneId: "verit", act: 3 },

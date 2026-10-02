@@ -10,7 +10,7 @@ import { FourQuestionCards, FourQuestionsIntro, QUESTION_IN, QUESTION_OPEN } fro
 const VISIONS = [
   {
     key: "musk",
-    img: asset("musk.png"),
+    img: asset("musk.webp"),
     who: "Elon Musk · Tesla · humanoidní robotika",
     title: "AI dostává tělo",
     statement: "Roboti mohou zásadně zvýšit produktivitu a dostupnost služeb.",
@@ -18,7 +18,7 @@ const VISIONS = [
   },
   {
     key: "amodei",
-    img: asset("amodei.png"),
+    img: asset("amodei.webp"),
     who: "Dario Amodei · Anthropic · pokročilá AI",
     title: "AI jako motor změny",
     statement: "Pokrok, který dříve trval desetiletí, může přijít během několika let.",
@@ -26,7 +26,7 @@ const VISIONS = [
   },
   {
     key: "hassabis",
-    img: asset("hassabis.png"),
+    img: asset("hassabis.webp"),
     who: "Demis Hassabis · Google DeepMind · AI pro vědu",
     title: "AI se stává vědcem",
     statement: "AI může objevovat věci, které člověk sám nedokáže najít.",
@@ -34,7 +34,7 @@ const VISIONS = [
   },
   {
     key: "altman",
-    img: asset("altman.png"),
+    img: asset("altman.webp"),
     who: "Sam Altman · OpenAI · AI agenti",
     title: "AI jako infrastruktura",
     statement: "Agenti nebudou jen odpovídat. Budou vykonávat práci.",

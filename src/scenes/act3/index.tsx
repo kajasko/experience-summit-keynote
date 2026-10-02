@@ -362,7 +362,7 @@ export function Brand({ reduced }: SceneProps) {
       </div>
       <div data-brand-frame className="brand-shift-frame">
         <div className="brand-shift-art">
-          <img data-art src={asset("brand-shift.png")} alt="" />
+          <img data-art src={asset("brand-shift.webp")} alt="" />
         </div>
       </div>
     </div>
@@ -852,7 +852,7 @@ function ProveReason({ step, reduced }: SceneProps) {
         data-reason-robot
         data-motion-role="reason-robot"
         className="prove-reason-robot"
-        src={asset("ai-reason-robot.png")}
+        src={asset("ai-reason-robot.webp")}
         alt=""
       />
       <div data-reason-ask className="prove-reason-card is-ask">
@@ -1348,8 +1348,8 @@ export function Bias({ step, reduced }: SceneProps) {
         caption="AI násobí naši historii"
         captionDot
       />
-      <img data-vision-soft data-motion-role="schwartz-soft" src={asset("schwartz.png")} alt="" className="cutout vision-soft" style={portrait} />
-      <img data-hero-visual data-motion-role="schwartz-photo" src={asset("schwartz.png")} alt="" className="cutout vision-sharp" style={portrait} />
+      <img data-vision-soft data-motion-role="schwartz-soft" src={asset("schwartz.webp")} alt="" className="cutout vision-soft" style={portrait} />
+      <img data-hero-visual data-motion-role="schwartz-photo" src={asset("schwartz.webp")} alt="" className="cutout vision-sharp" style={portrait} />
       <div data-schwartz-copy className="safe schwartz-copy">
         <div className="label">Reva Schwartz · NIST</div>
         <h2 data-schwartz-title className="schwartz-title">

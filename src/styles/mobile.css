@@ -1,0 +1,113 @@
+/* Phones & small screens: dynamic viewport height, compact dock, touch-friendly targets. */
+
+.stage-frame {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@supports (height: 100dvh) {
+  html, body, #root { min-height: 100dvh; }
+  .stage-frame { height: calc(100dvh - 72px); }
+}
+
+/* Narrow (phone portrait) or short (phone landscape) screens: compact bottom dock. */
+@media (max-width: 820px), (max-height: 500px) {
+  .deck-dock {
+    height: auto;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px;
+    padding: 6px 10px calc(6px + env(safe-area-inset-bottom));
+  }
+  .deck-dock-now,
+  .deck-dock-full { display: none; }
+  .deck-dock-modes { gap: 4px; min-width: 0; }
+  .deck-dock-modes button {
+    height: 34px;
+    padding: 0 10px;
+    font-size: 11px;
+    letter-spacing: 0.02em;
+  }
+  .deck-dock-progress { gap: 6px; font-size: 12px; letter-spacing: 0.02em; white-space: nowrap; }
+  .deck-dock-progress button { width: 36px; height: 36px; }
+  .stage-frame,
+  .deck-overlay {
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: calc(48px + env(safe-area-inset-bottom));
+    height: calc(100vh - 48px - env(safe-area-inset-bottom));
+  }
+  @supports (height: 100dvh) {
+    .stage-frame,
+    .deck-overlay { height: calc(100dvh - 48px - env(safe-area-inset-bottom)); }
+  }
+  .deck-overlay { padding: 20px 16px; }
+  .deck-overlay-head h2 { font-size: 34px; }
+  .deck-chapters { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .deck-sorter-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+  .deck-chapter { min-height: 120px; padding: 16px 14px; gap: 8px; }
+  .deck-chapter-t { font-size: 22px; }
+}
+
+/* Phone landscape: move the dock to the right edge so the 16:9 stage gets the full height. */
+@media (max-height: 500px) and (orientation: landscape) {
+  .deck-dock {
+    top: 0;
+    bottom: 0;
+    left: auto;
+    right: 0;
+    width: calc(68px + env(safe-area-inset-right));
+    height: auto;
+    grid-template-columns: 1fr;
+    align-content: center;
+    justify-items: center;
+    gap: 14px;
+    padding: 8px calc(6px + env(safe-area-inset-right)) 8px 6px;
+    border-top: 0;
+    border-left: 1px solid rgba(195, 213, 82, 0.22);
+  }
+  .deck-dock-modes { flex-direction: column; gap: 6px; }
+  .deck-dock-modes button { height: 30px; padding: 0 6px; font-size: 9px; letter-spacing: 0; }
+  .deck-dock-progress { flex-direction: column; gap: 4px; font-size: 10px; }
+  .deck-dock-progress button { width: 34px; height: 34px; }
+  .stage-frame,
+  .deck-overlay {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: calc(68px + env(safe-area-inset-right));
+    width: auto;
+    height: 100vh;
+  }
+  @supports (height: 100dvh) {
+    .stage-frame,
+    .deck-overlay { height: 100dvh; }
+  }
+}
+
+/* Phone portrait: the deck is 16:9, so suggest rotating (quiet, never covers the slide). */
+@media (max-width: 600px) and (orientation: portrait) {
+  .stage-frame::after {
+    content: "↻  Pro lepší zážitek otočte telefon na šířku";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 18px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: rgba(244, 246, 241, 0.5);
+    pointer-events: none;
+  }
+}
+
+html.thumbs-capture .stage-frame::after { content: none; }
+
+/* Very narrow phones: keep all dock controls on one row. */
+@media (max-width: 440px) {
+  .deck-dock { gap: 6px; padding-left: 8px; padding-right: 8px; }
+  .deck-dock-modes button { padding: 0 8px; font-size: 10px; letter-spacing: 0; }
+  .deck-dock-progress { gap: 2px; font-size: 11px; }
+  .deck-dock-progress button { width: 34px; height: 34px; }
+}

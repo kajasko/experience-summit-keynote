@@ -133,7 +133,7 @@ export function UxAx({ step, reduced }: SceneProps) {
               <div className="uxax-kicker">člověk</div>
               <div className="uxax-mega">UX</div>
             </div>
-            <img data-art className="uxax-art is-human" src={asset("ux-ax.png")} alt="" />
+            <img data-art className="uxax-art is-human" src={asset("ux-ax.webp")} alt="" />
             <div className="uxax-pills">
               {["UI", "UX", "konverzace"].map((x) => (
                 <span key={x} className="uxax-pill">{x}</span>
@@ -145,7 +145,7 @@ export function UxAx({ step, reduced }: SceneProps) {
               <div className="uxax-kicker">AGENT</div>
               <div className="uxax-mega">AX</div>
             </div>
-            <img data-art className="uxax-art is-agent" src={asset("ux-ax.png")} alt="" />
+            <img data-art className="uxax-art is-agent" src={asset("ux-ax.webp")} alt="" />
             <div className="uxax-pills">
               {["data", "api", "MCP"].map((x) => (
                 <span key={x} className="uxax-pill">{x}</span>
@@ -205,8 +205,8 @@ function NeedIcon({ id }: { id: (typeof NEED_FLOW)[number]["id"] }) {
 }
 
 const NEED_PANELS = [
-  { id: "buyer", who: "Buyer / Chooser", verb: "Přivádějí", img: "need-buyer.png", shot: "is-buyer" },
-  { id: "user", who: "User Needs", verb: "Drží", img: "need-user.png", shot: "is-user" },
+  { id: "buyer", who: "Buyer / Chooser", verb: "Přivádějí", img: "need-buyer.webp", shot: "is-buyer" },
+  { id: "user", who: "User Needs", verb: "Drží", img: "need-user.webp", shot: "is-user" },
 ] as const;
 
 const NEED_RECT = { left: 64, top: 96, width: 1792, height: 888, borderRadius: 44 } as const;
@@ -767,9 +767,9 @@ export function Modes({ step, reduced }: SceneProps) {
 }
 
 const CASES = [
-  { id: "cleo", brand: "cleo", line: "Osobní AI kouč pro vaše finance.", img: "case-cleo.png" },
-  { id: "octopus", brand: "octopus", line: "Chytřejší energie pro skutečný život.", img: "case-octopus.png" },
-  { id: "lemonade", brand: "Lemonade", line: "Pojištění, které řeší za vás.", img: "case-lemonade.png" },
+  { id: "cleo", brand: "cleo", line: "Osobní AI kouč pro vaše finance.", img: "case-cleo.webp" },
+  { id: "octopus", brand: "octopus", line: "Chytřejší energie pro skutečný život.", img: "case-octopus.webp" },
+  { id: "lemonade", brand: "Lemonade", line: "Pojištění, které řeší za vás.", img: "case-lemonade.webp" },
 ] as const;
 
 export function Examples({ step, reduced }: SceneProps) {
@@ -908,7 +908,7 @@ function PrdIntro({
           </ol>
         </div>
         <div data-prd-art className="prd-art">
-          <img data-art src={asset("prd-notebook.png")} alt="" />
+          <img data-art src={asset("prd-notebook.webp")} alt="" />
         </div>
       </div>
     </div>

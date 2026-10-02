@@ -207,7 +207,7 @@ export function Partner({ reduced }: SceneProps) {
 
   return (
     <div ref={root} className="scene is-dark is-cinematic is-partner">
-      <img data-art data-partner-photo className="partner-photo" src={asset("ai-partner.png")} alt="" />
+      <img data-art data-partner-photo className="partner-photo" src={asset("ai-partner.webp")} alt="" />
       <div className="partner-veil" />
       <SlideChrome kicker="CO? · VOLBA" page="43 / 75" caption="Ne každá chvíle patří AI" captionDot mark={false} />
       <div className="partner-copy">

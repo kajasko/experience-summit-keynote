@@ -97,7 +97,7 @@ export function ChatPrompt({ reduced }: { reduced: boolean }) {
             <div data-chat-load className="chat-load" aria-hidden="true">
               <span /><span /><span />
             </div>
-            <img data-art data-chat-caesar className="chat-caesar" src={asset("caesar.png?v=full")} alt="" />
+            <img data-art data-chat-caesar className="chat-caesar" src={asset("caesar.webp?v=full")} alt="" />
           </div>
         </div>
         <img data-art data-chat-robot className="chat-robot" src={asset("chat-robot.png?v=hq")} alt="" />

@@ -144,13 +144,13 @@ function ValueShift() {
 
 function Visual({ code, accent }: { code: string; accent: string }) {
   const portraits: Record<string, string> = {
-    "HV-13": asset("musk.png"),
-    "HV-14": asset("amodei.png"),
-    "HV-15": asset("hassabis.png"),
-    "HV-16": asset("altman.png"),
+    "HV-13": asset("musk.webp"),
+    "HV-14": asset("amodei.webp"),
+    "HV-15": asset("hassabis.webp"),
+    "HV-16": asset("altman.webp"),
   };
   if (portraits[code]) return <Portrait src={portraits[code]} accent={accent} />;
-  if (code === "HV-01") return <img data-editorial-photo src={asset("crowd.png")} alt="" style={{width:850,height:790,objectFit:"cover",objectPosition:"center 42%",borderRadius:44}}/>;
+  if (code === "HV-01") return <img data-editorial-photo src={asset("crowd.webp")} alt="" style={{width:850,height:790,objectFit:"cover",objectPosition:"center 42%",borderRadius:44}}/>;
   if (code === "HV-07") return <div style={{ position: "relative", width: 900, height: 760, overflow: "hidden", borderRadius: 40 }}><div style={{ position: "absolute", right: 22, top: 54, width: 650, height: 650, borderRadius: "50%", border: `3px solid ${accent}` }} /><img src={asset("people.png")} alt="" style={{ position: "absolute", right: -40, bottom: 0, width: 850, height: 760, objectFit: "cover", objectPosition: "center", filter: "grayscale(.16) saturate(.52) contrast(1.12)", opacity: .82, borderRadius: 40 }} /></div>;
   if (code === "HV-10" || code === "HV-11") return <div style={{ position: "relative", width: 930, height: 780 }}><img src={asset("washer.png")} alt="" style={{ position: "absolute", right: -10, top: 0, width: 930, height: 780, borderRadius: 36, objectFit: "contain", objectPosition: "right center" }} />{code === "HV-11" && <><span data-washer-system style={{ position: "absolute", right: 84, top: 70, width: 620, height: 620, borderRadius: "50%", border: "2px solid rgba(0,88,96,.18)" }} /><span data-washer-system style={{ position: "absolute", right: 20, top: 8, width: 748, height: 748, borderRadius: "50%", border: "2px solid rgba(239,106,91,.18)" }} /></>}</div>;
   if (code === "HV-31") return <RouteVisual accent={accent} />;

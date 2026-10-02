@@ -39,7 +39,7 @@ export function Chapter({ step: _step, reduced, sceneId }: SceneProps) {
     <div className="scene is-dark is-cinematic">
       <img
         data-hero-visual
-        src={asset("portal.png")}
+        src={asset("portal.webp")}
         alt=""
         style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }}
       />

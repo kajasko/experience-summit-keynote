@@ -2,13 +2,13 @@ import type { SceneDef, FlatStep } from "./types";
 
 const allScenes: SceneDef[] = [
   {
-    id: "opening", act: 0, actName: "Prolog", component: "Opening",
+    id: "opening", act: 0, actName: "ÚVOD", component: "Opening",
     steps: [
       { id: "o1", title: "AI mění svět", speakerNote: "Ticho. AI nemění jen technologii. Mění způsob, jak lidé rozhodují, nakupují, pracují a jak firmy navrhují zkušenost." },
     ],
   },
   {
-    id: "history", act: 0, actName: "Prolog", component: "History",
+    id: "history", act: 0, actName: "ÚVOD", component: "History",
     steps: [
       { id: "h1", title: "1945", speakerNote: "V roce 1945 jsme stroji fyzicky připravovali data. Člověk se přizpůsoboval stroji.", sourcePage: 2 },
       { id: "h2", title: "1964", speakerNote: "Pak jsme se naučili jazyk počítače: příkazy, syntaxi a pravidla.", sourcePage: 2 },
@@ -18,7 +18,7 @@ const allScenes: SceneDef[] = [
     ],
   },
   {
-    id: "intent", act: 0, actName: "Prolog", component: "Intent",
+    id: "intent", act: 0, actName: "ÚVOD", component: "Intent",
     steps: [
       { id: "i1", title: "Poprvé se přizpůsobuje stroj nám", speakerNote: "Poprvé se stroj přizpůsobuje nám. Neučíme se jeho jazyk; říkáme, čeho chceme dosáhnout.", sourcePage: 2 },
       { id: "i2", title: "A lidé si na to rychle zvykají", speakerNote: "A lidé si na to rychle zvykají.", sourcePage: 2 },
@@ -26,7 +26,7 @@ const allScenes: SceneDef[] = [
     ],
   },
   {
-    id: "adoption", act: 0, actName: "Prolog", component: "Adoption",
+    id: "adoption", act: 0, actName: "ÚVOD", component: "Adoption",
     steps: [
       { id: "a1", title: "72 %", speakerNote: "72 % Čechů už AI používá. AI už není okrajová technologie.", sources: ["cvvm", "eurostat"], sourcePage: 4 },
       { id: "a2", title: "38 % rozhoduje", speakerNote: "38 % evropských respondentů používá AI při hledání produktů a rozhodování, co koupit.", sources: ["mckinseyAgentic"], sourcePage: 4 },
@@ -34,20 +34,20 @@ const allScenes: SceneDef[] = [
     ],
   },
   {
-    id: "value-gap", act: 0, actName: "Prolog", component: "ValueGap",
+    id: "value-gap", act: 0, actName: "ÚVOD", component: "ValueGap",
     steps: [
       { id: "v1", title: "Adopce není hodnota", speakerNote: "Tady je napětí: AI používá skoro každý, ale významnou hodnotu ve velkém vytváří jen 5 %. 60 % organizací vidí malý nebo žádný přínos.", sources: ["bcg"], sourcePage: 5 },
     ],
   },
   {
-    id: "twist", act: 0, actName: "Prolog", component: "Twist",
+    id: "twist", act: 0, actName: "ÚVOD", component: "Twist",
     steps: [
       { id: "tw1", title: "Problém není AI", speakerNote: "Pauza. Problém není samotná technologie.", sourcePage: 6 },
       { id: "tw2", title: "Svět navržený bez ní", speakerNote: "Problém je, že AI jen přidáváme do světa, který jsme navrhli bez ní. Skutečná změna začíná změnou myšlení.", sourcePage: 6 },
     ],
   },
   {
-    id: "visions", act: 0, actName: "Prolog", component: "Visions",
+    id: "visions", act: 0, actName: "ÚVOD", component: "Visions",
     steps: [
       { id: "vt0", title: "Musíme změnit naše myšlení", speakerNote: "Musíme změnit naše myšlení. Problém není samotná AI. Je to, že ji přidáváme do světa, který jsme navrhli bez ní.", sourcePage: 7 },
       { id: "vi0", title: "Existuje několik velkolepých vizí budoucnosti", speakerNote: "Existuje několik velkolepých vizí budoucnosti. Nejsou to předpovědi; jsou to horizonty možností: tělo, tempo, věda a infrastruktura.", sourcePage: 7 },
@@ -58,7 +58,7 @@ const allScenes: SceneDef[] = [
     ],
   },
   {
-    id: "challenges", act: 0, actName: "Prolog", component: "Challenges",
+    id: "challenges", act: 0, actName: "ÚVOD", component: "Challenges",
     steps: [
       { id: "c1", title: "Čtyři otázky", speakerNote: "Místo spekulací o vzdálené budoucnosti budeme řešit čtyři praktické posuny, které začínají dnes: od UX k lidem i AI, od personalizace k adaptaci, od pozornosti k důvěře, od kanálů k orchestraci.", sourcePage: 8 },
     ],

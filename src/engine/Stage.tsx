@@ -9,7 +9,7 @@ function usableSize(box: HTMLElement) {
   return { width, height };
 }
 
-export function Stage({ children }: { children: React.ReactNode }) {
+export function Stage({ children, ...handlers }: { children: React.ReactNode } & React.HTMLAttributes<HTMLDivElement>) {
   const frame = useRef<HTMLDivElement>(null);
   const stage = useRef<HTMLDivElement>(null);
 
@@ -40,7 +40,7 @@ export function Stage({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <div className="stage-frame" ref={frame}>
+    <div className="stage-frame" ref={frame} {...handlers}>
       <div className="stage" ref={stage} id="stage">
         {children}
       </div>

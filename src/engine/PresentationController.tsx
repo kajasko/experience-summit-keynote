@@ -9,7 +9,7 @@ import { DeckNav, type DeckMode } from "./DeckNav";
 import { SourceNote } from "../components/SourceNote";
 import { bindKeyboard } from "./keyboard";
 import { isDebug, parseHash, writeHash } from "./hash";
-import { asset } from "./assets";
+import { preloadAround } from "./preload";
 import { usePrefersReducedMotion } from "./usePrefersReducedMotion";
 import { SceneMotion } from "./SceneMotion";
 import { EASE, MOTION as T } from "./motion";
@@ -35,30 +35,19 @@ export function PresentationController() {
   const modeRef = useRef<DeckMode>("play");
   const dipTween = useRef<gsap.core.Timeline | null>(null);
   modeRef.current = mode;
+  const pointerType = useRef<string>("mouse");
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
+  const swiped = useRef(false);
 
   const current = steps[index];
   const view = steps[viewIndex];
   const scene = scenes.find((s) => s.id === view.sceneId)!;
   const Scene = registry[scene.component];
 
+  // Warm the images of the current and the next few scenes only (mobile-friendly first load).
   useEffect(() => {
-    const files = [
-      'punch.png', 'terminal.png', 'gui.png', 'people.png', 'musk.png', 'amodei.png',
-      'hassabis.png', 'altman.png', 'schwartz.png', 'ux-ax.png', 'persona-need.png', 'caesar.png',
-      'chat-robot.png', 'adapt-hory.jpg', 'adapt-mesta.jpg', 'adapt-plaze.jpg',
-      'adapt-priroda.jpg', 'adapt-wellness.jpg', 'prd-notebook.png',
-      'need-buyer.png', 'need-user.png', 'case-cleo.png', 'case-octopus.png', 'case-lemonade.png',
-      'portal.png', 'conv-talk.png', 'conv-symbols.png', 'conv-text.png',
-      'conv-messages.png', 'conv-aidialog.png', 'ai-partner.png',
-    ];
-    const images = files.map(file => {
-      const image = new Image();
-      image.src = asset(file);
-      void image.decode().catch(() => {});
-      return image;
-    });
-    return () => { images.forEach(image => { image.onload = null; }); };
-  }, []);
+    preloadAround(current.sceneId);
+  }, [current.sceneId]);
 
   useEffect(() => {
     writeHash(current.sceneId, current.local, current.act);
@@ -300,19 +289,44 @@ export function PresentationController() {
 
   return (
     <>
-      <Stage>
+      <Stage
+        onPointerDown={(e) => { pointerType.current = e.pointerType; swiped.current = false; }}
+        onTouchStart={(e) => {
+          const t = e.touches[0];
+          touchStart.current = e.touches.length === 1 && t ? { x: t.clientX, y: t.clientY } : null;
+        }}
+        onTouchEnd={(e) => {
+          const start = touchStart.current;
+          touchStart.current = null;
+          const t = e.changedTouches[0];
+          if (!start || !t || modeRef.current !== "play") return;
+          const dx = t.clientX - start.x;
+          const dy = t.clientY - start.y;
+          // Horizontal swipe: left = next, right = previous.
+          if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.4) {
+            swiped.current = true;
+            go(dx < 0 ? 1 : -1);
+          }
+        }}
+        onClick={(e) => {
+          if (swiped.current) { swiped.current = false; return; }
+          if (modeRef.current !== "play") return;
+          if ((e.target as HTMLElement).closest(".presenter")) return;
+          // Touch: tap the left third to go back, anywhere else to go forward. Mouse keeps click = next.
+          if (pointerType.current === "touch" || pointerType.current === "pen") {
+            const box = e.currentTarget.getBoundingClientRect();
+            if (e.clientX - box.left < box.width / 3) { go(-1); return; }
+          }
+          go(1);
+        }}
+        onContextMenu={(e) => {
+          e.preventDefault();
+          if (modeRef.current !== "play") return;
+          go(-1);
+        }}
+      >
         {debug && <div className="debug-safe" />}
         <div
-          onClick={(e) => {
-            if (modeRef.current !== "play") return;
-            if ((e.target as HTMLElement).closest(".presenter")) return;
-            go(1);
-          }}
-          onContextMenu={(e) => {
-            e.preventDefault();
-            if (modeRef.current !== "play") return;
-            go(-1);
-          }}
           style={{ position: "absolute", inset: 0 }}
         >
           <SceneMotion key={view.sceneId} step={view} reduced={reduced}>
