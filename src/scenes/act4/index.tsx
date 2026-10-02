@@ -1,7 +1,7 @@
 import type { SceneProps } from "../../deck/types";
 import { SlideChrome } from "../../components/SlideChrome";
 import { GlassStats } from "../../components/GlassStats";
-import { BxCxExFinale, ENDING_B } from "./FinaleB";
+import { BxCxExFinale, ENDING_A } from "./FinaleB";
 
 const ORCH_TITLE = [
   ["Firma", "vidí", "spojení."],
@@ -75,8 +75,8 @@ export function Orch({ step, reduced }: SceneProps) {
 export { Channels, Mortgage } from "./ThenNow";
 
 export function BxCxEx({ step, reduced, sceneId }: SceneProps) {
-  // Alternative closing, opt-in only via ?ending=b (the default stays below).
-  if (ENDING_B) return <BxCxExFinale step={step} reduced={reduced} sceneId={sceneId} />;
+  // Default closing is BxCxExFinale; ?ending=a keeps the previous version below.
+  if (!ENDING_A) return <BxCxExFinale step={step} reduced={reduced} sceneId={sceneId} />;
   const parts = [
     { k: "BX", t: "BRAND EXPERIENCE", bg: "var(--text-deep)", fg: "var(--paper)" },
     { k: "CX", t: "CUSTOMER EXPERIENCE", bg: "var(--teal)", fg: "var(--paper)" },

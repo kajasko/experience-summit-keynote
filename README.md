@@ -73,3 +73,4 @@ Live: https://kajasko.github.io/experience-summit-keynote/
 - Phones: tap the right two thirds = next, left third = previous; swipe left/right also works. In landscape the dock sits on the right edge.
 - Overview thumbnails: `npm run export:thumbs` writes one WebP per visual slide to `public/assets/thumbs/<first step id>.webp` (final built state of the slide).
 - Slides vs steps: a step is one click; a slide is one visual composition (a scene's first step plus any `SLIDE_BREAKS` in `src/deck/deck.ts`). Slide numbers, the "NN / total" page counter, the dock counter and the overview tiles all derive from `slides` in `deck.ts`; the `page` prop on `SlideChrome` only toggles whether the counter is shown.
+- Closing slide 66: `BxCxExFinale` (src/scenes/act4/FinaleB.tsx) is the default; add `?ending=a` to the URL for the previous BX/CX/EX version.

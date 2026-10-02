@@ -5,13 +5,13 @@ import { SlideChrome } from "../../components/SlideChrome";
 import { EASE } from "../../engine/motion";
 
 /**
- * Alternative closing for slide 66 (bxcxex), only with `?ending=b` in the URL.
+ * Closing for slide 66 (bxcxex) — the default. `?ending=a` shows the previous version.
  * Step 0: three frosted orbs (BX, CX, EX) on one orbit.
  * Step 1: they converge and merge into ONE EXPERIENCE; a single lime shockwave,
  *         the four chapter questions settle around it, the closing line appears.
  */
-export const ENDING_B =
-  typeof window !== "undefined" && new URLSearchParams(window.location.search).get("ending") === "b";
+export const ENDING_A =
+  typeof window !== "undefined" && new URLSearchParams(window.location.search).get("ending") === "a";
 
 const CENTER = { x: 960, y: 640 };
 const CORE = { x: 960, y: 500 };
@@ -125,7 +125,7 @@ export function BxCxExFinale({ step, reduced }: SceneProps) {
   }, [beat, reduced]);
 
   return (
-    <div ref={root} className={`scene is-dark fb-stage${beat ? " is-one" : ""}`}>
+    <div ref={root} className={`scene fb-stage${beat ? " is-one" : ""}`}>
       <SlideChrome
         kicker="JAK? / EXPERIENCE SYSTÉM"
         page="66 / 67"
@@ -141,7 +141,7 @@ export function BxCxExFinale({ step, reduced }: SceneProps) {
         je dnes důležitější než dříve.
       </div>
       <svg className="fb-svg" viewBox="0 0 1920 1080" aria-hidden="true">
-        <circle data-fb-orbit cx={CENTER.x} cy={CENTER.y} r="205" fill="none" stroke="var(--lime)" strokeWidth="2" strokeOpacity="0.7" />
+        <circle data-fb-orbit cx={CENTER.x} cy={CENTER.y} r="205" fill="none" stroke="var(--lime)" strokeWidth="3" strokeOpacity="0.9" />
       </svg>
       {ORBS.map((orb) => (
         <div
