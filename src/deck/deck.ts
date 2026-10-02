@@ -198,6 +198,8 @@ const allScenes: SceneDef[] = [
     id: "prove", act: 3, actName: "PROČ VĚŘIT?", component: "Prove",
     steps: [
       { id: "pr1", title: "Značka se z billboardů přesouvá do zážitku", speakerNote: "Nejdřív slib na billboardu. Pak stejná značka v obýváku, v notebooku, v péči. Dřív lákala k nákupu reklamou. Dnes má provázet životem. Slib získává pozornost. Zkušenost buduje důvěru — a proto slib nestačí.", sourcePage: 32 },
+      { id: "pr1b", title: "Zážitek", speakerNote: "Klik: kamera sjede z billboardu do obýváku. Stejná značka, ale teď jako zážitek doma.", sourcePage: 32 },
+      { id: "pr1c", title: "Zkušenost buduje důvěru", speakerNote: "Klik: celek. Slib získává pozornost. Zkušenost buduje důvěru — a proto slib nestačí.", sourcePage: 32 },
       { id: "pr2", title: "AI musí mít důvod vás doporučit", speakerNote: "Nejdřív jen karta značky. Citát ještě ne.", sourcePage: 32 },
       { id: "pr2a", title: "Máme nejlepší zákaznickou péči", speakerNote: "Značka říká obecné tvrzení. Nechte to dopsat, pak klik.", sourcePage: 32 },
       { id: "pr2b", title: "Neověřitelné", speakerNote: "AI s tím neumí pracovat. Neříká, čím jste skutečně jiní.", sourcePage: 32 },

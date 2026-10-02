@@ -277,8 +277,17 @@ export function Distrust({ step, reduced }: SceneProps) {
   );
 }
 
-export function Brand({ reduced }: SceneProps) {
+/**
+ * Slide 47 · "Značka se z billboardů přesouvá do zážitku" — three clicks:
+ *   0 (pr1)  billboard + "Slib."
+ *   1 (pr1b) click: camera pans into the living room + "Zážitek."
+ *   2 (pr1c) click: zoom out to the whole picture + the two punch lines.
+ * The two camera moves used to run automatically on a timer.
+ */
+export function Brand({ step = 0, reduced }: Partial<SceneProps> & { reduced: boolean }) {
   const root = useRef<HTMLDivElement>(null);
+  const prev = useRef<number | null>(null);
+  const beat = Math.max(0, Math.min(step, 2));
 
   useLayoutEffect(() => {
     const el = root.current;
@@ -291,6 +300,8 @@ export function Brand({ reduced }: SceneProps) {
     const punchA = el.querySelector<HTMLElement>("[data-brand-a]");
     const punchB = el.querySelector<HTMLElement>("[data-brand-b]");
     if (!frame || !art || !photo) return;
+    // Measure the photo at its natural layout (a previous state may have resized it).
+    gsap.set(photo, { clearProps: "all" });
     const origin = { transformOrigin: "0% 0%" as const };
     const fw = art.offsetWidth;
     const fh = art.offsetHeight;
@@ -313,36 +324,63 @@ export function Brand({ reduced }: SceneProps) {
       willChange: "auto",
       clearProps: "transform,transformOrigin",
     };
-    const settle = () => {
+    const apply = (to: number) => {
       gsap.set(frame, { autoAlpha: 1, clearProps: "transform,transformOrigin" });
-      gsap.set(photo, { ...finalPhoto });
-      gsap.set([slib, experience], { autoAlpha: 0, y: 0 });
-      gsap.set([punchA, punchB], { autoAlpha: 1, y: 0 });
+      if (to === 2) gsap.set(photo, { ...finalPhoto });
+      else gsap.set(photo, to === 1 ? living : billboard);
+      gsap.set(slib, { autoAlpha: to === 0 ? 1 : 0, y: 0 });
+      gsap.set(experience, { autoAlpha: to === 1 ? 1 : 0, y: 0 });
+      gsap.set([punchA, punchB], { autoAlpha: to === 2 ? 1 : 0, y: 0 });
     };
-    if (reduced) {
-      settle();
+
+    const from = prev.current;
+    prev.current = beat;
+    if (reduced || from === beat || (from !== null && Math.abs(from - beat) !== 1)) {
+      apply(beat);
       return;
     }
-    gsap.set(frame, { autoAlpha: 0, scale: 0.92, transformOrigin: "80% 50%" });
-    gsap.set(photo, { ...billboard, willChange: "transform" });
-    gsap.set([slib, experience, punchA, punchB], { autoAlpha: 0, y: 18 });
+
     const tl = gsap.timeline();
-    tl.to(frame, { autoAlpha: 1, scale: 1, duration: 0.62, ease: "power3.out" }, 0);
-    tl.set(frame, { clearProps: "transform,transformOrigin" }, 0.62);
-    tl.to(slib, { autoAlpha: 1, y: 0, duration: 0.42, ease: EASE.enter }, 0.28);
-    tl.to(slib, { autoAlpha: 0, y: -12, duration: 0.32, ease: EASE.exit }, 2.05);
-    tl.to(photo, { ...living, duration: 2.35, ease: "power1.inOut" }, 2.1);
-    tl.to(experience, { autoAlpha: 1, y: 0, duration: 0.42, ease: EASE.enter }, 3.85);
-    tl.to(experience, { autoAlpha: 0, y: -12, duration: 0.32, ease: EASE.exit }, 5.35);
-    tl.to(photo, { ...wide, duration: 1.7, ease: EASE.move }, 5.4);
-    tl.set(photo, finalPhoto, 7.1);
-    tl.to(punchA, { autoAlpha: 1, y: 0, duration: 0.48, ease: EASE.enter }, 6.7);
-    tl.to(punchB, { autoAlpha: 1, y: 0, duration: 0.48, ease: EASE.enter }, 7.25);
+    if (from === null) {
+      if (beat !== 0) {
+        apply(beat);
+        return;
+      }
+      gsap.set(frame, { autoAlpha: 0, scale: 0.92, transformOrigin: "80% 50%" });
+      gsap.set(photo, { ...billboard, willChange: "transform" });
+      gsap.set([slib, experience, punchA, punchB], { autoAlpha: 0, y: 18 });
+      tl.to(frame, { autoAlpha: 1, scale: 1, duration: 0.62, ease: "power3.out" }, 0);
+      tl.set(frame, { clearProps: "transform,transformOrigin" }, 0.62);
+      tl.to(slib, { autoAlpha: 1, y: 0, duration: 0.42, ease: EASE.enter }, 0.28);
+    } else if (from === 0 && beat === 1) {
+      apply(0);
+      tl.to(slib, { autoAlpha: 0, y: -12, duration: 0.32, ease: EASE.exit }, 0);
+      tl.to(photo, { ...living, duration: 2.1, ease: "power1.inOut" }, 0.05);
+      tl.fromTo(experience, { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, duration: 0.42, ease: EASE.enter }, 1.6);
+    } else if (from === 1 && beat === 2) {
+      apply(1);
+      tl.to(experience, { autoAlpha: 0, y: -12, duration: 0.32, ease: EASE.exit }, 0);
+      tl.to(photo, { ...wide, duration: 1.7, ease: EASE.move }, 0.05);
+      tl.set(photo, finalPhoto, 1.75);
+      tl.fromTo(punchA, { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, duration: 0.48, ease: EASE.enter }, 1.3);
+      tl.fromTo(punchB, { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, duration: 0.48, ease: EASE.enter }, 1.85);
+    } else if (from === 2 && beat === 1) {
+      apply(2);
+      tl.to([punchA, punchB], { autoAlpha: 0, y: 12, duration: 0.26, ease: EASE.exit }, 0);
+      tl.set(photo, { clearProps: "all" }, 0);
+      tl.set(photo, wide, 0);
+      tl.to(photo, { ...living, duration: 1.1, ease: EASE.move }, 0.02);
+      tl.fromTo(experience, { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: 0.36, ease: EASE.enter }, 0.7);
+    } else if (from === 1 && beat === 0) {
+      apply(1);
+      tl.to(experience, { autoAlpha: 0, y: 12, duration: 0.26, ease: EASE.exit }, 0);
+      tl.to(photo, { ...billboard, duration: 1.1, ease: EASE.move }, 0.02);
+      tl.fromTo(slib, { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: 0.36, ease: EASE.enter }, 0.7);
+    }
     return () => {
       tl.kill();
-      settle();
     };
-  }, [reduced]);
+  }, [beat, reduced]);
 
   return (
     <div ref={root} className="scene is-brand-shift">
@@ -942,11 +980,14 @@ function ProveReason({ step, reduced }: SceneProps) {
   );
 }
 
+const BRAND_STEPS = 3;
+
 export function Prove({ step, reduced, sceneId }: SceneProps) {
-  if (step === 0) {
-    return <Brand step={0} reduced={reduced} sceneId={sceneId} />;
+  // Steps 0–2 are slide 47 (Brand); ProveReason keeps its own beat numbering (1…15).
+  if (step <= BRAND_STEPS - 1) {
+    return <Brand step={step} reduced={reduced} sceneId={sceneId} />;
   }
-  return <ProveReason step={step} reduced={reduced} sceneId={sceneId} />;
+  return <ProveReason step={step - (BRAND_STEPS - 1)} reduced={reduced} sceneId={sceneId} />;
 }
 
 export function Findability({ step, reduced }: SceneProps) {
