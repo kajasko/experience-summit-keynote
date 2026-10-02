@@ -1,4 +1,4 @@
-import type { SceneDef, FlatStep } from "./types";
+import type { SceneDef, FlatStep, SlideDef } from "./types";
 
 const allScenes: SceneDef[] = [
   {
@@ -302,19 +302,57 @@ export const scenes: SceneDef[] = cutoffIndex >= 0
   ? allScenes.slice(0, cutoffIndex + 1)
   : allScenes;
 
+/**
+ * A scene's first step always starts a new slide. These step ids start a new
+ * slide inside a scene (a different composition, not just a build). Every
+ * other step is a build of the slide before it. Slide numbers, the total and
+ * the overview tiles are all derived from this.
+ */
+const SLIDE_BREAKS = new Set([
+  "h2", "h3", "h4", "h5", "i2", "i3", "tw2", "vi0", "vi1", "vi2", "vi3", "vi4",
+  "unb", "ad2", "f2", "ui2", "ui3b", "d1", "pr2", "pr3", "pr4", "pr5b", "ts2",
+  "or1c", "ca2", "mo1", "mo2", "mo3", "mo4",
+]);
+
+let slideNo = 0;
 export const steps: FlatStep[] = scenes
   .flatMap((scene) =>
-    scene.steps.map((step, local) => ({
-      ...step,
-      index: 0,
-      act: scene.act,
-      actName: scene.actName,
-      sceneId: scene.id,
-      local,
-      sceneLength: scene.steps.length,
-    })),
+    scene.steps.map((step, local) => {
+      if (local === 0 || SLIDE_BREAKS.has(step.id)) slideNo += 1;
+      return {
+        ...step,
+        index: 0,
+        act: scene.act,
+        actName: scene.actName,
+        sceneId: scene.id,
+        local,
+        sceneLength: scene.steps.length,
+        slide: slideNo,
+      };
+    }),
   )
   .map((step, index) => ({ ...step, index }));
+
+export const slides: SlideDef[] = steps.reduce<SlideDef[]>((list, step) => {
+  const last = list[list.length - 1];
+  if (last && last.no === step.slide) {
+    last.last = step.index;
+    last.steps += 1;
+  } else {
+    list.push({
+      no: step.slide, sceneId: step.sceneId, act: step.act, actName: step.actName,
+      first: step.index, last: step.index, id: step.id, title: step.title, steps: 1,
+    });
+  }
+  return list;
+}, []);
+
+export const SLIDE_TOTAL = slides.length;
+
+/** "07 / 67" style label for a step. */
+export function slideLabel(step: Pick<FlatStep, "slide">): string {
+  return `${String(step.slide).padStart(2, "0")} / ${SLIDE_TOTAL}`;
+}
 
 export const TOTAL = steps.length;
 

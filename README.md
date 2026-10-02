@@ -71,4 +71,5 @@ Live: https://kajasko.github.io/experience-summit-keynote/
 - Large images are served as WebP from `public/assets/`; lossless originals live in `source-assets/png/` (not deployed).
 - Images are preloaded only for the current, previous and next 3 scenes (`src/engine/preload.ts`, map in `src/engine/sceneImages.ts`).
 - Phones: tap the right two thirds = next, left third = previous; swipe left/right also works. In landscape the dock sits on the right edge.
-- Overview thumbnails: `npm run export:thumbs` (writes `public/assets/thumbs/`).
+- Overview thumbnails: `npm run export:thumbs` writes one WebP per visual slide to `public/assets/thumbs/<first step id>.webp` (final built state of the slide).
+- Slides vs steps: a step is one click; a slide is one visual composition (a scene's first step plus any `SLIDE_BREAKS` in `src/deck/deck.ts`). Slide numbers, the "NN / total" page counter, the dock counter and the overview tiles all derive from `slides` in `deck.ts`; the `page` prop on `SlideChrome` only toggles whether the counter is shown.

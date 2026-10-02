@@ -1,3 +1,6 @@
+import { slideLabel } from "../deck/deck";
+import { useSlideStep } from "../engine/slideContext";
+
 export function SlideChrome({
   kicker,
   page,
@@ -13,10 +16,17 @@ export function SlideChrome({
   mark?: boolean;
   captionDot?: boolean;
 }) {
+  // Page numbers come from the deck's slide data, never from the hardcoded prop
+  // (the prop only says "this layout shows a page counter").
+  const current = useSlideStep();
+  const pageText = page && current ? slideLabel(current) : page;
+  const kickerText = kicker && current
+    ? kicker.replace(/^\d{2}(?=\s)/, String(current.slide).padStart(2, "0"))
+    : kicker;
   return (
     <>
-      {kicker ? <div className="chrome-kicker">{kicker}</div> : null}
-      {page ? <div className="chrome-page">{page}</div> : null}
+      {kickerText ? <div className="chrome-kicker">{kickerText}</div> : null}
+      {pageText ? <div className="chrome-page">{pageText}</div> : null}
       {caption ? (
         <div className={`chrome-caption${captionDot ? " is-dot" : ""}`}>
           <span className="chrome-line" />

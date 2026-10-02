@@ -79,9 +79,11 @@ def key_black(im: Image.Image, thresh: int = 28) -> Image.Image:
 
 
 def save(im: Image.Image, name: str) -> None:
+    """Write the cut-out as WebP (alpha kept), the format the deck references."""
+    name = Path(name).with_suffix(".webp").name
     for folder in OUTS:
         folder.mkdir(parents=True, exist_ok=True)
-        im.save(folder / name, "PNG")
+        im.save(folder / name, "WEBP", quality=88, method=6)
     print(f"{name:16} {im.size} {im.mode}")
 
 
@@ -95,8 +97,7 @@ def main() -> None:
     save(flood_key(Image.open(DL / "0962c8c4-79cc-4de3-81d4-c6f13f32512b.png"), seed="top"), "hassabis.png")
     save(flood_key(Image.open(DL / "09750143-6b67-497c-a0da-b4d8e1a4eca2.png"), seed="top"), "altman.png")
 
-    p27 = Image.open(PAGES / "p27.png")
-    save(p27.crop((860, 628, 1920, 978)), "cone.png")
+    # cone.png was removed from the deck (unused), so it is no longer exported.
 
     p18 = Image.open(PAGES / "p18.png")
     save(p18.crop((1100, 96, 1920, 1080)), "people.png")

@@ -10,6 +10,7 @@ import { SourceNote } from "../components/SourceNote";
 import { bindKeyboard } from "./keyboard";
 import { isDebug, parseHash, writeHash } from "./hash";
 import { preloadAround } from "./preload";
+import { SlideContext } from "./slideContext";
 import { usePrefersReducedMotion } from "./usePrefersReducedMotion";
 import { SceneMotion } from "./SceneMotion";
 import { EASE, MOTION as T } from "./motion";
@@ -330,7 +331,9 @@ export function PresentationController() {
           style={{ position: "absolute", inset: 0 }}
         >
           <SceneMotion key={view.sceneId} step={view} reduced={reduced}>
-            <Scene step={view.local} reduced={reduced} sceneId={view.sceneId} />
+            <SlideContext.Provider value={view}>
+              <Scene step={view.local} reduced={reduced} sceneId={view.sceneId} />
+            </SlideContext.Provider>
           </SceneMotion>
           <SourceNote ids={view.sources} visible={showSources} />
           <div ref={morph} className="scene-morph" aria-hidden="true" />

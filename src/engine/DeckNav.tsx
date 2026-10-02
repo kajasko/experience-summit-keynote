@@ -1,5 +1,5 @@
-import { scenes, findIndex } from "../deck/deck";
-import type { FlatStep, SceneDef } from "../deck/types";
+import { findIndex, slides, SLIDE_TOTAL } from "../deck/deck";
+import type { FlatStep, SlideDef } from "../deck/types";
 import { asset } from "./assets";
 
 export type DeckMode = "play" | "chapters" | "sorter";
@@ -18,10 +18,10 @@ function kliky(n: number) {
   return `${n} kliků`;
 }
 
-const GROUPS = scenes.reduce<{ name: string; items: SceneDef[] }[]>((groups, scene) => {
+const GROUPS = slides.reduce<{ name: string; items: SlideDef[] }[]>((groups, slide) => {
   const last = groups[groups.length - 1];
-  if (!last || last.name !== scene.actName) groups.push({ name: scene.actName, items: [scene] });
-  else last.items.push(scene);
+  if (!last || last.name !== slide.actName) groups.push({ name: slide.actName, items: [slide] });
+  else last.items.push(slide);
   return groups;
 }, []);
 
@@ -67,7 +67,7 @@ export function DeckNav({
         </div>
         <div className="deck-dock-progress">
           <button type="button" onClick={onPrev} aria-label="Předchozí">‹</button>
-          <span>{index + 1} / {total}</span>
+          <span title={`Krok ${index + 1} / ${total}`}>{current.slide} / {SLIDE_TOTAL}</span>
           <button type="button" onClick={onNext} aria-label="Další">›</button>
         </div>
         <div className="deck-dock-now">{current.actName} · {current.title}</div>
@@ -105,37 +105,41 @@ export function DeckNav({
           <div className="deck-overlay-head">
             <div className="deck-overlay-kicker">Řazení snímků</div>
             <h2>Kostičky</h2>
-            <p>Každá kostička je jeden snímek. Kliknutím do něj skočíš a můžeš dál přehrávat.</p>
+            <p>{SLIDE_TOTAL} snímků. Každá kostička je jeden snímek. Kliknutím do něj skočíš a můžeš dál přehrávat.</p>
           </div>
           <div className="deck-sorter">
             {GROUPS.map((group) => (
               <section key={group.name} className="deck-sorter-group">
                 <h3>{group.name}</h3>
                 <div className="deck-sorter-grid">
-                  {group.items.map((scene) => {
-                    const sceneNo = scenes.findIndex((item) => item.id === scene.id) + 1;
-                    const on = current.sceneId === scene.id;
+                  {group.items.map((slide) => {
+                    const on = current.slide === slide.no;
                     return (
                       <button
-                        key={scene.id}
+                        key={slide.id}
                         type="button"
                         className={`deck-tile${on ? " is-on" : ""}`}
-                        onClick={() => jumpScene(scene.id)}
+                        data-slide={slide.no}
+                        onClick={() => {
+                          onJump(slide.first);
+                          onMode("play");
+                        }}
                       >
                         <span className="deck-tile-stage">
                           <img
                             className="deck-tile-preview"
-                            src={asset(`thumbs/${scene.id}.jpg`)}
+                            src={asset(`thumbs/${slide.id}.webp`)}
                             alt=""
+                            loading="lazy"
                             onError={(e) => { e.currentTarget.style.display = "none"; }}
                           />
                         </span>
                         <span className="deck-tile-meta">
                           <span className="deck-tile-meta-top">
-                            <span className="deck-tile-n">{String(sceneNo).padStart(2, "0")}</span>
-                            <span>{kliky(scene.steps.length)}</span>
+                            <span className="deck-tile-n">{String(slide.no).padStart(2, "0")}</span>
+                            <span>{kliky(slide.steps)}</span>
                           </span>
-                          <span className="deck-tile-title">{scene.steps[0]?.title}</span>
+                          <span className="deck-tile-title">{slide.title}</span>
                         </span>
                       </button>
                     );
