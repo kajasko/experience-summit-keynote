@@ -218,13 +218,13 @@ export function SpeakersEnd({ step, reduced }: SceneProps) {
       if (i >= parked) gsap.set(chip, { autoAlpha: 0 });
     });
 
-    const enterAt = advancing && prev < SPEAKERS.length ? 0.55 : 0.08;
+    const enterAt = advancing && prev < SPEAKERS.length ? 0.85 : 0.1;
 
     if (featured && feature && hero && soft && copy) {
       gsap.set(feature, { autoAlpha: 1 });
-      gsap.set(hero, { autoAlpha: 0, x: 160, scale: 0.88, filter: "blur(14px)" });
-      gsap.set(soft, { autoAlpha: 0, x: 160, scale: 1.0, filter: "blur(18px)" });
-      gsap.set(copy, { autoAlpha: 0, x: -64, y: 18 });
+      gsap.set(hero, { autoAlpha: 0, x: 64, scale: 0.97, filter: "blur(4px)" });
+      gsap.set(soft, { autoAlpha: 0, x: 64, scale: 1.0, filter: "blur(14px)" });
+      gsap.set(copy, { autoAlpha: 0, x: -28, y: 10 });
 
       tl.to(
         soft,
@@ -233,7 +233,7 @@ export function SpeakersEnd({ step, reduced }: SceneProps) {
           x: 0,
           scale: 1.06,
           filter: "blur(22px)",
-          duration: 0.75,
+          duration: 1.15,
           ease: EASE.move,
         },
         enterAt,
@@ -245,15 +245,15 @@ export function SpeakersEnd({ step, reduced }: SceneProps) {
           x: 0,
           scale: 1,
           filter: "blur(0px)",
-          duration: 0.85,
-          ease: "power3.out",
+          duration: 1.25,
+          ease: EASE.enter,
         },
-        enterAt + 0.05,
+        enterAt + 0.06,
       );
       tl.to(
         copy,
-        { autoAlpha: 1, x: 0, y: 0, duration: 0.65, ease: EASE.enter },
-        enterAt + 0.16,
+        { autoAlpha: 1, x: 0, y: 0, duration: 1.0, ease: EASE.enter },
+        enterAt + 0.18,
       );
     } else if (feature) {
       tl.set(feature, { autoAlpha: 0 }, enterAt);
@@ -261,8 +261,8 @@ export function SpeakersEnd({ step, reduced }: SceneProps) {
 
     if (finale) {
       if (step >= SPEAKERS.length) {
-        gsap.set(finale, { autoAlpha: 0, y: 28 });
-        tl.to(finale, { autoAlpha: 1, y: 0, duration: 0.6, ease: EASE.enter }, 0.75);
+        gsap.set(finale, { autoAlpha: 0, y: 16 });
+        tl.to(finale, { autoAlpha: 1, y: 0, duration: 0.9, ease: EASE.enter }, 1.05);
       } else {
         gsap.set(finale, { autoAlpha: 0 });
       }
