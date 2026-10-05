@@ -64,8 +64,8 @@ const SPEAKERS = [
 ] as const;
 
 /** Wide enough for Kryštof’s arms + LEGO at full cutout aspect. */
-const CARD_W = 860;
-const GAP = 36;
+const CARD_W = 720;
+const GAP = 44;
 const STRIDE = CARD_W + GAP;
 const LOOP_DURATION = 48; // slightly slower with 5 speakers
 
@@ -99,7 +99,8 @@ export function SpeakersEnd({ reduced }: SceneProps) {
     intro.to(sub, { autoAlpha: 1, y: 0, duration: 0.4, ease: EASE.enter }, 0.22);
 
     const loopW = STRIDE * SPEAKERS.length;
-    const base = 80;
+    // Mid-entrance from the right: ~38% of Petřina visible at the right edge.
+    const base = 1920 - CARD_W * 0.38;
     gsap.set(track, { x: base });
     const loop = gsap.to(track, {
       x: `-=${loopW}`,

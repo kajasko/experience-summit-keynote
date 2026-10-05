@@ -135,7 +135,7 @@
   top: 0;
   display: flex;
   align-items: flex-end;
-  gap: 36px;
+  gap: 44px;
   will-change: transform;
 }
 .sp-card {
@@ -164,9 +164,10 @@
   left: 50%;
   bottom: 0;
   transform: translateX(-50%);
-  height: calc(100% - 4px);
+  height: auto;
+  max-height: 68%;
   width: auto;
-  max-width: 100%;
+  max-width: 92%;
   object-fit: contain;
   object-position: center bottom;
   display: block;
@@ -176,11 +177,12 @@
 }
 .sp-n {
   position: absolute;
-  left: 28px;
-  top: 18px;
+  left: 24px;
+  top: auto;
+  bottom: 70%;
   z-index: 3;
-  width: 52px;
-  height: 52px;
+  width: 48px;
+  height: 48px;
   display: grid;
   place-items: center;
   border-radius: 50%;
