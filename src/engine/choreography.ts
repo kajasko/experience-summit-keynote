@@ -134,6 +134,5 @@ export const score: Record<string, Score> = {
  vd4: s('Kryštof Maliňák','park Michaela; feature Kryštof'),
  vd5: s('Miloš Nejezchleb','park Kryštof; feature Miloš'),
  vd6: s('Pět hlasů ze stage','park Miloš; all chips lined up'),
- sl1: s('Carousel řečníků','kontinuální průjezd pěti hlasů zleva doprava'),
 };
 

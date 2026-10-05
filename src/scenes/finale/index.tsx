@@ -5,7 +5,6 @@ import { HeroText } from "../../components/HeroText";
 import { SlideChrome } from "../../components/SlideChrome";
 import { EASE, MOTION as T } from "../../engine/motion";
 import { SpeakersEnd } from "./SpeakersEnd";
-import { SpeakersCarousel } from "./SpeakersCarousel";
 
 const SKILL_COLUMNS = [
   {
@@ -303,12 +302,9 @@ export function Leadership({ step, reduced }: SceneProps) {
 }
 
 /** Closing slide — speakers (VideoEnd kept as the registry name). */
-export { SpeakersEnd, SpeakersCarousel };
+export { SpeakersEnd };
 
 export function VideoEnd(props: SceneProps) {
   return <SpeakersEnd {...props} />;
 }
 
-export function SpeakersLoop(props: SceneProps) {
-  return <SpeakersCarousel {...props} />;
-}
