@@ -11,7 +11,7 @@ import { Trend1, UxAx, Understanding, BuyerUser, Needs, Modes, Examples, Prd } f
 import { Journey, Adapt, Funnel, Conversation, Chat, UiAi, Partner, HumanAi } from "./act2";
 import { Distrust, Brand, Prove, Findability, BrandExp, Principles, Bias, Trust, Hitl } from "./act3";
 import { Orch, Channels, Mortgage, BxCxEx } from "./act4";
-import { Skills, HeroEnd, Roles, Leadership, VideoEnd } from "./finale";
+import { Skills, HeroEnd, Roles, Leadership, VideoEnd, SpeakersLoop } from "./finale";
 
 export const registry: Record<string, ComponentType<SceneProps & { sceneId: string }>> = {
   Opening,
@@ -60,4 +60,5 @@ export const registry: Record<string, ComponentType<SceneProps & { sceneId: stri
   Roles,
   Leadership,
   VideoEnd,
+  SpeakersLoop,
 };

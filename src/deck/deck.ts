@@ -298,6 +298,12 @@ const allScenes: SceneDef[] = [
       { id: "vd6", title: "Pět hlasů ze stage", speakerNote: "Všichni řečníci main stage Experience Summit 2026.", sourcePage: 46 },
     ],
   },
+  {
+    id: "speakers-loop", act: 4, actName: "JAK?", component: "SpeakersLoop",
+    steps: [
+      { id: "sl1", title: "Pět hlasů ze stage — carousel", speakerNote: "Continuous left-to-right carousel of the five main-stage speakers.", sourcePage: 46 },
+    ],
+  },
 ];
 
 const cutoffScene = import.meta.env.VITE_DECK_CUTOFF_SCENE;

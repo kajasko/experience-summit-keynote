@@ -5,64 +5,9 @@ import { SlideChrome } from "../../components/SlideChrome";
 import { asset } from "../../engine/assets";
 import { EASE, shouldAnimate } from "../../engine/motion";
 import { useAdjacentStep } from "../../engine/useAdjacentStep";
+import { SUMMIT_SPEAKERS as SPEAKERS } from "./speakersData";
 
-/**
- * Click-driven speaker sequence.
- * Each portrait is a single persistent <img> that FLIPs from hero → dock
- * (no soft-layer halo, no hide/remount during the fly).
- */
-const SPEAKERS = [
-  {
-    id: "jakub",
-    n: "01",
-    name: "Jakub Petřina",
-    role: "Head of Brand Strategy",
-    org: "PPF",
-    topic: "Od rychlých člunů po zaoceánské tankery",
-    time: "9:45–10:15",
-    photo: "speakers/jakub-cut.webp",
-  },
-  {
-    id: "dejan",
-    n: "02",
-    name: "Dejan Krstic",
-    role: "Group Product Manager",
-    org: "ex-Spotify",
-    topic: "Od softwaru ke kontextu — produktový cyklus v éře AI",
-    time: "10:15–10:45",
-    photo: "speakers/dejan-cut.webp",
-  },
-  {
-    id: "michaela",
-    n: "03",
-    name: "Michaela Edgerley Stovicek",
-    role: "Global Head of Preschool Audience",
-    org: "the LEGO Group",
-    topic: "„Jen to nejlepší je dost dobré“ v éře umělé inteligence",
-    time: "11:15–12:00",
-    photo: "speakers/michaela-cut.webp",
-  },
-  {
-    id: "krystof",
-    n: "04",
-    name: "Vladimír Kryštof Maliňák",
-    role: "Produktový designér",
-    org: "the LEGO Group",
-    topic: "„Jen to nejlepší je dost dobré“ v éře umělé inteligence",
-    time: "11:15–12:00",
-    photo: "speakers/krystof-cut.webp",
-  },
-  {
-    id: "milos",
-    n: "05",
-    name: "Miloš Nejezchleb",
-    role: "Chief People Care & MKT Officer",
-    org: "Home Credit CZ/SK",
-    topic: "Anatomie úspěšného týmu — vztahy a kultura řídí výsledky",
-    time: "12:00–12:30",
-    photo: "speakers/milos-cut.webp",
-  },
-] as const;
+/** Click-driven speaker sequence — persistent portraits FLIP hero → dock. */
 
 function stageBox(el: HTMLElement, stage: DOMRect, sx: number) {
   const r = el.getBoundingClientRect();
