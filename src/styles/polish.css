@@ -90,7 +90,7 @@
 }
 .np2-node.is-on { background: var(--text-deep); border-color: var(--text-deep); color: #fff; }
 .np2-node.is-outcome.is-on { background: var(--lime); border-color: var(--lime); color: var(--text-deep); box-shadow: 0 0 0 10px rgba(195, 213, 82, 0.25), 0 16px 34px rgba(3, 56, 61, 0.14); }
-.np2-label { margin-top: 24px; font-size: 26px; font-weight: 800; letter-spacing: -0.03em; color: var(--text-deep); }
+.np2-label { margin-top: 24px; font-size: 28px; font-weight: 800; letter-spacing: -0.03em; color: var(--text-deep); }
 .np2-label i { display: block; margin-bottom: 4px; font-size: 13px; font-style: normal; letter-spacing: 0.16em; color: var(--teal); }
 .np2-example {
   margin-top: 26px;
@@ -213,3 +213,103 @@
 /* ---------- 61–65 · "Dnes" frames: keep clear of the bottom caption and the C mark ---------- */
 .tn-now { top: 320px; bottom: 108px; }
 .tn-user-fig { height: 500px; }
+.autonomy-tick.is-s { left: 50%; bottom: 22px; width: 4px; height: 26px; margin-left: -2px; top: auto; }
+.autonomy-pole {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--teal);
+}
+.autonomy-pole.is-human { left: 44px; }
+.autonomy-pole.is-ai { right: 52px; }
+
+/* ---------- 23: UX / AX pill labels ---------- */
+.uxax-pill {
+  padding: 18px 30px;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+.uxax-pills { gap: 14px; }
+.uxax-card.has-art .uxax-pills { bottom: 28px; }
+
+/* ---------- 42: Autonomy compass (premium) ---------- */
+.autonomy-compass {
+  width: 340px;
+  height: 340px;
+  margin-left: -170px;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  background:
+    radial-gradient(circle at 32% 24%, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.55) 46%, rgba(224, 231, 232, 0.35) 100%),
+    linear-gradient(155deg, rgba(255, 255, 255, 0.88), rgba(195, 213, 82, 0.12));
+  box-shadow:
+    0 30px 70px rgba(3, 56, 61, 0.16),
+    0 0 0 14px rgba(195, 213, 82, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+}
+.autonomy-compass::before {
+  content: "";
+  position: absolute;
+  inset: 28px;
+  border-radius: 50%;
+  border: 2px dashed rgba(0, 88, 96, 0.18);
+  pointer-events: none;
+}
+.autonomy-compass::after {
+  content: "";
+  position: absolute;
+  inset: 54px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 42%, rgba(195, 213, 82, 0.2), transparent 62%);
+  pointer-events: none;
+}
+.autonomy-tick { background: var(--teal); opacity: 0.55; border-radius: 2px; }
+.autonomy-tick.is-n { top: 22px; height: 26px; width: 4px; margin-left: -2px; }
+.autonomy-tick.is-w { left: 22px; width: 26px; height: 4px; margin-top: -2px; }
+.autonomy-tick.is-e { right: 22px; width: 26px; height: 4px; margin-top: -2px; }
+.autonomy-tick.is-s { left: 50%; bottom: 22px; top: auto; width: 4px; height: 26px; margin-left: -2px; }
+.autonomy-needle {
+  left: 160px;
+  top: 68px;
+  width: 20px;
+  height: 148px;
+  background: linear-gradient(180deg, var(--lime) 0%, var(--lime) 48%, var(--text-deep) 48%, var(--text-deep) 100%);
+  filter: drop-shadow(0 8px 14px rgba(3, 56, 61, 0.22));
+}
+.autonomy-hub {
+  left: 150px;
+  top: 150px;
+  width: 40px;
+  height: 40px;
+  border: 6px solid #fff;
+  background: var(--text-deep);
+  box-shadow: 0 0 0 6px rgba(195, 213, 82, 0.35);
+}
+.autonomy-ask {
+  bottom: 44px;
+  font-size: 15px;
+  letter-spacing: 0.16em;
+  color: var(--teal);
+}
+.autonomy-pole {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--teal);
+}
+.autonomy-pole.is-human { left: 44px; }
+.autonomy-pole.is-ai { right: 52px; }
+
+/* ---------- 66: chips clear of EXPERIENCE ---------- */
+.fb-core { top: 280px !important; }
+.fb-one { font-size: 210px; }
+.fb-exp { font-size: 52px; margin-top: 4px; }
+.fb-line { top: 860px; }

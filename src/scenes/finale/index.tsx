@@ -3,8 +3,8 @@ import gsap from "gsap";
 import type { SceneProps } from "../../deck/types";
 import { HeroText } from "../../components/HeroText";
 import { SlideChrome } from "../../components/SlideChrome";
-import { VideoPlaceholder } from "../../components/VideoPlaceholder";
 import { EASE, MOTION as T } from "../../engine/motion";
+import { SpeakersEnd } from "./SpeakersEnd";
 
 const SKILL_COLUMNS = [
   {
@@ -301,14 +301,9 @@ export function Leadership({ step, reduced }: SceneProps) {
   );
 }
 
-export function VideoEnd(_props: SceneProps) {
-  void _props.step;
-  return (
-    <div className="scene">
-      <VideoPlaceholder stage={false} />
-      <div style={{ position: "absolute", left: 0, right: 0, top: 0, height: 104, background: "var(--bg)" }} />
-      <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: 104, background: "var(--bg)" }} />
-      <SlideChrome kicker="JAK? / ZÁVĚR" page="67 / 75" caption="Customer Journey Guide" rail="VIDEO" />
-    </div>
-  );
+/** Closing slide — speakers (VideoEnd kept as the registry name). */
+export { SpeakersEnd };
+
+export function VideoEnd(props: SceneProps) {
+  return <SpeakersEnd {...props} />;
 }

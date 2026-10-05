@@ -290,7 +290,7 @@ const allScenes: SceneDef[] = [
   {
     id: "video", act: 4, actName: "JAK?", component: "VideoEnd",
     steps: [
-      { id: "vd1", title: "Závěrečné video", speakerNote: "Tady kapitola JAK končí. Spusťte Customer Journey Guide video, pokud je k dispozici.", sourcePage: 46 },
+      { id: "vd1", title: "Dnes vás čekají lidé z praxe", speakerNote: "Závěr: řečníci Experience Summit 2026 — LEGO, Spotify, PPF, E.ON, KB. Stage, masterclassy, CX Awards.", sourcePage: 46 },
     ],
   },
 ];

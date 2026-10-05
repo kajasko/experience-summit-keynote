@@ -300,8 +300,8 @@ export function Brand({ step = 0, reduced }: Partial<SceneProps> & { reduced: bo
     const punchA = el.querySelector<HTMLElement>("[data-brand-a]");
     const punchB = el.querySelector<HTMLElement>("[data-brand-b]");
     if (!frame || !art || !photo) return;
-    // Measure the photo at its natural layout (a previous state may have resized it).
-    gsap.set(photo, { clearProps: "all" });
+    // Clear leftover left/top/width from the final settle so CSS (width:175%) drives the size.
+    gsap.set(photo, { clearProps: "left,top,width,height,transform,transformOrigin,willChange" });
     const origin = { transformOrigin: "0% 0%" as const };
     const fw = art.offsetWidth;
     const fh = art.offsetHeight;
@@ -313,7 +313,14 @@ export function Brand({ step = 0, reduced }: Partial<SceneProps> & { reduced: bo
     const finalX = Math.round((fw - finalWidth) / 2);
     const finalY = Math.round((fh - finalHeight) / 2);
     const billboard = { x: 0, y: -fh * 0.08, scale: 1.28, ...origin };
-    const living = { x: fw - iw * 1.18, y: -fh * 0.04, scale: 1.18, ...origin };
+    // Living-room beat: center on the man at his desk (not the TV close-up on the far right).
+    const livingScale = 1.42;
+    const living = {
+      x: fw * 0.5 - iw * 0.42 * livingScale,
+      y: fh * 0.5 - ih * 0.42 * livingScale,
+      scale: livingScale,
+      ...origin,
+    };
     const wide = { x: (fw - iw * fit) / 2, y: (fh - ih * fit) / 2, scale: fit, ...origin };
     const finalPhoto = {
       left: finalX,

@@ -406,6 +406,9 @@ export function HumanAi({ reduced }: SceneProps) {
           <i className="autonomy-tick is-n" />
           <i className="autonomy-tick is-w" />
           <i className="autonomy-tick is-e" />
+          <i className="autonomy-tick is-s" />
+          <span className="autonomy-pole is-human">Člověk</span>
+          <span className="autonomy-pole is-ai">AI</span>
           <div data-autonomy-needle className="autonomy-needle" />
           <div className="autonomy-hub" />
           <div className="autonomy-ask">JAKÁ MÍRA AUTONOMIE?</div>

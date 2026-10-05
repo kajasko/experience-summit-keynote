@@ -14,7 +14,7 @@ export const ENDING_A =
   typeof window !== "undefined" && new URLSearchParams(window.location.search).get("ending") === "a";
 
 const CENTER = { x: 960, y: 640 };
-const CORE = { x: 960, y: 500 };
+const CORE = { x: 960, y: 470 };
 const ORB = 280;
 const ORBS = [
   { k: "EX", t: "Employee experience", angle: -90, tone: "is-lime" },
@@ -25,10 +25,10 @@ const ORBS = [
   return { ...orb, cx: CENTER.x + Math.cos(r) * 205, cy: CENTER.y + Math.sin(r) * 205 };
 });
 const CHIPS = [
-  { t: "KDO?", x: 470, y: 330 },
-  { t: "CO?", x: 1450, y: 330 },
-  { t: "PROČ VĚŘIT?", x: 440, y: 660 },
-  { t: "JAK?", x: 1480, y: 660 },
+  { t: "KDO?", x: 360, y: 300 },
+  { t: "CO?", x: 1560, y: 300 },
+  { t: "PROČ VĚŘIT?", x: 300, y: 720 },
+  { t: "JAK?", x: 1620, y: 720 },
 ];
 const LINE = "To, co firma propojí uvnitř, dokáže doručit ven.".split(" ");
 
