@@ -113,11 +113,24 @@ html.thumbs-capture .stage-frame::after { content: none; }
 }
 
 
-/* Fullscreen: ignore dock-reserved height on phones too. */
+/* Fullscreen: ignore dock-reserved height / side docks on phones too. */
 html.is-fullscreen .stage-frame,
 html:fullscreen .stage-frame,
 html:-webkit-full-screen .stage-frame {
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  width: 100dvw !important;
   height: 100vh !important;
   height: 100dvh !important;
-  bottom: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+html.is-fullscreen .stage-frame::after,
+html:fullscreen .stage-frame::after,
+html:-webkit-full-screen .stage-frame::after {
+  content: none !important;
+  display: none !important;
 }

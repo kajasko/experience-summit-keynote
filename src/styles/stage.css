@@ -7342,7 +7342,24 @@ button { font-family: inherit; }
   gap: 8px;
 }
 
-/* True browser fullscreen: no dock, stage fills the viewport. */
+/* True browser fullscreen: no UI chrome; stage contain-scales to fill viewport. */
+html.is-fullscreen,
+html:fullscreen,
+html:-webkit-full-screen {
+  background: var(--bg) !important;
+}
+html.is-fullscreen body,
+html:fullscreen body,
+html:-webkit-full-screen body,
+html.is-fullscreen #root,
+html:fullscreen #root,
+html:-webkit-full-screen #root {
+  background: var(--bg) !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
 html.is-fullscreen .deck-dock,
 html:fullscreen .deck-dock,
 html:-webkit-full-screen .deck-dock,
@@ -7352,7 +7369,10 @@ html.is-fullscreen .chrome-page,
 html:fullscreen .chrome-page,
 html:-webkit-full-screen .chrome-page,
 :fullscreen .chrome-page,
-:-webkit-full-screen .chrome-page {
+:-webkit-full-screen .chrome-page,
+html.is-fullscreen .presenter,
+html:fullscreen .presenter,
+html:-webkit-full-screen .presenter {
   display: none !important;
 }
 
@@ -7366,16 +7386,16 @@ html:-webkit-full-screen .stage-frame,
   bottom: 0 !important;
   left: 0 !important;
   width: 100vw !important;
+  width: 100dvw !important;
   height: 100vh !important;
   height: 100dvh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: var(--bg) !important;
+  overflow: hidden !important;
 }
 
-html.is-fullscreen .stage,
-html:fullscreen .stage,
-html:-webkit-full-screen .stage {
-  transform: translate(-50%, -50%) scale(min(calc(100vw / 1920), calc(100vh / 1080)));
-}
-
+/* JS Stage.fit owns the transform in fullscreen (may scale > 1). */
 html.is-fullscreen .deck-overlay,
 html:fullscreen .deck-overlay,
 html:-webkit-full-screen .deck-overlay {
