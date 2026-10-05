@@ -64,8 +64,8 @@ const SPEAKERS = [
 ] as const;
 
 /** Wide enough for Kryštof’s arms + LEGO at full cutout aspect. */
-const CARD_W = 720;
-const GAP = 44;
+const CARD_W = 800;
+const GAP = 40;
 const STRIDE = CARD_W + GAP;
 const LOOP_DURATION = 48; // slightly slower with 5 speakers
 
