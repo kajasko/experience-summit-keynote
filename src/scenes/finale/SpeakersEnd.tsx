@@ -6,9 +6,9 @@ import { asset } from "../../engine/assets";
 import { EASE } from "../../engine/motion";
 
 /**
- * Closing slide — four stage speakers as isolated cutouts (same treatment
- * as Musk / Altman / Schwartz), continuous right→left carousel.
- * Photos: Experience Summit headshots, background removed.
+ * Closing slide — four stage speakers as bottom-aligned cutouts with
+ * overlaid name/role/topic (Musk / Altman / Schwartz treatment).
+ * Photos: Experience Summit official headshots (…_78 / …_77), bg removed.
  */
 const SPEAKERS = [
   {
@@ -49,10 +49,10 @@ const SPEAKERS = [
   },
 ] as const;
 
-const CARD_W = 560;
-const GAP = 48;
+/** Wide enough for Kryštof’s arms + LEGO at full cutout aspect. */
+const CARD_W = 860;
+const GAP = 36;
 const STRIDE = CARD_W + GAP;
-/** One full set of four cards; slower than the previous 28s loop. */
 const LOOP_DURATION = 42;
 
 export function SpeakersEnd({ reduced }: SceneProps) {
@@ -85,7 +85,7 @@ export function SpeakersEnd({ reduced }: SceneProps) {
     intro.to(sub, { autoAlpha: 1, y: 0, duration: 0.4, ease: EASE.enter }, 0.22);
 
     const loopW = STRIDE * SPEAKERS.length;
-    const base = 100;
+    const base = 80;
     gsap.set(track, { x: base });
     const loop = gsap.to(track, {
       x: `-=${loopW}`,
@@ -128,15 +128,13 @@ export function SpeakersEnd({ reduced }: SceneProps) {
               className="sp-card"
               style={{ width: CARD_W }}
             >
-              <div className="sp-photo-wrap">
-                <img
-                  data-art
-                  className="sp-photo cutout"
-                  src={asset(speaker.photo)}
-                  alt=""
-                />
-                <span className="sp-n">{speaker.n}</span>
-              </div>
+              <img
+                data-art
+                className="sp-photo cutout"
+                src={asset(speaker.photo)}
+                alt=""
+              />
+              <span className="sp-n">{speaker.n}</span>
               <div className="sp-copy">
                 <div className="sp-name">{speaker.name}</div>
                 <div className="sp-role">
