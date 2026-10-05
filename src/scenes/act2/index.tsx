@@ -402,21 +402,35 @@ export function HumanAi({ reduced }: SceneProps) {
             <span>Eskalovaná stížnost v hotelu</span>
           </div>
         </article>
-        <div data-autonomy-compass className="autonomy-compass">
-          <i className="autonomy-tick is-n" />
-          <i className="autonomy-tick is-w" />
-          <i className="autonomy-tick is-e" />
-          <i className="autonomy-tick is-s" />
-          <span className="autonomy-pole is-human">Člověk</span>
-          <span className="autonomy-pole is-ai">AI</span>
-          <div data-autonomy-needle className="autonomy-needle" />
-          <div className="autonomy-hub" />
-          <div className="autonomy-ask">JAKÁ MÍRA AUTONOMIE?</div>
+
+        <div className="autonomy-dial-block">
+          <div data-autonomy-compass className="autonomy-dial-core">
+            <div className="autonomy-ask">Jaká míra autonomie?</div>
+            <div className="autonomy-compass">
+              <div className="autonomy-glow" aria-hidden="true" />
+              <div className="autonomy-rim" aria-hidden="true" />
+              <div className="autonomy-bevel" aria-hidden="true" />
+              <div className="autonomy-face" aria-hidden="true" />
+              <div className="autonomy-ring" aria-hidden="true" />
+              <i className="autonomy-tick is-n" />
+              <i className="autonomy-tick is-w" />
+              <i className="autonomy-tick is-e" />
+              <i className="autonomy-tick is-s" />
+              <span className="autonomy-mark" aria-hidden="true" />
+              <span className="autonomy-pole is-human">Člověk</span>
+              <span className="autonomy-pole is-ai">AI</span>
+              <div data-autonomy-needle className="autonomy-needle">
+                <span className="autonomy-needle-glow" />
+              </div>
+              <div className="autonomy-hub" />
+            </div>
+          </div>
+          <div data-autonomy-middle className="autonomy-middle">
+            <div className="autonomy-level">Střední riziko</div>
+            <strong>AI navrhne. Člověk potvrdí.</strong>
+          </div>
         </div>
-        <div data-autonomy-middle className="autonomy-middle">
-          <div className="autonomy-level">Střední riziko</div>
-          <strong>AI navrhne. Člověk potvrdí.</strong>
-        </div>
+
         <article data-autonomy-mode className="autonomy-mode is-ai">
           <div className="autonomy-level">Nízký důsledek</div>
           <h3>AI jedná</h3>
