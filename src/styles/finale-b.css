@@ -116,7 +116,7 @@
   object-fit: contain;
   object-position: center bottom;
   display: block;
-  filter: drop-shadow(0 8px 16px rgba(3, 56, 61, 0.18));
+  filter: drop-shadow(-6px 4px 12px rgba(3, 56, 61, 0.18));
 }
 .sp-chip-body { min-width: 0; }
 .sp-chip-n {
@@ -241,34 +241,43 @@
 .sp-feature-org { color: var(--muted); font-weight: 650; }
 .sp-hero-slot {
   position: absolute;
-  right: 40px;
+  right: 0;
   bottom: 0;
-  height: 82%;
-  width: 720px;
+  height: 92%;
+  width: 820px;
   pointer-events: none;
   opacity: 0;
 }
 .sp-hero {
   position: absolute;
-  right: 40px;
+  right: 0;
   bottom: 0;
-  height: 82%;
+  height: 92%;
   width: auto;
-  max-width: 820px;
+  max-width: 860px;
   object-fit: contain;
   object-position: right bottom;
   display: block;
   z-index: 3;
-  filter: drop-shadow(0 -4px 32px rgba(3, 56, 61, 0.16));
+  transform-origin: 100% 100%;
+  /* Musk/Altman/Reva-style soft ambient shadow */
+  filter: drop-shadow(-28px 8px 42px rgba(3, 56, 61, 0.22))
+          drop-shadow(0 18px 48px rgba(3, 56, 61, 0.12));
   pointer-events: none;
 }
 .sp-hero-soft {
   z-index: 2;
+  right: 0;
+  bottom: 0;
+  height: 92%;
+  max-width: 860px;
   opacity: 0.22;
   filter: blur(22px);
   transform-origin: 100% 100%;
+  transform: scale(1.1);
 }
 .sp-fly {
   object-fit: contain;
   object-position: center bottom;
+  transform-origin: 50% 100%;
 }
