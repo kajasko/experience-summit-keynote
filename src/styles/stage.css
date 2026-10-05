@@ -3104,6 +3104,9 @@ button { font-family: inherit; }
 }
 
 .chrome-page {
+  /* Hidden in presentation — on-slide "N / TOTAL" distracts on the big screen.
+     Navigation numbers stay in the bottom dock and overview (Kostičky). */
+  display: none !important;
   position: absolute;
   right: 80px;
   top: 48px;
