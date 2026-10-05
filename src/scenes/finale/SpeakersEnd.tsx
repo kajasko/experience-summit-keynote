@@ -7,10 +7,9 @@ import { EASE, shouldAnimate } from "../../engine/motion";
 import { useAdjacentStep } from "../../engine/useAdjacentStep";
 
 /**
- * Click-driven speaker sequence (Experience Summit main stage).
- * step 0–4: featured speaker (large portrait right, talk copy left)
- * click parks them into a top dock chip with a fly/scale wow, then next enters
- * step 5: all five chips lined up
+ * Click-driven speaker sequence.
+ * Each portrait is a single persistent <img> that FLIPs from hero → dock
+ * (no soft-layer halo, no hide/remount during the fly).
  */
 const SPEAKERS = [
   {
@@ -65,6 +64,16 @@ const SPEAKERS = [
   },
 ] as const;
 
+function stageBox(el: HTMLElement, stage: DOMRect, sx: number) {
+  const r = el.getBoundingClientRect();
+  return {
+    left: (r.left - stage.left) / sx,
+    top: (r.top - stage.top) / sx,
+    width: r.width / sx,
+    height: r.height / sx,
+  };
+}
+
 export function SpeakersEnd({ step, reduced }: SceneProps) {
   const root = useRef<HTMLDivElement>(null);
   const prevStep = useRef<number | null>(null);
@@ -79,205 +88,180 @@ export function SpeakersEnd({ step, reduced }: SceneProps) {
     const el = root.current;
     if (!el) return;
 
-    const chips = gsap.utils.toArray<HTMLElement>("[data-sp-chip]", el);
-    const feature = el.querySelector<HTMLElement>("[data-sp-feature]");
-    const hero = el.querySelector<HTMLElement>("[data-sp-hero]");
-    const soft = el.querySelector<HTMLElement>("[data-sp-soft]");
-    const copy = el.querySelector<HTMLElement>("[data-sp-copy]");
+    const stage = el.getBoundingClientRect();
+    const sx = stage.width / 1920 || 1;
+    const heroSlot = el.querySelector<HTMLElement>("[data-sp-hero-slot]");
     const finale = el.querySelector<HTMLElement>("[data-sp-finale]");
+    const copy = el.querySelector<HTMLElement>("[data-sp-copy]");
+    const chips = gsap.utils.toArray<HTMLElement>("[data-sp-chip]", el);
+    const portraits = SPEAKERS.map(
+      (s) => el.querySelector<HTMLElement>(`[data-sp-portrait="${s.id}"]`)!,
+    );
+
     const from = prevStep.current;
     prevStep.current = step;
 
-    const settleChips = () => {
-      chips.forEach((chip, i) => {
-        gsap.set(chip, { autoAlpha: i < parked ? 1 : 0, scale: 1, y: 0, x: 0 });
+    const heroBox = heroSlot
+      ? stageBox(heroSlot, stage, sx)
+      : { left: 1100, top: 200, width: 760, height: 860 };
+
+    const chipBox = (i: number) => {
+      const slot = chips[i]?.querySelector<HTMLElement>("[data-sp-chip-slot]");
+      return slot ? stageBox(slot, stage, sx) : { left: 80 + i * 360, top: 100, width: 88, height: 110 };
+    };
+
+    const place = (img: HTMLElement, box: { left: number; top: number; width: number; height: number }, visible: boolean) => {
+      gsap.set(img, {
+        left: box.left,
+        top: box.top,
+        width: box.width,
+        height: box.height,
+        x: 0,
+        y: 0,
+        scale: 1,
+        autoAlpha: visible ? 1 : 0,
+        zIndex: visible ? 12 : 1,
       });
     };
 
-    const settleFeature = () => {
-      if (featured && feature && hero && soft && copy) {
-        gsap.set(feature, { autoAlpha: 1 });
-        gsap.set(hero, { autoAlpha: 1, x: 0, y: 0, scale: 1, clearProps: "filter" });
-        gsap.set(soft, { autoAlpha: 0.22, x: 0, scale: 1.1, filter: "blur(22px)" });
-        gsap.set(copy, { autoAlpha: 1, x: 0, y: 0 });
-      } else if (feature) {
-        gsap.set(feature, { autoAlpha: 0 });
-      }
+    const settle = () => {
+      portraits.forEach((img, i) => {
+        if (i < parked) {
+          place(img, chipBox(i), true);
+          gsap.set(img, { zIndex: 8 });
+        } else if (i === featIdx) {
+          place(img, heroBox, true);
+          gsap.set(img, { zIndex: 12 });
+        } else {
+          place(img, { ...heroBox, left: heroBox.left + 120 }, false);
+        }
+      });
+      chips.forEach((chip, i) => {
+        gsap.set(chip, { autoAlpha: i < parked ? 1 : 0, y: 0 });
+      });
+      if (copy) gsap.set(copy, { autoAlpha: featured ? 1 : 0, x: 0, y: 0 });
       if (finale) {
-        gsap.set(finale, {
-          autoAlpha: step >= SPEAKERS.length ? 1 : 0,
-          y: 0,
-        });
+        gsap.set(finale, { autoAlpha: step >= SPEAKERS.length ? 1 : 0, y: 0 });
       }
     };
 
-    // Instant settle (reduced / deep-link)
-    if (reduced || (from === null && step !== 0)) {
-      settleChips();
-      settleFeature();
+    // Reduced / deep-link
+    if (reduced || (from === null && step !== 0) || (!animate && from !== null)) {
+      settle();
       return;
     }
 
-    // First paint on step 0 — Petřina enters from the right
-    if (from === null && step === 0 && featured && hero && soft && copy && feature) {
-      settleChips();
-      gsap.set(feature, { autoAlpha: 1 });
-      gsap.set(hero, { autoAlpha: 0, x: 72, scale: 0.97, filter: "blur(4px)" });
-      gsap.set(soft, { autoAlpha: 0, x: 72, scale: 1.02, filter: "blur(14px)" });
-      gsap.set(copy, { autoAlpha: 0, x: -28, y: 10 });
+    // First enter — Petřina slides in from the right (same element)
+    if (from === null && step === 0) {
+      chips.forEach((chip) => gsap.set(chip, { autoAlpha: 0 }));
+      portraits.forEach((img, i) => {
+        if (i === 0) {
+          place(img, heroBox, true);
+          gsap.set(img, { x: 80, autoAlpha: 0 });
+        } else {
+          place(img, heroBox, false);
+        }
+      });
+      if (copy) gsap.set(copy, { autoAlpha: 0, x: -24, y: 8 });
       if (finale) gsap.set(finale, { autoAlpha: 0 });
       const intro = gsap.timeline();
-      intro.to(soft, { autoAlpha: 0.22, x: 0, scale: 1.1, filter: "blur(22px)", duration: 1.15, ease: EASE.move }, 0.12);
-      intro.to(hero, { autoAlpha: 1, x: 0, scale: 1, filter: "blur(0px)", duration: 1.25, ease: EASE.enter, clearProps: "filter", onComplete: () => { gsap.set(hero, { clearProps: "filter" }); } }, 0.14);
-      intro.to(copy, { autoAlpha: 1, x: 0, y: 0, duration: 1.0, ease: EASE.enter }, 0.28);
+      intro.to(portraits[0], { x: 0, autoAlpha: 1, duration: 1.2, ease: EASE.enter }, 0.1);
+      if (copy) intro.to(copy, { autoAlpha: 1, x: 0, y: 0, duration: 1.0, ease: EASE.enter }, 0.28);
       return () => intro.kill();
     }
 
-    if (!animate || from === null) {
-      settleChips();
-      settleFeature();
+    if (from === null || !animate) {
+      settle();
       return;
     }
 
     const prev = from;
     const advancing = step > prev;
-    const tl = gsap.timeline({
-      onComplete: () => {
-        el.querySelectorAll(".sp-fly").forEach((n) => n.remove());
-      },
-    });
-
-    if (advancing && prev < SPEAKERS.length) {
-      const parkIdx = prev;
-      const chip = chips[parkIdx];
-      const outgoing = SPEAKERS[parkIdx];
-      if (chip) {
-        // Measure where the featured hero currently is (next speaker may already be painted —
-        // use a synthetic ghost from the outgoing asset starting at the hero frame).
-        const slot = el.querySelector<HTMLElement>("[data-sp-hero-slot]");
-        const heroFrame =
-          slot?.getBoundingClientRect() ??
-          hero?.getBoundingClientRect() ??
-          ({ left: 1100, top: 220, width: 700, height: 860 } as DOMRect);
-        const chipRect = chip.getBoundingClientRect();
-        const stage = el.getBoundingClientRect();
-        const sx = stage.width / 1920 || 1;
-
-        const ghost = document.createElement("img");
-        ghost.className = "sp-fly cutout";
-        ghost.src = asset(outgoing.photo);
-        ghost.alt = "";
-        Object.assign(ghost.style, {
-          position: "absolute",
-          left: `${(heroFrame.left - stage.left) / sx}px`,
-          top: `${(heroFrame.top - stage.top) / sx}px`,
-          width: `${heroFrame.width / sx}px`,
-          height: `${heroFrame.height / sx}px`,
-          objectFit: "contain",
-          objectPosition: "center bottom",
-          zIndex: "24",
-          pointerEvents: "none",
-          filter: "drop-shadow(0 18px 36px rgba(3,56,61,0.22))",
-        });
-        el.appendChild(ghost);
-
-        gsap.set(chip, { autoAlpha: 0, scale: 0.98, y: 6 });
-        // Hide the newly painted featured briefly while park flies
-        if (hero) gsap.set(hero, { autoAlpha: 0 });
-        if (soft) gsap.set(soft, { autoAlpha: 0 });
-        if (copy) gsap.set(copy, { autoAlpha: 0, x: -16 });
-
-        tl.to(
-          ghost,
-          {
-            left: (chipRect.left - stage.left) / sx + 14,
-            top: (chipRect.top - stage.top) / sx + 6,
-            width: 92,
-            height: 116,
-            duration: 1.55,
-            ease: "sine.inOut",
-            onComplete: () => ghost.remove(),
-          },
-          0,
-        );
-        tl.to(
-          chip,
-          { autoAlpha: 1, scale: 1, y: 0, duration: 0.95, ease: EASE.enter },
-          1.2,
-        );
-      }
-    } else {
-      settleChips();
+    if (!advancing) {
+      settle();
+      return;
     }
 
-    // Ensure already-parked chips stay visible when advancing mid-sequence
-    chips.forEach((chip, i) => {
-      if (i < parked && !(advancing && i === prev)) {
-        gsap.set(chip, { autoAlpha: 1, scale: 1, y: 0 });
+    const tl = gsap.timeline();
+
+    // Keep already-parked portraits/chips settled
+    portraits.forEach((img, i) => {
+      if (i < prev) {
+        place(img, chipBox(i), true);
+        gsap.set(img, { zIndex: 8 });
       }
-      if (i >= parked) gsap.set(chip, { autoAlpha: 0 });
+      if (i > prev && i !== featIdx) {
+        place(img, heroBox, false);
+      }
+    });
+    chips.forEach((chip, i) => {
+      gsap.set(chip, { autoAlpha: i < prev ? 1 : 0, y: 0 });
     });
 
-    const enterAt = advancing && prev < SPEAKERS.length ? 1.15 : 0.12;
+    // Park outgoing: SAME portrait element flies hero → chip (never fades)
+    if (prev < SPEAKERS.length) {
+      const outgoing = portraits[prev];
+      const target = chipBox(prev);
+      const chip = chips[prev];
+      // Ensure starting at hero (React may have remounted copy, but portrait is persistent)
+      place(outgoing, heroBox, true);
+      gsap.set(outgoing, { zIndex: 20, autoAlpha: 1 });
+      // Chip chrome fades in under the arriving portrait (portrait itself stays opaque)
+      if (chip) gsap.set(chip, { autoAlpha: 0, y: 4 });
 
-    if (featured && feature && hero && soft && copy) {
-      gsap.set(feature, { autoAlpha: 1 });
-      gsap.set(hero, { autoAlpha: 0, x: 64, scale: 0.97, filter: "blur(4px)" });
-      gsap.set(soft, { autoAlpha: 0, x: 64, scale: 1.0, filter: "blur(14px)" });
-      gsap.set(copy, { autoAlpha: 0, x: -28, y: 10 });
+      tl.to(
+        outgoing,
+        {
+          left: target.left,
+          top: target.top,
+          width: target.width,
+          height: target.height,
+          duration: 1.55,
+          ease: "sine.inOut",
+          zIndex: 8,
+        },
+        0,
+      );
+      if (chip) {
+        tl.to(chip, { autoAlpha: 1, y: 0, duration: 0.8, ease: EASE.enter }, 1.05);
+      }
+    }
 
-      tl.to(
-        soft,
-        {
-          autoAlpha: 0.22,
-          x: 0,
-          scale: 1.1,
-          filter: "blur(22px)",
-          duration: 1.15,
-          ease: EASE.move,
-        },
-        enterAt,
+    // Outgoing copy leaves gently
+    // (copy already swapped to next speaker by React — fade the new copy in after fly)
+    if (copy) {
+      if (featured) {
+        gsap.set(copy, { autoAlpha: 0, x: -20, y: 8 });
+        tl.to(copy, { autoAlpha: 1, x: 0, y: 0, duration: 0.95, ease: EASE.enter }, 1.2);
+      } else {
+        gsap.set(copy, { autoAlpha: 0 });
+      }
+    }
+
+    // Next featured portrait: continuous slide from the right into hero (no blink)
+    if (featIdx >= 0) {
+      const incoming = portraits[featIdx];
+      place(incoming, heroBox, true);
+      gsap.set(incoming, { x: 72, autoAlpha: 1, zIndex: 12 });
+      tl.fromTo(
+        incoming,
+        { x: 72 },
+        { x: 0, duration: 1.25, ease: EASE.enter },
+        1.15,
       );
-      tl.to(
-        hero,
-        {
-          autoAlpha: 1,
-          x: 0,
-          scale: 1,
-          filter: "blur(0px)",
-          duration: 1.25,
-          ease: EASE.enter,
-          onComplete: () => { gsap.set(hero, { clearProps: "filter" }); },
-        },
-        enterAt + 0.06,
-      );
-      tl.to(
-        copy,
-        { autoAlpha: 1, x: 0, y: 0, duration: 1.0, ease: EASE.enter },
-        enterAt + 0.18,
-      );
-    } else if (feature) {
-      tl.set(feature, { autoAlpha: 0 }, enterAt);
     }
 
     if (finale) {
       if (step >= SPEAKERS.length) {
-        gsap.set(finale, { autoAlpha: 0, y: 16 });
-        tl.to(finale, { autoAlpha: 1, y: 0, duration: 0.9, ease: EASE.enter }, 1.05);
+        gsap.set(finale, { autoAlpha: 0, y: 12 });
+        tl.to(finale, { autoAlpha: 1, y: 0, duration: 0.9, ease: EASE.enter }, 1.35);
       } else {
         gsap.set(finale, { autoAlpha: 0 });
       }
     }
 
-    if (!advancing) {
-      tl.kill();
-      settleChips();
-      settleFeature();
-    }
-
     return () => {
       tl.kill();
-      el.querySelectorAll(".sp-fly").forEach((n) => n.remove());
     };
   }, [step, reduced, animate, parked, featured, featIdx]);
 
@@ -288,7 +272,7 @@ export function SpeakersEnd({ step, reduced }: SceneProps) {
       <div className="sp-dock">
         {SPEAKERS.map((s) => (
           <article key={s.id} data-sp-chip={s.id} className="sp-chip">
-            <img className="sp-chip-photo cutout" src={asset(s.photo)} alt="" />
+            <div data-sp-chip-slot className="sp-chip-slot" />
             <div className="sp-chip-body">
               <span className="sp-chip-n">{s.n}</span>
               <div className="sp-chip-name">{s.name}</div>
@@ -300,6 +284,18 @@ export function SpeakersEnd({ step, reduced }: SceneProps) {
         ))}
       </div>
 
+      {/* Persistent portraits — never remounted between steps */}
+      {SPEAKERS.map((s) => (
+        <img
+          key={s.id}
+          data-sp-portrait={s.id}
+          data-art
+          className="sp-portrait cutout"
+          src={asset(s.photo)}
+          alt=""
+        />
+      ))}
+
       <div data-sp-finale className="sp-finale">
         <div className="sp-finale-kicker">EXPERIENCE SUMMIT 2026</div>
         <div className="sp-finale-title">
@@ -308,33 +304,19 @@ export function SpeakersEnd({ step, reduced }: SceneProps) {
       </div>
 
       <div data-sp-hero-slot className="sp-hero-slot" aria-hidden="true" />
-      <div data-sp-feature className="sp-feature">
+
+      <div className="sp-feature">
         {featured && (
-          <>
-            <div data-sp-copy className="sp-feature-copy">
-              <div className="sp-feature-n">{featured.n}</div>
-              <div className="sp-feature-time">{featured.time}</div>
-              <h2 className="sp-feature-topic">{featured.topic}</h2>
-              <div className="sp-feature-name">{featured.name}</div>
-              <div className="sp-feature-role">
-                {featured.role}
-                <span className="sp-feature-org"> · {featured.org}</span>
-              </div>
+          <div data-sp-copy className="sp-feature-copy">
+            <div className="sp-feature-n">{featured.n}</div>
+            <div className="sp-feature-time">{featured.time}</div>
+            <h2 className="sp-feature-topic">{featured.topic}</h2>
+            <div className="sp-feature-name">{featured.name}</div>
+            <div className="sp-feature-role">
+              {featured.role}
+              <span className="sp-feature-org"> · {featured.org}</span>
             </div>
-            <img
-              data-sp-soft
-              className="sp-hero sp-hero-soft cutout"
-              src={asset(featured.photo)}
-              alt=""
-            />
-            <img
-              data-sp-hero
-              data-art
-              className="sp-hero cutout"
-              src={asset(featured.photo)}
-              alt=""
-            />
-          </>
+          </div>
         )}
       </div>
     </div>
