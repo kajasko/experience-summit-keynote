@@ -13,7 +13,7 @@ export function SceneMotion({ step, reduced, children }: { step: FlatStep; reduc
   const snapshots = useRef(new Map<string, Snapshot>());
   useLayoutEffect(() => {
     const el = root.current!;
-    const plan = score[step.id];
+    const plan = score[step.id] ?? { focus: step.id, decision: '', cues: [] };
     const adjacent = previous.current === null || previous.current === step.index || Math.abs(previous.current - step.index) === 1;
     const animate = !reduced && adjacent;
     const tracked: { key: string; node: Element; props: string[] }[] = [];

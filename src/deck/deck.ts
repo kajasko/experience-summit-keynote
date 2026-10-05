@@ -290,7 +290,12 @@ const allScenes: SceneDef[] = [
   {
     id: "video", act: 4, actName: "JAK?", component: "VideoEnd",
     steps: [
-      { id: "vd1", title: "Dnes vás čekají lidé z praxe", speakerNote: "Závěr: řečníci Experience Summit 2026 — LEGO, Spotify, PPF, E.ON, KB. Stage, masterclassy, CX Awards.", sourcePage: 46 },
+      { id: "vd1", title: "Jakub Petřina", speakerNote: "9:45–10:15 · PPF · Od rychlých člunů po zaoceánské tankery.", sourcePage: 46 },
+      { id: "vd2", title: "Dejan Krstic", speakerNote: "10:15–10:45 · ex-Spotify · Od softwaru ke kontextu.", sourcePage: 46 },
+      { id: "vd3", title: "Michaela Edgerley Stovicek", speakerNote: "11:15–12:00 · LEGO · Jen to nejlepší je dost dobré.", sourcePage: 46 },
+      { id: "vd4", title: "Vladimír Kryštof Maliňák", speakerNote: "11:15–12:00 · LEGO · společná stage s Michaelou.", sourcePage: 46 },
+      { id: "vd5", title: "Miloš Nejezchleb", speakerNote: "12:00–12:30 · Home Credit · Anatomie úspěšného týmu.", sourcePage: 46 },
+      { id: "vd6", title: "Pět hlasů ze stage", speakerNote: "Všichni řečníci main stage Experience Summit 2026.", sourcePage: 46 },
     ],
   },
 ];

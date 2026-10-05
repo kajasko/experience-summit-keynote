@@ -128,5 +128,11 @@ export const score: Record<string, Score> = {
  mo4: s('Jeden výsledek','výsledek se vrací zákazníkovi'),
  bx0: s('Spojení BX, CX a EX','nejdřív samostatné tvrzení',cue('tvrzení','[data-bx-intro]',T.orient,'reveal')),
  bx1: s('Tři disciplíny. Jedna zkušenost.','tvrzení nahoru; tři bloky se propojí do jedné výsledné experience'),
- vd1: s('Řečníci Summitu','JAK končí filmem'),
+ vd1: s('Jakub Petřina','featured speaker + fly to dock'),
+ vd2: s('Dejan Krstic','park Petřina; feature Dejan'),
+ vd3: s('Michaela Edgerley','park Dejan; feature Michaela'),
+ vd4: s('Kryštof Maliňák','park Michaela; feature Kryštof'),
+ vd5: s('Miloš Nejezchleb','park Kryštof; feature Miloš'),
+ vd6: s('Pět hlasů ze stage','park Miloš; all chips lined up'),
 };
+
