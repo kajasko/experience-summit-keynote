@@ -6,46 +6,60 @@ import { asset } from "../../engine/assets";
 import { EASE } from "../../engine/motion";
 
 /**
- * Closing slide — four stage speakers as bottom-aligned cutouts with
- * overlaid name/role/topic (Musk / Altman / Schwartz treatment).
- * Photos: Experience Summit official headshots (…_78 / …_77), bg removed.
+ * Closing slide — stage speakers as bottom-aligned cutouts with overlaid copy.
+ * Order follows the Experience Summit 2026 main-stage program (excl. workshops).
+ * Photos: experiencesummit.cz official headshots, background removed.
  */
 const SPEAKERS = [
   {
-    id: "michaela",
+    id: "jakub",
     n: "01",
+    name: "Jakub Petřina",
+    role: "Head of Brand Strategy",
+    org: "PPF",
+    topic: "Od rychlých člunů po zaoceánské tankery",
+    time: "9:45–10:15",
+    photo: "speakers/jakub-cut.webp",
+  },
+  {
+    id: "dejan",
+    n: "02",
+    name: "Dejan Krstic",
+    role: "Group Product Manager",
+    org: "ex-Spotify",
+    topic: "Od softwaru ke kontextu — produktový cyklus v éře AI",
+    time: "10:15–10:45",
+    photo: "speakers/dejan-cut.webp",
+  },
+  {
+    id: "michaela",
+    n: "03",
     name: "Michaela Edgerley Stovicek",
     role: "Global Head of Preschool Audience",
     org: "the LEGO Group",
-    topic: "Design pro zákazníky, kteří nemohou říct, co chtějí",
+    topic: "„Jen to nejlepší je dost dobré“ v éře umělé inteligence",
+    time: "11:15–12:00",
     photo: "speakers/michaela-cut.webp",
   },
   {
     id: "krystof",
-    n: "02",
+    n: "04",
     name: "Vladimír Kryštof Maliňák",
-    role: "Designer",
+    role: "Produktový designér",
     org: "the LEGO Group",
-    topic: "Kreativita, empatie a značka, která vyrůstá s dětmi",
+    topic: "„Jen to nejlepší je dost dobré“ v éře umělé inteligence",
+    time: "11:15–12:00",
     photo: "speakers/krystof-cut.webp",
   },
   {
-    id: "dejan",
-    n: "03",
-    name: "Dejan Krstic",
-    role: "Group Product Manager",
-    org: "ex-Spotify",
-    topic: "Kontext nad kódem — produktový úsudek v éře AI",
-    photo: "speakers/dejan-cut.webp",
-  },
-  {
-    id: "jakub",
-    n: "04",
-    name: "Jakub Petřina",
-    role: "Head of Brand Strategy",
-    org: "PPF",
-    topic: "Značka stavěná detailem — škálovat CX napříč trhy",
-    photo: "speakers/jakub-cut.webp",
+    id: "milos",
+    n: "05",
+    name: "Miloš Nejezchleb",
+    role: "Chief People Care & MKT Officer",
+    org: "Home Credit CZ/SK",
+    topic: "Anatomie úspěšného týmu — vztahy a kultura řídí výsledky",
+    time: "12:00–12:30",
+    photo: "speakers/milos-cut.webp",
   },
 ] as const;
 
@@ -53,7 +67,7 @@ const SPEAKERS = [
 const CARD_W = 860;
 const GAP = 36;
 const STRIDE = CARD_W + GAP;
-const LOOP_DURATION = 42;
+const LOOP_DURATION = 48; // slightly slower with 5 speakers
 
 export function SpeakersEnd({ reduced }: SceneProps) {
   const root = useRef<HTMLDivElement>(null);
@@ -117,7 +131,9 @@ export function SpeakersEnd({ reduced }: SceneProps) {
         <br />
         posouvají <em className="sp-mark">v praxi</em>.
       </h2>
-      <p data-sp-sub className="sp-sub">Experience Summit 2026 · čtyři hlasy ze stage</p>
+      <p data-sp-sub className="sp-sub">
+        Experience Summit 2026 · pět hlasů ze stage
+      </p>
 
       <div className="sp-rail">
         <div data-sp-track className="sp-track">
