@@ -1,8 +1,17 @@
 import { useEffect, useRef } from "react";
 
+function dockInset() {
+  if (typeof document === "undefined") return 72;
+  if (document.fullscreenElement || document.documentElement.classList.contains("is-fullscreen")) {
+    return 0;
+  }
+  return 72;
+}
+
 function usableSize(box: HTMLElement) {
   const rect = box.getBoundingClientRect();
-  const fallbackH = Math.max(window.innerHeight, document.documentElement.clientHeight) - 72;
+  const inset = dockInset();
+  const fallbackH = Math.max(window.innerHeight, document.documentElement.clientHeight) - inset;
   const fallbackW = Math.max(window.innerWidth, document.documentElement.clientWidth);
   const width = [rect.width, box.clientWidth, fallbackW].find((n) => n > 80) ?? fallbackW;
   const height = [rect.height, box.clientHeight, fallbackH].find((n) => n > 80) ?? fallbackH;
@@ -31,11 +40,15 @@ export function Stage({ children, ...handlers }: { children: React.ReactNode } &
     ro.observe(box);
     window.addEventListener("resize", frameFit);
     window.visualViewport?.addEventListener("resize", frameFit);
+    document.addEventListener("fullscreenchange", frameFit);
+    document.addEventListener("webkitfullscreenchange", frameFit as EventListener);
     return () => {
       window.clearTimeout(later);
       ro.disconnect();
       window.removeEventListener("resize", frameFit);
       window.visualViewport?.removeEventListener("resize", frameFit);
+      document.removeEventListener("fullscreenchange", frameFit);
+      document.removeEventListener("webkitfullscreenchange", frameFit as EventListener);
     };
   }, []);
 

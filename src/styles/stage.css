@@ -7345,6 +7345,41 @@ button { font-family: inherit; }
   gap: 8px;
 }
 
+/* True browser fullscreen: no dock, stage fills the viewport. */
+html.is-fullscreen .deck-dock,
+html:fullscreen .deck-dock,
+html:-webkit-full-screen .deck-dock,
+:fullscreen .deck-dock,
+:-webkit-full-screen .deck-dock {
+  display: none !important;
+}
+
+html.is-fullscreen .stage-frame,
+html:fullscreen .stage-frame,
+html:-webkit-full-screen .stage-frame,
+:fullscreen .stage-frame,
+:-webkit-full-screen .stage-frame {
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+}
+
+html.is-fullscreen .stage,
+html:fullscreen .stage,
+html:-webkit-full-screen .stage {
+  transform: translate(-50%, -50%) scale(min(calc(100vw / 1920), calc(100vh / 1080)));
+}
+
+html.is-fullscreen .deck-overlay,
+html:fullscreen .deck-overlay,
+html:-webkit-full-screen .deck-overlay {
+  inset: 0 !important;
+}
+
 html.thumbs-capture .deck-dock,
 html.thumbs-capture .deck-overlay,
 html.thumbs-capture .presenter,

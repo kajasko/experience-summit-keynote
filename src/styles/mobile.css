@@ -111,3 +111,13 @@ html.thumbs-capture .stage-frame::after { content: none; }
   .deck-dock-progress { gap: 2px; font-size: 11px; }
   .deck-dock-progress button { width: 34px; height: 34px; }
 }
+
+
+/* Fullscreen: ignore dock-reserved height on phones too. */
+html.is-fullscreen .stage-frame,
+html:fullscreen .stage-frame,
+html:-webkit-full-screen .stage-frame {
+  height: 100vh !important;
+  height: 100dvh !important;
+  bottom: 0 !important;
+}

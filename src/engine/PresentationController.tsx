@@ -267,6 +267,21 @@ export function PresentationController() {
     else void document.exitFullscreen();
   };
 
+  useEffect(() => {
+    const syncFs = () => {
+      const on = Boolean(document.fullscreenElement);
+      document.documentElement.classList.toggle("is-fullscreen", on);
+    };
+    syncFs();
+    document.addEventListener("fullscreenchange", syncFs);
+    document.addEventListener("webkitfullscreenchange", syncFs as EventListener);
+    return () => {
+      document.removeEventListener("fullscreenchange", syncFs);
+      document.removeEventListener("webkitfullscreenchange", syncFs as EventListener);
+      document.documentElement.classList.remove("is-fullscreen");
+    };
+  }, []);
+
   useLayoutEffect(() => {
     return bindKeyboard({
       next: () => { if (modeRef.current === "play") go(1); },
