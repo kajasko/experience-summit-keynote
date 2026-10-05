@@ -10,7 +10,7 @@ const CARD_W = 800;
 const GAP = 40;
 const STRIDE = CARD_W + GAP;
 /** Full set of five; slow continuous loop. */
-const LOOP_DURATION = 52;
+const LOOP_DURATION = 38;
 
 /**
  * Slide 68 — continuous right→left carousel of the five stage speakers.
