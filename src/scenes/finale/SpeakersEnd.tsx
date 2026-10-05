@@ -122,14 +122,14 @@ export function SpeakersEnd({ step, reduced }: SceneProps) {
     if (from === null && step === 0 && featured && hero && soft && copy && feature) {
       settleChips();
       gsap.set(feature, { autoAlpha: 1 });
-      gsap.set(hero, { autoAlpha: 0, x: 180, scale: 0.9, filter: "blur(12px)" });
-      gsap.set(soft, { autoAlpha: 0, x: 180, scale: 1.02, filter: "blur(18px)" });
-      gsap.set(copy, { autoAlpha: 0, x: -56, y: 16 });
+      gsap.set(hero, { autoAlpha: 0, x: 72, scale: 0.97, filter: "blur(4px)" });
+      gsap.set(soft, { autoAlpha: 0, x: 72, scale: 1.02, filter: "blur(14px)" });
+      gsap.set(copy, { autoAlpha: 0, x: -28, y: 10 });
       if (finale) gsap.set(finale, { autoAlpha: 0 });
       const intro = gsap.timeline();
-      intro.to(soft, { autoAlpha: 0.22, x: 0, scale: 1.06, filter: "blur(22px)", duration: 0.8, ease: EASE.move }, 0.08);
-      intro.to(hero, { autoAlpha: 1, x: 0, scale: 1, filter: "blur(0px)", duration: 0.9, ease: "power3.out" }, 0.1);
-      intro.to(copy, { autoAlpha: 1, x: 0, y: 0, duration: 0.65, ease: EASE.enter }, 0.22);
+      intro.to(soft, { autoAlpha: 0.22, x: 0, scale: 1.06, filter: "blur(22px)", duration: 1.15, ease: EASE.move }, 0.12);
+      intro.to(hero, { autoAlpha: 1, x: 0, scale: 1, filter: "blur(0px)", duration: 1.25, ease: EASE.enter }, 0.14);
+      intro.to(copy, { autoAlpha: 1, x: 0, y: 0, duration: 1.0, ease: EASE.enter }, 0.28);
       return () => intro.kill();
     }
 
@@ -181,11 +181,11 @@ export function SpeakersEnd({ step, reduced }: SceneProps) {
         });
         el.appendChild(ghost);
 
-        gsap.set(chip, { autoAlpha: 0, scale: 0.55, y: 16 });
+        gsap.set(chip, { autoAlpha: 0, scale: 0.94, y: 8 });
         // Hide the newly painted featured briefly while park flies
         if (hero) gsap.set(hero, { autoAlpha: 0 });
         if (soft) gsap.set(soft, { autoAlpha: 0 });
-        if (copy) gsap.set(copy, { autoAlpha: 0, x: -40 });
+        if (copy) gsap.set(copy, { autoAlpha: 0, x: -16 });
 
         tl.to(
           ghost,
@@ -194,16 +194,16 @@ export function SpeakersEnd({ step, reduced }: SceneProps) {
             top: (chipRect.top - stage.top) / sx + 6,
             width: 92,
             height: 116,
-            duration: 0.82,
-            ease: "power3.inOut",
+            duration: 1.2,
+            ease: EASE.move,
             onComplete: () => ghost.remove(),
           },
           0,
         );
         tl.to(
           chip,
-          { autoAlpha: 1, scale: 1, y: 0, duration: 0.48, ease: "back.out(1.7)" },
-          0.62,
+          { autoAlpha: 1, scale: 1, y: 0, duration: 0.7, ease: EASE.enter },
+          0.95,
         );
       }
     } else {
