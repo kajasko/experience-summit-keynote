@@ -13,7 +13,7 @@ const STRIDE = CARD_W + GAP;
 const LOOP_DURATION = 52;
 
 /**
- * Slide 68 — continuous left→right carousel of the five stage speakers.
+ * Slide 68 — continuous right→left carousel of the five stage speakers.
  * Cutouts flush to the bottom with overlaid name/role/topic; no footer bar.
  */
 export function SpeakersCarousel({ reduced }: SceneProps) {
@@ -46,20 +46,21 @@ export function SpeakersCarousel({ reduced }: SceneProps) {
     intro.to(sub, { autoAlpha: 1, y: 0, duration: 0.45, ease: EASE.enter }, 0.22);
 
     const loopW = STRIDE * SUMMIT_SPEAKERS.length;
-    // Start with first card partially entering from the LEFT → travel right (LTR).
-    const base = -(CARD_W * 0.55);
+    const stageW = 1920;
+    // Enter: Petřina fully off-screen RIGHT (left edge at viewport right), then travel left (RTL).
+    const base = stageW;
     gsap.set(track, { x: base });
     const loop = gsap.to(track, {
-      x: `+=${loopW}`,
+      x: `-=${loopW}`,
       duration: LOOP_DURATION,
       ease: "none",
       repeat: -1,
       modifiers: {
         x: gsap.utils.unitize((x) => {
           const n = parseFloat(x);
-          // Keep x in [base, base + loopW)
-          const d = ((n - base) % loopW + loopW) % loopW;
-          return base + d;
+          // Keep x in (base - loopW, base]
+          const d = ((base - n) % loopW + loopW) % loopW;
+          return base - d;
         }),
       },
     });
