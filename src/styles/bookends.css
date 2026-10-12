@@ -59,3 +59,21 @@
 .hold-rule { width: 140px; height: 6px; margin-top: 44px; border-radius: 6px; background: var(--lime); }
 .hold-sub { margin-top: 34px; font-size: 42px; font-weight: 650; letter-spacing: -0.03em; color: rgba(215, 230, 231, 0.92); }
 .hold-wait { margin-top: 70px; font-size: 24px; font-weight: 700; letter-spacing: 0.04em; color: var(--lime); }
+
+/* masterclass lead portraits */
+.scene.is-hosts .hosts-title { max-width: none; font-size: 76px; }
+.scene.is-hosts .hosts-head { top: 140px; }
+.scene.is-hosts .hosts-grid { top: 280px; }
+.scene.is-hosts .hosts-card { min-height: 0; padding: 34px 34px 30px; display: flex; flex-direction: column; }
+.scene.is-hosts .hosts-card-title { font-size: 30px; min-height: 2.12em; }
+.scene.is-hosts .hosts-card-sub { font-size: 19px; min-height: 2.6em; }
+.hosts-card-faces { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; }
+.hosts-face { margin: 0; }
+.hosts-face-slot {
+  position: relative; height: 330px; overflow: hidden; border-radius: 22px;
+  background: radial-gradient(90% 80% at 50% 100%, rgba(195, 213, 82, 0.35), rgba(195, 213, 82, 0) 70%), rgba(0, 88, 96, 0.06);
+}
+.hosts-face-slot img { position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); height: 96%; width: auto; max-width: none; object-fit: contain; }
+.hosts-face figcaption { display: grid; gap: 2px; margin-top: 12px; }
+.hosts-face-name { font-size: 21px; font-weight: 800; letter-spacing: -0.02em; color: var(--text-deep); }
+.hosts-face-org { font-size: 16px; font-weight: 650; color: var(--teal); }

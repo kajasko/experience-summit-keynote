@@ -33,19 +33,19 @@ const MASTERCLASSES = [
     id: "persony",
     title: "Persony v akci",
     sub: "Jak proměnit potřeby zákazníků v růst",
-    leads: ["Daniel Koutný · Clientology", "Zuzana Mezerová · Komerční banka"],
+    leads: [{ name: "Daniel Koutný", org: "Clientology", photo: "speakers/daniel-cut.webp" }, { name: "Zuzana Mezerová", org: "Komerční banka", photo: "speakers/zuzana-cut.webp" }],
   },
   {
     id: "prototyp",
     title: "Od zákaznické potřeby k PRD a živému prototypu",
     sub: "Umělá inteligence a prototypování za 60 minut",
-    leads: ["Jakub Šťastný · Clientology", "Dejan Krstic · Spotify"],
+    leads: [{ name: "Jakub Šťastný", org: "Clientology", photo: "speakers/jakub-s-cut.webp" }, { name: "Dejan Krstic", org: "Spotify", photo: "speakers/dejan-cut.webp" }],
   },
   {
     id: "cvp",
     title: "Od marketingového slibu k reálnému zážitku",
     sub: "CVP v praxi",
-    leads: ["Libor Hykeš · Clientology", "Kateřina Stehlíková"],
+    leads: [{ name: "Libor Hykeš", org: "Clientology", photo: "speakers/libor-cut.webp" }, { name: "Kateřina Stehlíková", org: "E.ON", photo: "speakers/katerina-cut.webp" }],
   },
 ] as const;
 
@@ -64,11 +64,19 @@ export function Hosts(_props: SceneProps) {
             <div className="hosts-card-label">Masterclass</div>
             <div className="hosts-card-title">{m.title}</div>
             <div className="hosts-card-sub">{m.sub}</div>
-            <ul className="hosts-card-leads">
+            <div className="hosts-card-faces">
               {m.leads.map((l) => (
-                <li key={l}>{l}</li>
+                <figure key={l.name} className="hosts-face">
+                  <div className="hosts-face-slot">
+                    <img className="cutout" src={asset(l.photo)} alt={l.name} />
+                  </div>
+                  <figcaption>
+                    <span className="hosts-face-name">{l.name}</span>
+                    <span className="hosts-face-org">{l.org}</span>
+                  </figcaption>
+                </figure>
               ))}
-            </ul>
+            </div>
           </article>
         ))}
       </div>
