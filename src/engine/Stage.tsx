@@ -39,10 +39,12 @@ export function Stage({ children, ...handlers }: { children: React.ReactNode } &
     const fit = () => {
       const fs = isFullscreen();
       const { width, height } = usableSize(box);
-      // Classic: never upscale past 1 (keeps UI crisp beside the dock).
-      // Fullscreen: allow scale > 1 so 1920×1080 truly fills large displays.
-      const raw = Math.min(width / 1920, height / 1080);
-      const scale = fs ? raw : Math.min(raw, 1);
+      // Classic: contain, never upscale past 1 (crisp beside the dock).
+      // Fullscreen: cover-scale so the stage fills the projector; edges reach the screen
+      // (may crop a little on non-16:9 displays — preferred over empty letterbox bars).
+      const contain = Math.min(width / 1920, height / 1080);
+      const cover = Math.max(width / 1920, height / 1080);
+      const scale = fs ? cover : Math.min(contain, 1);
       const safe = Number.isFinite(scale) && scale > 0.08 ? scale : 0.5;
       el.style.transform = `translate(-50%, -50%) scale(${safe})`;
       if (fs) {

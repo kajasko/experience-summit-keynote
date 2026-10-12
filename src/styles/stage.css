@@ -7342,7 +7342,7 @@ button { font-family: inherit; }
   gap: 8px;
 }
 
-/* True browser fullscreen: no UI chrome; stage contain-scales to fill viewport. */
+/* True browser fullscreen: no UI chrome; Stage.fit cover-scales to fill viewport. */
 html.is-fullscreen,
 html:fullscreen,
 html:-webkit-full-screen {
