@@ -31,9 +31,6 @@ export function SpeakerIntro(_props: SceneProps) {
   );
 }
 
-/** Edit here: the MC name is not in the repo or on experiencesummit.cz yet. */
-const MC = { name: "[Jméno moderátora]", role: "Moderátor/ka Experience Summitu" };
-
 const MASTERCLASSES = [
   {
     id: "persony",
@@ -43,15 +40,15 @@ const MASTERCLASSES = [
   },
   {
     id: "prototyp",
-    title: "Od potřeby k PRD a živému prototypu",
+    title: "Od zákaznické potřeby k PRD a živému prototypu",
     sub: "Umělá inteligence a prototypování za 60 minut",
-    leads: ["Jakub Šťastný · Clientology", "Dejan Krstic · ex-Spotify"],
+    leads: ["Jakub Šťastný · Clientology", "Dejan Krstic · Spotify"],
   },
   {
     id: "cvp",
     title: "Od marketingového slibu k reálnému zážitku",
     sub: "CVP v praxi",
-    leads: ["Kateřina Stehlíková · E.ON", "Libor Hykeš · Clientology"],
+    leads: ["Libor Hykeš · Clientology", "Kateřina Stehlíková"],
   },
 ] as const;
 
@@ -62,11 +59,6 @@ export function Hosts(_props: SceneProps) {
       <SlideChrome kicker="01 Odpoledne" page="01 / 01" caption="14:00 – 16:30 · Masterclassy" captionDot />
       <div className="hosts-head">
         <h2 className="hosts-title">Kdo vás provede dál</h2>
-        <div className="hosts-mc">
-          <span className="hosts-mc-label">Moderuje</span>
-          <span className="hosts-mc-name">{MC.name}</span>
-          <span className="hosts-mc-role">{MC.role}</span>
-        </div>
       </div>
       <div className="hosts-grid">
         {MASTERCLASSES.map((m, i) => (
