@@ -16,13 +16,9 @@
   padding: 12px 22px; border-radius: 999px; background: rgba(255, 255, 255, 0.72);
   border: 1px solid rgba(0, 88, 96, 0.14); font-size: 20px; font-weight: 700; color: var(--teal);
 }
-.intro-photo {
-  position: absolute; margin: 0; right: 120px; top: 110px; width: 660px; height: 860px;
-  border-radius: 36px; overflow: hidden; box-shadow: 0 40px 90px rgba(3, 56, 61, 0.22);
-}
-.intro-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; display: block; }
-.intro-photo::after {
-  content: ""; position: absolute; left: 0; bottom: 0; width: 100%; height: 8px; background: var(--lime);
+.intro-cut {
+  position: absolute; right: 60px; bottom: 0; height: 92%; width: 820px; margin: 0;
+  object-fit: contain; object-position: 50% 100%;
 }
 
 /* ---------- konec · moderátor + masterclassy ---------- */

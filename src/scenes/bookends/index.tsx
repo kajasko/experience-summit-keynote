@@ -23,9 +23,7 @@ export function SpeakerIntro(_props: SceneProps) {
           <span>Change Maker</span>
         </div>
       </div>
-      <figure className="intro-photo">
-        <img data-hero-visual src={asset("andrea-nuttall.webp")} alt="Andrea Nuttall" />
-      </figure>
+      <img data-hero-visual className="cutout intro-cut" src={asset("andrea-nuttall-cut.webp")} alt="Andrea Nuttall" />
     </div>
   );
 }
