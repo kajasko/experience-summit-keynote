@@ -2,6 +2,12 @@ import type { SceneDef, FlatStep, SlideDef } from "./types";
 
 const allScenes: SceneDef[] = [
   {
+    id: "hold", act: 0, actName: "ÚVOD", component: "HoldSlide",
+    steps: [
+      { id: "hd1", title: "Experience Summit 2026", speakerNote: "Úvodní obrazovka během čekání. Experience Summit 2026 · 20. 10. · Spojka Karlín." },
+    ],
+  },
+  {
     id: "intro", act: 0, actName: "ÚVOD", component: "SpeakerIntro",
     steps: [
       { id: "in1", title: "Představení: Andrea Nuttall", speakerNote: "Představení. Andrea Nuttall, zakladatelka a CEO Clientology." },

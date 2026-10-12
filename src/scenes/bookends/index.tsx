@@ -6,9 +6,8 @@ import { asset } from "../../engine/assets";
 export function SpeakerIntro(_props: SceneProps) {
   return (
     <div className="scene is-intro">
-      <SlideChrome kicker="01 Představení" page="01 / 01" caption="Experience Summit 2026" captionDot />
+      <SlideChrome page="01 / 01" caption="Experience Summit 2026" captionDot />
       <div className="intro-copy">
-        <div className="intro-kicker">Představení</div>
         <h1 className="intro-name">
           Andrea
           <br />
@@ -74,6 +73,23 @@ export function Hosts(_props: SceneProps) {
             </ul>
           </article>
         ))}
+      </div>
+    </div>
+  );
+}
+
+/** Hold slide shown before the keynote starts. */
+export function HoldSlide(_props: SceneProps) {
+  return (
+    <div className="scene is-dark is-cinematic is-hold">
+      <div className="hold-ring" aria-hidden="true" />
+      <SlideChrome caption="20. října 2026 · Spojka Karlín" mark={false} />
+      <div className="hold-copy">
+        <div className="hold-kicker">Clientology</div>
+        <h1 className="hold-title">Experience<br />Summit 2026</h1>
+        <div className="hold-rule" aria-hidden="true" />
+        <div className="hold-sub">Experience Design v době AI</div>
+        <div className="hold-wait">Začínáme za chvíli</div>
       </div>
     </div>
   );
