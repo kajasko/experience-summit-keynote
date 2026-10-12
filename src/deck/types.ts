@@ -18,6 +18,9 @@ export type SceneDef = {
   act: number;
   actName: string;
   component: string;
+  /** Added to the local step index before it reaches the component, so leading
+   *  builds can be cut from the deck without renumbering the component's beats. */
+  stepBase?: number;
   steps: StepDef[];
 };
 
@@ -27,6 +30,8 @@ export type FlatStep = StepDef & {
   actName: string;
   sceneId: string;
   local: number;
+  /** Step index the scene component sees (local + scene.stepBase). */
+  beat: number;
   sceneLength: number;
   /** 1-based number of the visual slide this step belongs to. */
   slide: number;

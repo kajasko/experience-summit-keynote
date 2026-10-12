@@ -86,6 +86,7 @@ export function ChatPrompt({ reduced }: { reduced: boolean }) {
         <div className="chat-prompt-sub">
           Nelineární cesta neznamená, že všechno zavřeme do chatovacího okna.
         </div>
+        <div className="chat-prompt-note">Ale ne vždy umíme potřebu formulovat.</div>
       </div>
       <div className="chat-prompt-stage">
         <div data-chat-glass className="chat-glass">

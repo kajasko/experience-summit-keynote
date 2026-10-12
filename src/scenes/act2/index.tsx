@@ -136,9 +136,9 @@ export function Conversation({ reduced }: SceneProps) {
       />
       <div className="conv-copy">
         <div data-conv-title className="conv-title">
-          Konverzace je přirozené
+          Vyslovit potřebu
           <br />
-          lidské rozhraní
+          je jednoduché
         </div>
         <div data-conv-sub className="conv-sub">Proto se chat stal výchozí podobou mnoha AI řešení.</div>
       </div>
@@ -155,7 +155,7 @@ export function Conversation({ reduced }: SceneProps) {
         <div data-conv-rail className="conv-rail" />
       </div>
       <div data-conv-caption className="conv-caption">
-        Chat staví na formě komunikace, kterou lidé už znají.
+        Konverzace je přirozené lidské rozhraní.
       </div>
     </div>
   );

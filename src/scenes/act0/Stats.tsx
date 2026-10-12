@@ -34,9 +34,11 @@ export function Thesis({ step, reduced: _reduced }: SceneProps) {
   );
 }
 
+// Slide 09 already lands "AI už je součástí každodenního života." —
+// slide 10 now carries the proof instead of repeating the sentence.
 const ADOPTION_TITLE = [
-  ["AI", "už", "je", "součástí"],
-  ["každodenního", "života."],
+  ["AI", "už", "není"],
+  ["experiment."],
 ];
 
 const ADOPTION_STATS = [

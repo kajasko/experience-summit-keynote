@@ -1,0 +1,49 @@
+/* ---------- 01 · Představení ---------- */
+.intro-copy { position: absolute; left: 80px; top: 230px; width: 860px; }
+.intro-kicker {
+  font-size: 22px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: var(--lime-deep);
+}
+.intro-name {
+  margin: 26px 0 0; font-size: 150px; font-weight: 800; line-height: 0.9; letter-spacing: -0.055em;
+  background: var(--text-gradient); -webkit-background-clip: text; background-clip: text; color: transparent;
+  padding-bottom: 0.06em;
+}
+.intro-rule { width: 140px; height: 6px; margin-top: 40px; border-radius: 6px; background: var(--lime); }
+.intro-role { margin-top: 34px; font-size: 40px; font-weight: 650; letter-spacing: -0.03em; color: var(--text-deep); }
+.intro-role strong { font-weight: 800; }
+.intro-tags { display: flex; gap: 14px; margin-top: 40px; flex-wrap: wrap; }
+.intro-tags span {
+  padding: 12px 22px; border-radius: 999px; background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(0, 88, 96, 0.14); font-size: 20px; font-weight: 700; color: var(--teal);
+}
+.intro-photo {
+  position: absolute; margin: 0; right: 120px; top: 110px; width: 660px; height: 860px;
+  border-radius: 36px; overflow: hidden; box-shadow: 0 40px 90px rgba(3, 56, 61, 0.22);
+}
+.intro-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; display: block; }
+.intro-photo::after {
+  content: ""; position: absolute; left: 0; bottom: 0; width: 100%; height: 8px; background: var(--lime);
+}
+
+/* ---------- konec · moderátor + masterclassy ---------- */
+.hosts-head { position: absolute; left: 80px; right: 80px; top: 150px; display: flex; justify-content: space-between; align-items: flex-end; gap: 60px; }
+.hosts-title { margin: 0; font-size: 84px; font-weight: 800; letter-spacing: -0.05em; line-height: 0.98; color: var(--text-deep); max-width: 11ch; }
+.hosts-mc {
+  display: grid; gap: 6px; padding: 28px 36px; min-width: 520px; border-radius: 26px;
+  background: var(--text-deep); color: var(--paper);
+}
+.hosts-mc-label { font-size: 16px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: var(--lime); }
+.hosts-mc-name { font-size: 40px; font-weight: 800; letter-spacing: -0.03em; }
+.hosts-mc-role { font-size: 20px; font-weight: 600; color: rgba(215, 230, 231, 0.8); }
+.hosts-grid { position: absolute; left: 80px; right: 80px; top: 500px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+.hosts-card {
+  position: relative; min-height: 400px; padding: 40px 40px 36px; border-radius: 28px;
+  background: rgba(255, 255, 255, 0.74); border: 1px solid rgba(0, 88, 96, 0.12);
+  box-shadow: 0 24px 60px rgba(3, 56, 61, 0.08);
+}
+.hosts-card-n { position: absolute; right: 34px; top: 34px; font-size: 15px; font-weight: 800; letter-spacing: 0.14em; color: rgba(0, 88, 96, 0.5); }
+.hosts-card-label { font-size: 15px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: var(--lime-deep); }
+.hosts-card-title { margin-top: 18px; font-size: 34px; font-weight: 800; letter-spacing: -0.035em; line-height: 1.06; color: var(--text-deep); }
+.hosts-card-sub { margin-top: 14px; font-size: 21px; font-weight: 600; line-height: 1.3; color: var(--teal); }
+.hosts-card-leads { list-style: none; padding: 24px 0 0; margin: 26px 0 0; border-top: 1px solid var(--line); display: grid; gap: 10px; }
+.hosts-card-leads li { font-size: 22px; font-weight: 700; color: var(--text-deep); }

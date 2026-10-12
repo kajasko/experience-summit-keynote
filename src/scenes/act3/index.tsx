@@ -449,7 +449,7 @@ const ROBOT_IDLE = { left: 648, width: 700, bottom: 48 };
 const ROBOT_HERO = { left: 48, width: 760, bottom: 40 };
 const ROBOT_EXIT = { left: -820, width: 760, bottom: 40 };
 const REASON_PROOFS = [
-  { id: "life", title: "Pobyty prodlužují život", sub: "brandový důvod, který jde ověřit", icon: "heart" },
+  { id: "life", title: "O 20 % kvalitnější spánek", sub: "naměřeno u hostů spánkového programu", icon: "heart" },
   { id: "care", title: "Péče, která je poznat", sub: "stejný slib v každé stopě", icon: "headset" },
   { id: "reply", title: "Odpověď do 2 minut", sub: "v pracovní době", icon: "clock" },
   { id: "fix", title: "Řešení problému do 24 hodin", sub: "Garantovaný proces", icon: "wrench" },

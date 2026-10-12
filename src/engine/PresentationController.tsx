@@ -347,7 +347,7 @@ export function PresentationController() {
         >
           <SceneMotion key={view.sceneId} step={view} reduced={reduced}>
             <SlideContext.Provider value={view}>
-              <Scene step={view.local} reduced={reduced} sceneId={view.sceneId} />
+              <Scene step={view.beat} reduced={reduced} sceneId={view.sceneId} />
             </SlideContext.Provider>
           </SceneMotion>
           <SourceNote ids={view.sources} visible={showSources} />

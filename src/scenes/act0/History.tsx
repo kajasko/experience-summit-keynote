@@ -33,7 +33,7 @@ const ERAS = [
     page: "03 / 75",
     kicker: "03 Evoluce",
     img: asset("terminal.webp"),
-    imgStyle: { width: 880, right: 40, top: 200 },
+    imgStyle: { width: 780, right: 70, top: 300 },
   },
   {
     year: "1973",
@@ -57,7 +57,7 @@ const ERAS = [
     page: "06 / 75",
     kicker: "05 Evoluce",
     img: asset("intent-laptop.webp"),
-    imgStyle: { width: 980, right: 24, top: 198 },
+    imgStyle: { width: 960, right: 110, top: 220 },
   },
 ];
 

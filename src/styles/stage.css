@@ -7453,3 +7453,17 @@ html.thumbs-capture .stage-frame {
     font-size: 36px;
   }
 }
+
+.chat-prompt-note {
+  display: inline-block;
+  margin-top: 34px;
+  padding: 14px 22px 14px 20px;
+  border-left: 4px solid var(--lime-deep);
+  background: rgba(255, 255, 255, 0.72);
+  border-radius: 0 14px 14px 0;
+  color: var(--text-deep);
+  font-size: 26px;
+  font-weight: 750;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}

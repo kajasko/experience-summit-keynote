@@ -15,6 +15,7 @@ import "./styles/adapt-redesign.css";
 import "./styles/distrust-redesign.css";
 import "./styles/polish.css";
 import "./styles/finale-b.css";
+import "./styles/bookends.css";
 import "./styles/mobile.css";
 
 if (new URLSearchParams(window.location.search).get("thumbs") === "1") {

@@ -2,6 +2,12 @@ import type { SceneDef, FlatStep, SlideDef } from "./types";
 
 const allScenes: SceneDef[] = [
   {
+    id: "intro", act: 0, actName: "ÚVOD", component: "SpeakerIntro",
+    steps: [
+      { id: "in1", title: "Představení: Andrea Nuttall", speakerNote: "Představení. Andrea Nuttall, zakladatelka a CEO Clientology." },
+    ],
+  },
+  {
     id: "opening", act: 0, actName: "ÚVOD", component: "Opening",
     steps: [
       { id: "o1", title: "AI mění svět", speakerNote: "Ticho. AI nemění jen technologii. Mění způsob, jak lidé rozhodují, nakupují, pracují a jak firmy navrhují zkušenost." },
@@ -67,14 +73,6 @@ const allScenes: SceneDef[] = [
   {
     id: "kdo", act: 1, actName: "KDO?", component: "Chapter",
     steps: [{ id: "k1", title: "Kdo experience používá?", speakerNote: "První posun: od UX designu k designu pro lidi i AI.", sourcePage: 9 }],
-  },
-  {
-    id: "trend1", act: 1, actName: "KDO?", component: "Trend1",
-    steps: [
-      { id: "tr1", title: "91 % AI při designu", speakerNote: "AI mění, kdo experience vytváří, kdo pomáhá s výběrem a kdo vykonává. 91 % designérů pracuje s AI týdně.", sources: ["designerFund"], sourcePage: 10 },
-      { id: "tr1b", title: "50 % AI-powered search", speakerNote: "50 % spotřebitelů cíleně používá AI search.", sources: ["mckinseySearch"], sourcePage: 10 },
-      { id: "tr1c", title: "1 ze 3 interakcí", speakerNote: "Do roku 2028 má třetina interakcí s aplikacemi využívat autonomní agenty.", sources: ["gartnerAgents"], sourcePage: 10 },
-    ],
   },
   {
     id: "uxax", act: 1, actName: "KDO?", component: "UxAx",
@@ -195,11 +193,9 @@ const allScenes: SceneDef[] = [
     ],
   },
   {
-    id: "prove", act: 3, actName: "PROČ VĚŘIT?", component: "Prove",
+    id: "prove", act: 3, actName: "PROČ VĚŘIT?", component: "Prove", stepBase: 2,
     steps: [
-      { id: "pr1", title: "Značka se z billboardů přesouvá do zážitku", speakerNote: "Nejdřív slib na billboardu. Pak stejná značka v obýváku, v notebooku, v péči. Dřív lákala k nákupu reklamou. Dnes má provázet životem. Slib získává pozornost. Zkušenost buduje důvěru — a proto slib nestačí.", sourcePage: 32 },
-      { id: "pr1b", title: "Zážitek", speakerNote: "Klik: kamera sjede z billboardu do obýváku. Stejná značka, ale teď jako zážitek doma.", sourcePage: 32 },
-      { id: "pr1c", title: "Zkušenost buduje důvěru", speakerNote: "Klik: celek. Slib získává pozornost. Zkušenost buduje důvěru — a proto slib nestačí.", sourcePage: 32 },
+      { id: "pr1c", title: "Slib získává pozornost", speakerNote: "Rovnou celek, bez mezikroků slib → zážitek. Slib získává pozornost. Zkušenost buduje důvěru — a proto slib nestačí.", sourcePage: 32 },
       { id: "pr2", title: "AI musí mít důvod vás doporučit", speakerNote: "Nejdřív jen karta značky. Citát ještě ne.", sourcePage: 32 },
       { id: "pr2a", title: "Máme nejlepší zákaznickou péči", speakerNote: "Značka říká obecné tvrzení. Nechte to dopsat, pak klik.", sourcePage: 32 },
       { id: "pr2b", title: "Neověřitelné", speakerNote: "AI s tím neumí pracovat. Neříká, čím jste skutečně jiní.", sourcePage: 32 },
@@ -208,7 +204,7 @@ const allScenes: SceneDef[] = [
       { id: "pr2f", title: "Proč bych vás měl doporučit?", speakerNote: "Zákazník i AI potřebují konkrétní, dohledatelné a ověřitelné informace o tom, pro koho jste vhodní a proč.", sourcePage: 32 },
       { id: "pr2e", title: "Potřebuje důkaz", speakerNote: "Slogan nestačí. Další klik: prove it.", sourcePage: 32 },
       { id: "pr3", title: "Prove it.", speakerNote: "AI potřebuje konkrétní důvod, proč vás doporučit. Ne slogan. Důkaz, který jde dohledat.", sourcePage: 32 },
-      { id: "pr4", title: "Důvěra potřebuje důkazy", speakerNote: "Nejen technické SLA. I brandový důvod: protože naše pobyty prodlužují život. Konkrétní, dohledatelné, ověřitelné.", sourcePage: 32 },
+      { id: "pr4", title: "Důvěra potřebuje důkazy", speakerNote: "Nejen technické SLA. I brandový důvod, který jde změřit: díky našemu spánkovému programu se hostům zlepšila kvalita spánku o 20 %. Ne „pobyty prodlužují život“, ale konkrétní, dohledatelné, ověřitelné číslo. (Ilustrativní příklad značky.)", sourcePage: 32 },
       { id: "pr5", title: "AI musí vaše důvody najít a ověřit", speakerNote: "Slib na webu nestačí. AI musí ty důvody venku najít a ověřit. Najít a ověřit jsou dvě různé práce.", sourcePage: 33 },
       { id: "pr5b", title: "Důkaz musí jít hledat", speakerNote: "Jeden zelený blok na prezentaci nestačí. AI hledá stopy mimo váš slajd.", sourcePage: 33 },
       { id: "pr6", title: "Konzistence, odpověď-first, důvěryhodnost", speakerNote: "Tři podmínky, bez kterých nemá co ověřovat: stejná fakta, dohledatelné odpovědi, důvěra mimo vlastní web.", sourcePage: 33 },
@@ -237,15 +233,8 @@ const allScenes: SceneDef[] = [
     ],
   },
   {
-    id: "trust", act: 3, actName: "PROČ VĚŘIT?", component: "Trust",
+    id: "trust", act: 3, actName: "PROČ VĚŘIT?", component: "Trust", stepBase: 7,
     steps: [
-      { id: "ts1", title: "Tři podmínky, které musí fungovat, aby lidé AI věřili", speakerNote: "Jen nadpis. První klik: otázka se napíše na středu — Mohu se na AI spolehnout?", sourcePage: 37 },
-      { id: "ts1q", title: "Mohu se na AI spolehnout?", speakerNote: "Otázka zůstává na středu. Další klik: přesune se do karty Spolehlivost.", sourcePage: 37 },
-      { id: "ts1a", title: "Spolehlivost", speakerNote: "Mohu se na AI spolehnout? To je spolehlivost.", sourcePage: 37 },
-      { id: "ts1r", title: "Mám nad AI kontrolu?", speakerNote: "Otázka na středu. Další klik: karta Kontrola.", sourcePage: 37 },
-      { id: "ts1b", title: "Kontrola", speakerNote: "Mám nad AI kontrolu? Kontrola.", sourcePage: 37 },
-      { id: "ts1s", title: "Co když se něco pokazí?", speakerNote: "Otázka na středu. Další klik: karta Náprava.", sourcePage: 37 },
-      { id: "ts1c", title: "Náprava", speakerNote: "Co když se něco pokazí? Náprava. Další klik zoomuje do Kontroly.", sourcePage: 37 },
       { id: "ts2", title: "Kontrola", speakerNote: "Zoom do Kontroly. Cyklus Human in the Loop se složí sám. Až dohraje, další klik: čtyři otázky a přechod k JAK.", sourcePage: 38 },
     ],
   },
@@ -262,8 +251,6 @@ const allScenes: SceneDef[] = [
     steps: [
       { id: "or1", title: "78 % firem", speakerNote: "78 % firem věří, že dodává propojenou zkušenost.", sources: ["sap"], sourcePage: 40 },
       { id: "or1b", title: "25 % zákazníků", speakerNote: "Souhlasí jen 25 % zákazníků.", sources: ["sap"], sourcePage: 40 },
-      { id: "or1c", title: "85 % vedoucích péče", speakerNote: "85 % vedoucích zákaznické péče rozšiřuje odpovědnosti pracovníků v souvislosti s AI.", sources: ["gartnerCx"], sourcePage: 40 },
-      { id: "or2", title: "Handoff je symptom systému", speakerNote: "75 % zákazníků odrazuje předávání mezi týmy. Propojený zážitek vyžaduje propojenou firmu.", sources: ["gartnerCx"], sourcePage: 40 },
     ],
   },
   {
@@ -298,6 +285,12 @@ const allScenes: SceneDef[] = [
       { id: "vd6", title: "Pět hlasů ze stage", speakerNote: "Všichni řečníci main stage Experience Summit 2026.", sourcePage: 46 },
     ],
   },
+  {
+    id: "hosts", act: 4, actName: "JAK?", component: "Hosts",
+    steps: [
+      { id: "hs1", title: "Kdo vás provede dál", speakerNote: "Představíme moderátora a lektory odpoledních masterclass: Daniel Koutný a Zuzana Mezerová (Persony v akci), Jakub Šťastný a Dejan Krstic (AI prototyp), Kateřina Stehlíková a Libor Hykeš (CVP v praxi)." },
+    ],
+  },
 ];
 
 const cutoffScene = import.meta.env.VITE_DECK_CUTOFF_SCENE;
@@ -318,7 +311,7 @@ export const scenes: SceneDef[] = cutoffIndex >= 0
 const SLIDE_BREAKS = new Set([
   "h2", "h3", "h4", "h5", "i2", "i3", "tw2", "vi0", "vi1", "vi2", "vi3", "vi4",
   "unb", "ad2", "f2", "ui2", "ui3b", "d1", "pr2", "pr3", "pr4", "pr5b", "ts2",
-  "or1c", "ca2", "mo1", "mo2", "mo3", "mo4",
+  "ca2", "mo1", "mo2", "mo3", "mo4",
 ]);
 
 let slideNo = 0;
@@ -333,6 +326,7 @@ export const steps: FlatStep[] = scenes
         actName: scene.actName,
         sceneId: scene.id,
         local,
+        beat: local + (scene.stepBase ?? 0),
         sceneLength: scene.steps.length,
         slide: slideNo,
       };

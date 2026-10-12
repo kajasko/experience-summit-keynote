@@ -170,11 +170,8 @@
 .xp-card { width: 540px; min-height: 180px; padding: 34px 38px 34px; gap: 22px; }
 .xp-card.is-produkt, .xp-card.is-soul { top: 280px; }
 .xp-card.is-people, .xp-card.is-digital { top: 560px; }
-.xp-card::after {
-  content: ""; position: absolute; left: 38px; right: 38px; bottom: -1px; height: 4px;
-  border-radius: 4px 4px 0 0; background: linear-gradient(90deg, var(--lime), rgba(195, 213, 82, 0));
-  opacity: 0.9;
-}
+/* green bottom bars removed: cards match the plain glass cards used elsewhere */
+.xp-card::after { content: none; }
 .xp-card-n {
   position: absolute; right: 30px; top: 28px;
   font-size: 15px; font-weight: 800; letter-spacing: 0.14em; color: rgba(0, 88, 96, 0.5);
