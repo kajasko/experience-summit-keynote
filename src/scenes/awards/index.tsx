@@ -117,7 +117,7 @@ export const AwardsWhat = withData(function AwardsWhat({ data }: DataProps) {
         <div className="awards-kicker">{data.organizer}</div>
         <div className="awards-title" style={{ maxWidth: "18ch" }}>Ocenění zkušeností, které opravdu fungují.</div>
         <div className="awards-sub" style={{ maxWidth: "36ch" }}>
-          CX Awards pořádá {data.organizer} v rámci {data.summit}. Porota hodnotí projekty na škále {data.scale}, výsledek je vážený průměr.
+          CX Awards pořádá {data.organizer} v rámci {data.summit}. Porota hodnotí projekty podle čtyř vážených kritérií.
         </div>
       </div>
     </div>
@@ -218,7 +218,6 @@ function Reveal({ data, categoryId, step }: { data: AwardsData; categoryId: Awar
                 <div className="awards-place-rank">{rank}. místo</div>
                 <div className="awards-place-company">{place.company}</div>
                 <div className="awards-place-project">{place.project}</div>
-                <div className="awards-place-score">{place.score.toFixed(2).replace(".", ",")}<small>/ 7</small></div>
               </article>
             );
           })}

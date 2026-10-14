@@ -1,4 +1,4 @@
-export type AwardPlace = { rank: 1 | 2 | 3; project: string; company: string; score: number };
+export type AwardPlace = { rank: 1 | 2 | 3; project: string; company: string };
 export type AwardProject = { company: string; project: string };
 export type AwardCategory = {
   id: "impact" | "pulse";
@@ -10,7 +10,6 @@ export type AwardCategory = {
 export type AwardsData = {
   event: string;
   date: string;
-  scale: string;
   organizer: string;
   summit: string;
   criteria: { id: string; label: string; weight: number }[];

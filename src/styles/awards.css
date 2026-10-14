@@ -77,8 +77,6 @@
 .awards-place.is-1 .awards-place-rank { color: #03383d; }
 .awards-place-company { margin-top: 18px; font-size: 36px; font-weight: 800; letter-spacing: -.04em; color: var(--text-deep); line-height: 1.05; }
 .awards-place-project { margin-top: 12px; font-size: 22px; font-weight: 650; color: var(--teal); line-height: 1.25; }
-.awards-place-score { margin-top: 22px; font-size: 48px; font-weight: 800; letter-spacing: -.05em; color: var(--text-deep); }
-.awards-place-score small { font-size: .4em; font-weight: 700; color: rgba(0,88,96,.55); margin-left: 6px; }
 
 .awards-public {
   position: absolute; left: 50%; bottom: 110px; transform: translateX(-50%);
