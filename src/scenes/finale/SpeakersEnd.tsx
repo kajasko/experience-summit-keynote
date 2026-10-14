@@ -55,12 +55,14 @@ export function SpeakersEnd({ step, reduced }: SceneProps) {
     const heroBoxes = (i: number): Box[] => {
       const n = SPEAKERS[i].people.length;
       if (n === 1) return [heroSlotBox];
-      // Duo: Michaela (k=0) in front, Kryštof (k=1) behind and offset right, a touch
-      // smaller. Both bottom-flush. The pair is nudged left so his arm clears the corner logo.
+      // Duo: Michaela (k=0) in front, Kryštof (k=1) behind and offset right, same
+      // size. Both bottom-flush. The pair is nudged left so his arm clears the corner logo.
       const W = heroSlotBox.width;
       const H = heroSlotBox.height;
-      const back = { left: heroSlotBox.left + W - W * 0.6 - 200, top: heroSlotBox.top + H * 0.05, width: W * 0.6, height: H * 0.95 };
-      const front = { left: back.left - W * 0.4, top: heroSlotBox.top, width: W * 0.62, height: H };
+      // Her cutout is a tighter crop than his, so she gets a slightly smaller box and he a
+      // taller one: on screen their heads read the same size. Both boxes end at the bottom edge.
+      const back = { left: heroSlotBox.left + W - W * 0.66 - 170, top: heroSlotBox.top - H * 0.08, width: W * 0.66, height: H * 1.08 };
+      const front = { left: back.left - W * 0.36, top: heroSlotBox.top + H * 0.1, width: W * 0.56, height: H * 0.9 };
       return [front, back];
     };
 
@@ -266,6 +268,13 @@ export function SpeakersEnd({ step, reduced }: SceneProps) {
                 </div>
               </div>
             ))}
+            <img
+              className="sp-feature-logo"
+              src={asset(featured.logo.src)}
+              alt={featured.logo.alt}
+              style={{ height: featured.logo.h }}
+              draggable={false}
+            />
           </div>
         )}
       </div>

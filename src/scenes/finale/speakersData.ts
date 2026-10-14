@@ -13,12 +13,15 @@ export type SummitTalk = {
   n: string;
   topic: string;
   time: string;
+  /** Official company logo (Wikimedia Commons SVG). */
+  logo: { src: string; alt: string; h: number };
   people: SpeakerPerson[];
 };
 
 export const SUMMIT_TALKS: SummitTalk[] = [
   {
     id: "jakub",
+    logo: { src: "logos/ppf.svg", alt: "PPF", h: 58 },
     n: "01",
     topic: "Od rychlých člunů po zaoceánské tankery",
     time: "9:45–10:15",
@@ -32,6 +35,7 @@ export const SUMMIT_TALKS: SummitTalk[] = [
   },
   {
     id: "dejan",
+    logo: { src: "logos/spotify.svg", alt: "Spotify", h: 44 },
     n: "02",
     topic: "Od softwaru ke kontextu — produktový cyklus v éře AI",
     time: "10:15–10:45",
@@ -45,6 +49,7 @@ export const SUMMIT_TALKS: SummitTalk[] = [
   },
   {
     id: "lego",
+    logo: { src: "logos/lego.svg", alt: "the LEGO Group", h: 64 },
     n: "03",
     topic: "„Jen to nejlepší je dost dobré“ v éře umělé inteligence",
     time: "11:15–12:00",
@@ -67,6 +72,7 @@ export const SUMMIT_TALKS: SummitTalk[] = [
   },
   {
     id: "milos",
+    logo: { src: "logos/homecredit.svg", alt: "Home Credit", h: 50 },
     n: "04",
     topic: "Anatomie úspěšného týmu — vztahy a kultura řídí výsledky",
     time: "12:00–12:30",

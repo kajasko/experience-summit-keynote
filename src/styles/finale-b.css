@@ -268,3 +268,13 @@
 .sp-chip.is-pair .sp-chip-slot { width: 72px; }
 .sp-chip.is-pair .sp-chip-slot + .sp-chip-slot { margin-left: -14px; }
 .sp-feature-copy.is-pair .sp-feature-person + .sp-feature-person { margin-top: 18px; }
+
+/* Company logo under the featured talk's speakers (official SVGs, Wikimedia Commons). */
+.sp-feature-logo {
+  display: block;
+  margin-top: 34px;
+  width: auto;
+  max-width: 300px;
+  object-fit: contain;
+  object-position: left center;
+}
