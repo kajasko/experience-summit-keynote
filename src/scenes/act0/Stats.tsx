@@ -173,42 +173,43 @@ export function Twist({ step, reduced }: SceneProps) {
   const adjacent = useAdjacentStep(step);
   const reveal = step >= 1;
 
+  // Two fixed-size titles (hero 128px, kicker 28px) cross-fade with transform/opacity.
+  // Previously fontSize/letterSpacing/marginBottom + height:auto were tweened → layout every frame.
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      const title = root.current?.querySelector<HTMLElement>("[data-hero-title]");
+      const hero = root.current?.querySelector<HTMLElement>("[data-hero-title]");
+      const kicker = root.current?.querySelector<HTMLElement>("[data-twist-kicker]");
       const more = root.current?.querySelector<HTMLElement>("[data-twist-more]");
       const words = gsap.utils.toArray<HTMLElement>("[data-twist-word]", root.current);
-      if (!title || !more) return;
+      if (!hero || !kicker || !more) return;
+      gsap.set([hero, kicker, ...words], { force3D: true, transformOrigin: "left top" });
       const instant = reduced || !adjacent;
-      const hero = { fontSize: 128, fontWeight: 800, letterSpacing: "-0.055em", marginBottom: 0 };
-      const kicker = { fontSize: 28, fontWeight: 700, letterSpacing: "-0.02em", marginBottom: 28 };
-
-      const asKicker = (on: boolean) => title.classList.toggle("is-kicker", on);
 
       if (!reveal) {
-        asKicker(false);
-        gsap.set(title, { ...hero, color: "#03383d" });
-        gsap.set(more, { height: 0, marginTop: 0 });
+        gsap.set(hero, { autoAlpha: 1, scale: 1, x: 0, y: 0 });
+        gsap.set([kicker, more], { autoAlpha: 0 });
         gsap.set(words, { autoAlpha: 0, y: 10 });
         return;
       }
-
       if (instant) {
-        asKicker(true);
-        gsap.set(title, { ...kicker, color: "#03383d" });
-        gsap.set(more, { height: "auto" });
+        gsap.set(hero, { autoAlpha: 0 });
+        gsap.set([kicker, more], { autoAlpha: 1, y: 0 });
         gsap.set(words, { autoAlpha: 1, y: 0 });
         return;
       }
-
-      asKicker(false);
-      gsap.set(title, { ...hero, color: "#03383d" });
-      gsap.set(more, { height: "auto" });
+      // Fly the hero onto the kicker's box (measured once, before the tween).
+      const hb = hero.getBoundingClientRect();
+      const kb = kicker.getBoundingClientRect();
+      const s = kb.height / Math.max(hb.height / 2, 1); // hero is two lines, kicker one
+      const sx = (root.current!.getBoundingClientRect().width / 1920) || 1;
+      gsap.set(hero, { autoAlpha: 1, scale: 1, x: 0, y: 0 });
+      gsap.set(kicker, { autoAlpha: 0 });
+      gsap.set(more, { autoAlpha: 1 });
       gsap.set(words, { autoAlpha: 0, y: 10 });
       const tl = gsap.timeline();
-      tl.to(title, { ...kicker, duration: 0.72, ease: "power3.inOut", onUpdate() {
-        if (!title.classList.contains("is-kicker") && Number(gsap.getProperty(title, "fontSize")) < 72) asKicker(true);
-      } }, 0);
+      tl.to(hero, { scale: s, x: (kb.left - hb.left) / sx, y: (kb.top - hb.top) / sx, duration: 0.72, ease: "power3.inOut" }, 0);
+      tl.to(kicker, { autoAlpha: 1, duration: 0.2, ease: "none" }, 0.56);
+      tl.to(hero, { autoAlpha: 0, duration: 0.2, ease: "none" }, 0.6);
       tl.to(words, { autoAlpha: 1, y: 0, duration: 0.36, ease: EASE.enter, stagger: 0.08 }, 0.52);
     }, root);
     return () => ctx.revert();
@@ -233,9 +234,14 @@ export function Twist({ step, reduced }: SceneProps) {
           objectPosition: "right center",
         }}
       />
-      <div className="safe twist-copy">
-        <div data-hero-title className="twist-title">
+      <div className="safe twist-copy" style={{ position: "absolute" }}>
+        <div data-hero-title className="twist-title" style={{ position: "absolute", left: 0, top: "50%", marginTop: -143, color: "#03383d", willChange: "transform, opacity" }}>
           Problém<span data-twist-break> </span><span className="twist-strong">není AI</span><span style={{ color: "var(--lime)" }}>.</span>
+        </div>
+        <div>
+          <div data-twist-kicker className="twist-title is-kicker" aria-hidden="true" style={{ fontSize: 28, fontWeight: 700, letterSpacing: "-0.02em", marginBottom: 28, color: "#03383d" }}>
+            Problém<span data-twist-break> </span><span className="twist-strong">není AI</span><span style={{ color: "var(--lime)" }}>.</span>
+          </div>
         </div>
         <div data-twist-more className="twist-more">
           {TWIST_LINES.map((line, i) => (

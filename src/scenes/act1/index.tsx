@@ -20,7 +20,8 @@ const CHROME = {
   ],
   understanding: [
     { kicker: "KDO / Cesta k výsledku", page: "26 / 75", caption: "Potřeba vede k výsledku" },
-    { kicker: "KDO / Potřeba", page: "25 / 75", caption: "Jedny přivádějí. Druhé drží." },
+    { kicker: "KDO / Potřeba", page: "27 / 75", caption: "Nejdřív porozumění" },
+    { kicker: "KDO / Potřeba", page: "27 / 75", caption: "Jedny přivádějí. Druhé drží." },
   ],
   modes: [
     { kicker: "KDO / Módy hodnoty", page: "27 / 75", caption: "Pochopit" },
@@ -29,7 +30,11 @@ const CHROME = {
     { kicker: "KDO / Módy hodnoty", page: "27 / 75", caption: "Konat" },
     { kicker: "KDO / Módy hodnoty", page: "27 / 75", caption: "Čtyři módy vedle sebe" },
   ],
-  examples: [{ kicker: "KDO / Need-first design", page: "29 / 75", caption: "Začněte potřebou." }],
+  examples: [
+    { kicker: "KDO / Need-first design", page: "29 / 75", caption: "Začněte potřebou." },
+    { kicker: "KDO / Need-first design", page: "29 / 75", caption: "Začněte potřebou." },
+    { kicker: "KDO / Need-first design", page: "29 / 75", caption: "Začněte potřebou." },
+  ],
   prd: [
     { kicker: "KDO / Design contract", page: "30 / 75", caption: "Než začneme navrhovat" },
   ],
@@ -78,12 +83,16 @@ export function UxAx({ step, reduced }: SceneProps) {
       const right = root.current?.querySelector<HTMLElement>('[data-uxax-card="right"]');
       if (!left || !right) return;
 
-      const hidden = { y: 64, autoAlpha: 0, filter: "blur(12px)" };
-      const shown = { y: 0, autoAlpha: 1, filter: "blur(0px)" };
+      // Transform/opacity only (the old 12px blur tween was costly on a big card).
+      const hidden = { y: 64, autoAlpha: 0 };
+      const shown = { y: 0, autoAlpha: 1 };
+      gsap.set([left, right], { force3D: true });
 
+      // Step 0 = title + člověk/UX on entry. Step 1 (click) = agent/AX.
       const settle = (local: number) => {
         gsap.set(words, { autoAlpha: 1, y: 0 });
-        gsap.set([left, right], local >= 1 ? shown : hidden);
+        gsap.set(left, shown);
+        gsap.set(right, local >= 1 ? shown : hidden);
       };
 
       if (reduced) {
@@ -92,21 +101,21 @@ export function UxAx({ step, reduced }: SceneProps) {
       }
 
       if (step === 0) {
-        if (last === 1 || last === 2) {
-          gsap.set(words, { autoAlpha: 1, y: 0 });
-          gsap.to([left, right], { ...hidden, duration: 0.36, ease: EASE.exit });
+        if (last === 1) {
+          settle(1);
+          gsap.to(right, { ...hidden, duration: 0.36, ease: EASE.exit });
           return;
         }
         gsap.set(words, { autoAlpha: 0, y: 16 });
         gsap.set([left, right], hidden);
         gsap.to(words, { autoAlpha: 1, y: 0, duration: 0.38, stagger: 0.1, ease: EASE.enter });
+        gsap.to(left, { ...shown, duration: 0.9, ease: "power2.out", delay: 0.35 });
         return;
       }
 
       if (last === 0) {
-        gsap.set(words, { autoAlpha: 1, y: 0 });
-        gsap.set([left, right], hidden);
-        gsap.to([left, right], { ...shown, duration: 1.12, ease: "power1.inOut" });
+        settle(0);
+        gsap.to(right, { ...shown, duration: 0.9, ease: "power2.out" });
         return;
       }
 
@@ -557,8 +566,9 @@ function UnderstandingPair({
 
 export function Understanding({ step, reduced }: SceneProps) {
   const chrome = chromeFor("understanding", step);
+  // step 0 = NeedPath; steps 1–2 = UnderstandingPair (circle → open pair on click).
   if (step === 0) return <NeedPath chrome={chrome} reduced={reduced} />;
-  return <UnderstandingPair step={1} chrome={chrome} reduced={reduced} />;
+  return <UnderstandingPair step={Math.min(step - 1, 1)} chrome={chrome} reduced={reduced} />;
 }
 
 export function BuyerUser({ step, reduced }: SceneProps) {
@@ -688,7 +698,7 @@ export function Modes({ step, reduced }: SceneProps) {
       });
       if (row) {
         clearWheel();
-        cards.forEach((card, i) => gsap.set(card, { ...MODE_BASE[i] }));
+        cards.forEach((card, i) => gsap.set(card, { ...MODE_BASE[i], clearProps: "filter,transform,transformPerspective" }));
       } else {
         poseOrloj(cards, Math.min(local, 3));
       }
@@ -764,6 +774,10 @@ export function Modes({ step, reduced }: SceneProps) {
           zIndex: 2,
           duration: 0.7,
           ease: EASE.move,
+          // Drop the leftover 3D/filter layer once flat: blur(0) + rotateY(0) +
+          // perspective kept each glass card on its own 3D layer and the
+          // backdrop-filter edges drew a hairline seam between neighbours.
+          onComplete: () => gsap.set(card, { clearProps: "filter,transform,transformPerspective" }),
         }, at);
       });
       tl.to(track, { autoAlpha: 1, scaleX: 1, duration: 0.5, ease: EASE.move, transformOrigin: "left center" }, 0.45);
@@ -835,35 +849,52 @@ const CASES = [
 export function Examples({ step, reduced }: SceneProps) {
   const chrome = chromeFor("examples", step);
   const root = useRef<HTMLDivElement>(null);
+  const prev = useRef<number | null>(null);
+  // Step 0: title + Cleo. Click 1: Octopus. Click 2: Lemonade.
+  const shown = Math.min(Math.max(step, 0), 2);
 
   useLayoutEffect(() => {
     const el = root.current;
     if (!el) return;
+    const last = prev.current;
+    prev.current = shown;
     const title = el.querySelector<HTMLElement>("[data-examples-title]");
     const sub = el.querySelector<HTMLElement>("[data-examples-sub]");
     const panels = gsap.utils.toArray<HTMLElement>("[data-example-panel]", el);
-    const beds = gsap.utils.toArray<HTMLElement>("[data-example-bed]", el);
-    if (reduced) {
-      gsap.set([title, sub, panels], { autoAlpha: 1, y: 0, x: 0 });
-      gsap.set(beds, { clipPath: "inset(0 0% 0 0)" });
-      return;
-    }
-    gsap.set(title, { autoAlpha: 0, y: 18 });
-    gsap.set(sub, { autoAlpha: 0, y: 12 });
-    gsap.set(panels, { autoAlpha: 1 });
-    gsap.set(beds, { clipPath: "inset(0 100% 0 0)" });
-    const tl = gsap.timeline();
-    tl.to(title, { autoAlpha: 1, y: 0, duration: 0.44, ease: EASE.enter }, 0.06);
-    tl.to(sub, { autoAlpha: 1, y: 0, duration: 0.36, ease: EASE.enter }, 0.22);
-    beds.forEach((bed, i) => {
-      tl.to(bed, { clipPath: "inset(0 0% 0 0)", duration: 0.72, ease: EASE.move }, 0.34 + i * 0.14);
-    });
-    return () => {
-      tl.kill();
-      gsap.set([title, sub, panels], { autoAlpha: 1, y: 0 });
-      gsap.set(beds, { clipPath: "inset(0 0% 0 0)" });
+    gsap.set(panels, { force3D: true });
+    const on = { autoAlpha: 1, y: 0, scale: 1 };
+    const off = { autoAlpha: 0, y: 40, scale: 0.97 };
+    const settle = () => {
+      gsap.set([title, sub], { autoAlpha: 1, y: 0 });
+      panels.forEach((p, i) => gsap.set(p, i <= shown ? on : off));
     };
-  }, [reduced, step]);
+    if (reduced) { settle(); return; }
+
+    const tl = gsap.timeline();
+    if (last === null) {
+      // Entry (also on cold load): title, sub, then the first case.
+      gsap.set(title, { autoAlpha: 0, y: 18 });
+      gsap.set(sub, { autoAlpha: 0, y: 12 });
+      panels.forEach((p) => gsap.set(p, off));
+      tl.to(title, { autoAlpha: 1, y: 0, duration: 0.44, ease: EASE.enter }, 0.06);
+      tl.to(sub, { autoAlpha: 1, y: 0, duration: 0.36, ease: EASE.enter }, 0.22);
+      panels.forEach((p, i) => {
+        if (i <= shown) tl.to(p, { ...on, duration: 0.7, ease: EASE.enter }, 0.4 + i * 0.14);
+      });
+    } else if (shown > last) {
+      settle();
+      for (let i = last + 1; i <= shown; i++) {
+        gsap.set(panels[i], off);
+        tl.to(panels[i], { ...on, duration: 0.7, ease: EASE.enter }, (i - last - 1) * 0.12);
+      }
+    } else if (shown < last) {
+      gsap.set([title, sub], { autoAlpha: 1, y: 0 });
+      for (let i = shown + 1; i <= last; i++) tl.to(panels[i], { ...off, duration: 0.32, ease: EASE.exit }, 0);
+    } else {
+      settle();
+    }
+    return () => { tl.kill(); };
+  }, [reduced, shown]);
 
   return (
     <div ref={root} className="scene is-examples">

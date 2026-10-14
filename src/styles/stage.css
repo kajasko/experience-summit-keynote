@@ -353,10 +353,14 @@ button { font-family: inherit; }
   flex-direction: column;
   align-items: center;
   width: 100%;
+  margin: 10px 0;
+  /* Always reserve live size; "waiting" is scale(0.62) — no fontSize/height tween. */
   font-size: 68px;
   font-weight: 800;
   letter-spacing: -0.035em;
   line-height: 1.18;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
   color: var(--text-deep);
   overflow: visible;
   text-align: center;
@@ -370,6 +374,7 @@ button { font-family: inherit; }
 
 .vision-soft {
   z-index: 1;
+  filter: blur(22px); /* static; only opacity/transform animate */
 }
 
 .vision-sharp {
@@ -932,6 +937,16 @@ button { font-family: inherit; }
 .is-orloj .mode-card {
   transform-origin: center center;
 }
+
+/* No seam between glass cards while/after they flatten into a row: hide back
+   faces, give edges a transparent outline so they antialias, and keep the 3D
+   context only while the wheel is actually 3D. */
+.mode-card {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  outline: 1px solid transparent;
+}
+.is-aligned .modes-stage { transform-style: flat; }
 
 .modes-stage::before {
   content: "";
@@ -5399,7 +5414,7 @@ button { font-family: inherit; }
   position: absolute;
   left: 88px;
   right: 88px;
-  top: 360px;
+  top: 460px; /* centred between title and caption (was 360) */
   height: 430px;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -7459,8 +7474,8 @@ html.thumbs-capture .stage-frame {
   margin-top: 34px;
   padding: 14px 22px 14px 20px;
   border-left: 4px solid var(--lime-deep);
-  background: rgba(255, 255, 255, 0.72);
-  border-radius: 0 14px 14px 0;
+  background: none;
+  border-radius: 0;
   color: var(--text-deep);
   font-size: 26px;
   font-weight: 750;

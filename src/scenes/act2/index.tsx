@@ -161,7 +161,7 @@ export function Conversation({ reduced }: SceneProps) {
   );
 }
 
-export function Chat({ reduced }: SceneProps) {
+export function Chat({ step, reduced }: SceneProps) {
   return (
     <div className="scene is-chat-prompt">
       <SlideChrome
@@ -170,7 +170,7 @@ export function Chat({ reduced }: SceneProps) {
         caption="Chat není vždy nejlepší rozhraní"
         captionDot
       />
-      <ChatPrompt reduced={reduced} />
+      <ChatPrompt reduced={reduced} step={step} />
     </div>
   );
 }

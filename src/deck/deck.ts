@@ -89,16 +89,16 @@ const allScenes: SceneDef[] = [
   {
     id: "uxax", act: 1, actName: "KDO?", component: "UxAx",
     steps: [
-      { id: "ux1", title: "Jedna služba. Dva uživatelé.", speakerNote: "Služba má nově dva uživatele: člověka a agenta jednajícího jeho jménem.", sourcePage: 11 },
-      { id: "ux2", title: "Člověk / UX", speakerNote: "Pro člověka navrhujeme UI, UX a konverzaci.", sourcePage: 11 },
-      { id: "ux3", title: "Agent / AX", speakerNote: "Pro agenta data, API a MCP.", sourcePage: 11 },
+      { id: "ux1", title: "Jedna služba. Dva uživatelé.", speakerNote: "Služba má nově dva uživatele: člověka a agenta jednajícího jeho jménem. Pro člověka navrhujeme UI, UX a konverzaci.", sourcePage: 11 },
+      { id: "ux3", title: "Agent / AX", speakerNote: "Klik: pro agenta data, API a MCP.", sourcePage: 11 },
     ],
   },
   {
     id: "understanding", act: 1, actName: "KDO?", component: "Understanding",
     steps: [
       { id: "un2", title: "Potřeba vede k výsledku", speakerNote: "Need + Context vede k intentu, akci a výsledku. Po dvou uživatelích hned cesta: potřeba → výsledek.", sourcePage: 13 },
-      { id: "unb", title: "Jedny přivádějí. Druhé drží.", speakerNote: "Potřebu můžeme rozdělit do dvou světů. Buyer a chooser needs přivádějí zákazníky. User needs dávají důvod zůstat. Nákup nestačí, když selže používání.", sourcePage: 13 },
+      { id: "unb", title: "Potřeba · člověk", speakerNote: "Nejdřív porozumění. Kvalita AI nezačíná u modelu — začíná u člověka. Potřeba říká co, kontext říká co právě teď.", sourcePage: 13 },
+      { id: "unb2", title: "Jedny přivádějí. Druhé drží.", speakerNote: "Klik: potřebu rozdělíme do dvou světů. Buyer a chooser needs přivádějí zákazníky. User needs dávají důvod zůstat.", sourcePage: 13 },
     ],
   },
   {
@@ -114,7 +114,9 @@ const allScenes: SceneDef[] = [
   {
     id: "examples", act: 1, actName: "KDO?", component: "Examples",
     steps: [
-      { id: "ex1", title: "Začněte potřebou", speakerNote: "Cleo, Octopus a Lemonade ukazují, že need-first design nevylepšuje jen rozhraní. Vytváří nové produktové propozice.", sourcePage: 16 },
+      { id: "ex1", title: "Začněte potřebou", speakerNote: "Need-first design nevylepšuje jen rozhraní. Vytváří nové produktové propozice. Cleo.", sourcePage: 16 },
+      { id: "ex2", title: "Octopus", speakerNote: "Klik: Octopus.", sourcePage: 16 },
+      { id: "ex3", title: "Lemonade", speakerNote: "Klik: Lemonade.", sourcePage: 16 },
     ],
   },
   {
@@ -163,6 +165,7 @@ const allScenes: SceneDef[] = [
     id: "chat", act: 2, actName: "CO?", component: "Chat",
     steps: [
       { id: "f3", title: "Chat ale není produktová strategie", speakerNote: "Nelineární cesta neznamená, že všechno zavřeme do chatovacího okna. Bariérou může být už samotná nutnost přesně formulovat zadání.", sourcePage: 23 },
+      { id: "f3b", title: "Caesar", speakerNote: "Klik: místo tří teček se objeví vygenerovaný Caesar.", sourcePage: 23 },
     ],
   },
   {

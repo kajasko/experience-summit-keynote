@@ -6,8 +6,12 @@ import { asset } from "../../engine/assets";
 const PROMPT = "„Vygeneruj fotku čerstvého Caesara s krutony.“";
 const RESULT_H = 431;
 
-export function ChatPrompt({ reduced }: { reduced: boolean }) {
+/** step 0: prompt is typed, then the three-dot "typing" loader runs in the result slot.
+ *  step 1 (click): the Caesar photo replaces the loader. */
+export function ChatPrompt({ reduced, step = 0 }: { reduced: boolean; step?: number }) {
   const root = useRef<HTMLDivElement>(null);
+  const entered = useRef(false);
+  const revealed = step >= 1;
 
   useLayoutEffect(() => {
     const el = root.current;
@@ -24,12 +28,32 @@ export function ChatPrompt({ reduced }: { reduced: boolean }) {
 
     if (reduced) {
       if (typed) typed.textContent = PROMPT;
-      gsap.set([title, glass, bubble, result, photo, robot], { autoAlpha: 1, x: 0, y: 0, scale: 1 });
+      gsap.set([title, glass, bubble, result, robot], { autoAlpha: 1, x: 0, y: 0, scale: 1 });
       if (result) gsap.set(result, { height: RESULT_H, marginTop: 24 });
-      gsap.set(load, { autoAlpha: 0 });
+      gsap.set(photo, { autoAlpha: revealed ? 1 : 0, scale: 1 });
+      gsap.set(load, { autoAlpha: revealed ? 0 : 1 });
       gsap.set(caret, { autoAlpha: 0 });
+      entered.current = true;
       return;
     }
+
+    // Click step: the entrance already ran — only swap loader → photo.
+    if (entered.current) {
+      if (typed) typed.textContent = PROMPT;
+      gsap.set([title, glass, bubble, robot], { autoAlpha: 1, x: 0, y: 0, scale: 1 });
+      gsap.set(result, { height: RESULT_H, autoAlpha: 1, marginTop: 24 });
+      gsap.set(caret, { autoAlpha: 0 });
+      const t2 = gsap.timeline();
+      if (revealed) {
+        t2.to(load, { autoAlpha: 0, duration: 0.24, ease: EASE.exit }, 0);
+        t2.fromTo(photo, { autoAlpha: 0, scale: 0.98 }, { autoAlpha: 1, scale: 1, duration: 0.52, ease: EASE.enter }, 0.08);
+      } else {
+        gsap.set(photo, { autoAlpha: 0 });
+        gsap.set(load, { autoAlpha: 1 });
+      }
+      return () => { t2.kill(); };
+    }
+    entered.current = true;
 
     if (typed) typed.textContent = "";
     caret?.classList.add("is-scripted");
@@ -49,7 +73,7 @@ export function ChatPrompt({ reduced }: { reduced: boolean }) {
     const typeDur = 2.1;
     const afterType = typeAt + blink * 4 + 0.06 + typeDur;
     const loadAt = afterType + 0.22;
-    const photoAt = loadAt + 1.55;
+    const photoAt = loadAt + 1.55; // only used when deep-linked straight to the click step
 
     const tl = gsap.timeline();
     tl.to(title, { autoAlpha: 1, y: 0, duration: T.enter, ease: EASE.enter }, 0);
@@ -71,11 +95,13 @@ export function ChatPrompt({ reduced }: { reduced: boolean }) {
     }, typeAt + blink * 4 + 0.06);
     tl.set(caret, { autoAlpha: 0 }, loadAt);
     tl.to(result, { height: RESULT_H, autoAlpha: 1, marginTop: 24, duration: 0.36, ease: EASE.enter }, loadAt);
-    tl.to(photo, { autoAlpha: 1, scale: 1, duration: 0.52, ease: EASE.enter }, photoAt);
-    tl.to(load, { autoAlpha: 0, duration: 0.28, ease: EASE.exit }, photoAt);
+    if (revealed) {
+      tl.to(photo, { autoAlpha: 1, scale: 1, duration: 0.52, ease: EASE.enter }, photoAt);
+      tl.to(load, { autoAlpha: 0, duration: 0.28, ease: EASE.exit }, photoAt);
+    }
 
     return () => { tl.kill(); };
-  }, [reduced]);
+  }, [reduced, revealed]);
 
   return (
     <div ref={root} className="chat-prompt">

@@ -42,9 +42,21 @@ const VISIONS = [
   },
 ] as const;
 
+// Decode every portrait up front so the first portrait slide never starts its
+// entrance before the bitmap exists (cold cache).
+const DECODED = VISIONS.map((v) => {
+  if (typeof Image === "undefined") return Promise.resolve();
+  const img = new Image();
+  img.src = v.img;
+  return img.decode().catch(() => undefined);
+});
+
 export function Visions({ step, reduced }: SceneProps) {
+  // Adjacency is tracked at scene level: VisionPortrait mounts fresh on the first
+  // portrait (step 2), so its own step history was empty and the entrance was skipped.
+  const adjacent = useAdjacentStep(step);
   if (step < 2) return <VisionHorizon step={step} reduced={reduced} />;
-  return <VisionPortrait step={step - 2} reduced={reduced} />;
+  return <VisionPortrait step={step - 2} reduced={reduced} adjacent={adjacent} />;
 }
 
 function VisionHorizon({ step, reduced }: { step: number; reduced: boolean }) {
@@ -291,38 +303,40 @@ function BeamField() {
   );
 }
 
-function VisionPortrait({ step, reduced }: { step: number; reduced: boolean }) {
+function VisionPortrait({ step, reduced, adjacent }: { step: number; reduced: boolean; adjacent: boolean }) {
   const root = useRef<HTMLDivElement>(null);
-  const adjacent = useAdjacentStep(step);
   const vision = VISIONS[step];
 
   useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      const portrait = root.current?.querySelector<HTMLElement>("[data-hero-visual]");
-      const soft = root.current?.querySelector<HTMLElement>("[data-vision-soft]");
-      if (!portrait || !soft) return;
-      const play = adjacent && !reduced;
-      gsap.set([portrait, soft], { transformOrigin: "100% 100%" });
-      if (!play) {
-        gsap.set(portrait, { filter: "blur(0px)", autoAlpha: 1, scale: 1 });
-        gsap.set(soft, { filter: "blur(22px)", autoAlpha: 0.22, scale: 1.1 });
-        return;
-      }
-      gsap.fromTo(
-        soft,
-        { filter: "blur(8px)", autoAlpha: 0.5, scale: 1.03 },
-        { filter: "blur(22px)", autoAlpha: 0.2, scale: 1.1, duration: MOTION.cameraVia, ease: EASE.move },
-      );
-      gsap.fromTo(
-        portrait,
-        { filter: "blur(14px)", autoAlpha: 0.35, scale: 1.05 },
-        { filter: "blur(0px)", autoAlpha: 1, scale: 1, duration: MOTION.cameraVia, ease: EASE.enter },
-      );
-    }, root);
-    return () => ctx.revert();
+    const portrait = root.current?.querySelector<HTMLElement>("[data-hero-visual]");
+    const soft = root.current?.querySelector<HTMLElement>("[data-vision-soft]");
+    if (!portrait || !soft) return;
+    const play = adjacent && !reduced;
+    // Transform + opacity only. The blur is static CSS on the soft layer (no
+    // runtime filter tweening, which re-rasterised a 700px image every frame).
+    gsap.set([portrait, soft], { transformOrigin: "100% 100%", force3D: true });
+    if (!play) {
+      gsap.set(portrait, { autoAlpha: 1, scale: 1, x: 0 });
+      gsap.set(soft, { autoAlpha: 0.22, scale: 1.1 });
+      return;
+    }
+    gsap.set(portrait, { autoAlpha: 0, scale: 1.05, x: 24 });
+    gsap.set(soft, { autoAlpha: 0.5, scale: 1.03 });
+    let tl: gsap.core.Timeline | null = null;
+    let alive = true;
+    DECODED[step].then(() => {
+      if (!alive) return;
+      tl = gsap.timeline();
+      tl.to(soft, { autoAlpha: 0.2, scale: 1.1, duration: MOTION.cameraVia, ease: EASE.move }, 0);
+      tl.to(portrait, { autoAlpha: 1, scale: 1, x: 0, duration: MOTION.cameraVia, ease: EASE.enter }, 0);
+    });
+    return () => {
+      alive = false;
+      tl?.kill();
+      gsap.set([portrait, soft], { clearProps: "transform,opacity,visibility" });
+    };
   }, [step, reduced, adjacent]);
 
-  // Keep a safe margin from the canvas edge (LED wall / projector cover crop).
   const portrait = {
     position: "absolute" as const,
     right: 80,
@@ -333,6 +347,7 @@ function VisionPortrait({ step, reduced }: { step: number; reduced: boolean }) {
     objectFit: "contain" as const,
     objectPosition: "right bottom",
     pointerEvents: "none" as const,
+    willChange: "transform, opacity",
   };
   return (
     <div ref={root} className="scene">

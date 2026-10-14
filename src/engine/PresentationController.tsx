@@ -17,7 +17,11 @@ import { EASE, MOTION as T } from "./motion";
 import { isColorDip, isClovekMove, isKdoCoreExpand } from "./colorDip";
 
 export function PresentationController() {
-  const reduced = usePrefersReducedMotion();
+  const prefersReduced = usePrefersReducedMotion();
+  // Backward navigation shows the previous slide instantly in its final state
+  // (all builds revealed, no transitions). Animations only play going forward.
+  const [backward, setBackward] = useState(false);
+  const reduced = prefersReduced || backward;
   const start = useMemo(() => {
     const h = parseHash();
     if (h.sceneId && h.local != null) return findIndex(h.sceneId, h.local);
@@ -246,6 +250,19 @@ export function PresentationController() {
   }, []);
 
   const go = (delta: number | "restart") => {
+    if (delta !== "restart" && delta < 0) {
+      setBackward(true);
+      setIndex((i) => {
+        // Land on the LAST step (beat) of the previous visual slide — fully built.
+        const slideNo = steps[i]?.slide ?? 1;
+        if (slideNo <= 1) return i;
+        let j = i - 1;
+        while (j > 0 && steps[j].slide === slideNo) j -= 1;
+        return j; // last step whose slide is slideNo - 1
+      });
+      return;
+    }
+    setBackward(false);
     setIndex((i) => {
       if (delta === "restart") {
         const local = steps[i]?.local ?? 0;
@@ -257,6 +274,7 @@ export function PresentationController() {
 
   const jumpTo = (next: number) => {
     dipTween.current?.kill();
+    setBackward(false);
     const clamped = Math.max(0, Math.min(TOTAL - 1, next));
     setIndex(clamped);
     setViewIndex(clamped);
