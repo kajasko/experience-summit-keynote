@@ -33,19 +33,19 @@ const MASTERCLASSES = [
     id: "persony",
     title: "Persony v akci",
     sub: "Jak proměnit potřeby zákazníků v růst",
-    leads: [{ name: "Daniel Koutný", org: "Clientology", photo: "speakers/daniel-cut.webp" }, { name: "Zuzana Mezerová", org: "Komerční banka", photo: "speakers/zuzana-cut.webp" }],
+    leads: [{ name: "Daniel Koutný", org: "Clientology", photo: "speakers/daniel-cut.webp", fit: { h: 91.0, w: 121.0, l: -10.5 } }, { name: "Zuzana Mezerová", org: "Komerční banka", photo: "speakers/zuzana-cut.webp", fit: { h: 88.4, w: 82.2, l: 8.9 } }],
   },
   {
     id: "prototyp",
     title: "Od zákaznické potřeby k PRD a živému prototypu",
     sub: "Umělá inteligence a prototypování za 60 minut",
-    leads: [{ name: "Jakub Šťastný", org: "Clientology", photo: "speakers/jakub-s-cut.webp" }, { name: "Dejan Krstic", org: "Spotify", photo: "speakers/dejan-cut.webp" }],
+    leads: [{ name: "Jakub Šťastný", org: "Clientology", photo: "speakers/jakub-s-cut.webp", fit: { h: 88.6, w: 112.4, l: -6.2 } }, { name: "Dejan Krstic", org: "Spotify", photo: "speakers/dejan-cut.webp", fit: { h: 86.1, w: 111.6, l: -5.8 } }],
   },
   {
     id: "cvp",
     title: "Od marketingového slibu k reálnému zážitku",
     sub: "CVP v praxi",
-    leads: [{ name: "Libor Hykeš", org: "Clientology", photo: "speakers/libor-cut.webp" }, { name: "Kateřina Stehlíková", org: "E.ON", photo: "speakers/katerina-cut.webp" }],
+    leads: [{ name: "Libor Hykeš", org: "Clientology", photo: "speakers/libor-cut.webp", fit: { h: 92.6, w: 98.6, l: 0.7 } }, { name: "Kateřina Stehlíková", org: "E.ON", photo: "speakers/katerina-cut.webp", fit: { h: 84.6, w: 83.1, l: 8.5 } }],
   },
 ] as const;
 
@@ -68,7 +68,13 @@ export function Hosts(_props: SceneProps) {
               {m.leads.map((l) => (
                 <figure key={l.name} className="hosts-face">
                   <div className="hosts-face-slot">
-                    <img className="cutout" src={asset(l.photo)} alt={l.name} />
+                    {/* Per-photo box so every head renders at the same size (crops differ per source photo). */}
+                    <img
+                      className="cutout"
+                      src={asset(l.photo)}
+                      alt={l.name}
+                      style={l.fit && { height: `${l.fit.h}%`, width: `${l.fit.w}%`, left: `${l.fit.l}%`, right: "auto" }}
+                    />
                   </div>
                   <figcaption>
                     <span className="hosts-face-name">{l.name}</span>
