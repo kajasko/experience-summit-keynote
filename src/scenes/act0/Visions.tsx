@@ -322,12 +322,14 @@ function VisionPortrait({ step, reduced }: { step: number; reduced: boolean }) {
     return () => ctx.revert();
   }, [step, reduced, adjacent]);
 
+  // Keep a safe margin from the canvas edge (LED wall / projector cover crop).
   const portrait = {
     position: "absolute" as const,
-    right: 0,
-    top: 0,
-    height: "100%",
-    width: 780,
+    right: 80,
+    top: 48,
+    bottom: 48,
+    height: "auto" as const,
+    width: 720,
     objectFit: "contain" as const,
     objectPosition: "right bottom",
     pointerEvents: "none" as const,

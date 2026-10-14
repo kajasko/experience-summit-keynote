@@ -21,7 +21,7 @@ const ERAS = [
     page: "02 / 75",
     kicker: "02 Evoluce",
     img: asset("punch.webp"),
-    imgStyle: { width: 1120, right: 72, bottom: 78 },
+    imgStyle: { width: 1080, right: 80, bottom: 80 },
   },
   {
     year: "1964",
@@ -33,7 +33,7 @@ const ERAS = [
     page: "03 / 75",
     kicker: "03 Evoluce",
     img: asset("terminal.webp"),
-    imgStyle: { width: 780, right: 70, top: 300 },
+    imgStyle: { width: 720, right: 150, top: 300 },
   },
   {
     year: "1973",
@@ -45,7 +45,7 @@ const ERAS = [
     page: "04 / 75",
     kicker: "04 Evoluce",
     img: asset("gui.webp"),
-    imgStyle: { width: 900, right: 20, top: 190 },
+    imgStyle: { width: 820, right: 150, top: 190 },
   },
   {
     year: "Dnes",
@@ -57,7 +57,7 @@ const ERAS = [
     page: "06 / 75",
     kicker: "05 Evoluce",
     img: asset("intent-laptop.webp"),
-    imgStyle: { width: 960, right: 110, top: 220 },
+    imgStyle: { width: 920, right: 100, top: 220 },
   },
 ];
 

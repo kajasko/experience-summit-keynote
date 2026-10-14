@@ -1,4 +1,6 @@
 :root {
+  /* Outer margin for photos/content — not for intentional full-bleeds. */
+  --safe-edge: 80px;
   --bg: #e0e7e8;
   --text: #005860;
   --text-deep: #03383d;
