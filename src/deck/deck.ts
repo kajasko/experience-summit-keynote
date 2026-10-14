@@ -97,8 +97,7 @@ const allScenes: SceneDef[] = [
     id: "understanding", act: 1, actName: "KDO?", component: "Understanding",
     steps: [
       { id: "un2", title: "Potřeba vede k výsledku", speakerNote: "Need + Context vede k intentu, akci a výsledku. Po dvou uživatelích hned cesta: potřeba → výsledek.", sourcePage: 13 },
-      { id: "unb", title: "Potřeba · člověk", speakerNote: "Nejdřív porozumění. Kvalita AI nezačíná u modelu — začíná u člověka. Potřeba říká co, kontext říká co právě teď.", sourcePage: 13 },
-      { id: "unb2", title: "Jedny přivádějí. Druhé drží.", speakerNote: "Klik: potřebu rozdělíme do dvou světů. Buyer a chooser needs přivádějí zákazníky. User needs dávají důvod zůstat.", sourcePage: 13 },
+      { id: "unb", title: "Jedny přivádějí. Druhé drží.", speakerNote: "Potřebu můžeme rozdělit do dvou světů. Buyer a chooser needs přivádějí zákazníky. User needs dávají důvod zůstat. Nákup nestačí, když selže používání.", sourcePage: 13 },
     ],
   },
   {

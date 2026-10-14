@@ -20,8 +20,7 @@ const CHROME = {
   ],
   understanding: [
     { kicker: "KDO / Cesta k výsledku", page: "26 / 75", caption: "Potřeba vede k výsledku" },
-    { kicker: "KDO / Potřeba", page: "27 / 75", caption: "Nejdřív porozumění" },
-    { kicker: "KDO / Potřeba", page: "27 / 75", caption: "Jedny přivádějí. Druhé drží." },
+    { kicker: "KDO / Potřeba", page: "25 / 75", caption: "Jedny přivádějí. Druhé drží." },
   ],
   modes: [
     { kicker: "KDO / Módy hodnoty", page: "27 / 75", caption: "Pochopit" },
@@ -453,6 +452,29 @@ function UnderstandingPair({
       return () => { tl.kill(); };
     }
 
+    if (step === 1 && last === null) {
+      // First view of the open pair: build it progressively (shell → word → panels → labels).
+      settle(1);
+      putShell(true);
+      putWord(true);
+      gsap.set(shell, { autoAlpha: 0, scale: 0.96, transformOrigin: "50% 50%" });
+      gsap.set(word, { autoAlpha: 0, y: 14 });
+      gsap.set(story, { autoAlpha: 1 });
+      gsap.set(panels, { autoAlpha: 0, y: 40 });
+      gsap.set(whos, { autoAlpha: 0, y: 18 });
+      gsap.set(verbs, { autoAlpha: 0, y: 12 });
+      const tl = gsap.timeline();
+      tl.to(shell, { autoAlpha: 1, scale: 1, duration: 0.5, ease: EASE.enter }, 0.05);
+      tl.to(word, { autoAlpha: 1, y: 0, duration: 0.4, ease: EASE.enter }, 0.25);
+      panels.forEach((panel, i) => {
+        tl.to(panel, { autoAlpha: 1, y: 0, duration: 0.6, ease: EASE.enter }, 0.55 + i * 0.35);
+        if (whos[i]) tl.to(whos[i], { autoAlpha: 1, y: 0, duration: 0.36, ease: EASE.enter }, 0.8 + i * 0.35);
+        if (verbs[i]) tl.to(verbs[i], { autoAlpha: 1, y: 0, duration: 0.32, ease: EASE.enter }, 0.95 + i * 0.35);
+      });
+      prev.current = step;
+      return () => { tl.kill(); };
+    }
+
     const forward = step === 1;
     const morph = last !== null && last !== step;
     if (!morph) {
@@ -566,9 +588,9 @@ function UnderstandingPair({
 
 export function Understanding({ step, reduced }: SceneProps) {
   const chrome = chromeFor("understanding", step);
-  // step 0 = NeedPath; steps 1–2 = UnderstandingPair (circle → open pair on click).
+  // step 0 = NeedPath; step 1 = the open pair (built progressively on entry).
   if (step === 0) return <NeedPath chrome={chrome} reduced={reduced} />;
-  return <UnderstandingPair step={Math.min(step - 1, 1)} chrome={chrome} reduced={reduced} />;
+  return <UnderstandingPair step={1} chrome={chrome} reduced={reduced} />;
 }
 
 export function BuyerUser({ step, reduced }: SceneProps) {
