@@ -55,10 +55,13 @@ export function SpeakersEnd({ step, reduced }: SceneProps) {
     const heroBoxes = (i: number): Box[] => {
       const n = SPEAKERS[i].people.length;
       if (n === 1) return [heroSlotBox];
-      // Pair: each person takes ~62 % of the slot, overlapping slightly, side by side.
-      const w = heroSlotBox.width * 0.62;
-      const shift = (heroSlotBox.width - w) / (n - 1);
-      return Array.from({ length: n }, (_, k) => ({ ...heroSlotBox, left: heroSlotBox.left + k * shift, width: w }));
+      // Duo: Michaela (k=0) in front, Kryštof (k=1) behind and offset right, a touch
+      // smaller. Both bottom-flush. The pair is nudged left so his arm clears the corner logo.
+      const W = heroSlotBox.width;
+      const H = heroSlotBox.height;
+      const back = { left: heroSlotBox.left + W - W * 0.6 - 200, top: heroSlotBox.top + H * 0.05, width: W * 0.6, height: H * 0.95 };
+      const front = { left: back.left - W * 0.4, top: heroSlotBox.top, width: W * 0.62, height: H };
+      return [front, back];
     };
 
     const chipBoxes = (i: number): Box[] => {
@@ -94,7 +97,7 @@ export function SpeakersEnd({ step, reduced }: SceneProps) {
             gsap.set(img, { zIndex: 8 });
           } else if (i === featIdx) {
             place(img, hero[k], true);
-            gsap.set(img, { zIndex: 12 + k });
+            gsap.set(img, { zIndex: 13 - k });
           } else {
             place(img, { ...hero[k], left: hero[k].left + 120 }, false);
           }
@@ -164,7 +167,7 @@ export function SpeakersEnd({ step, reduced }: SceneProps) {
       const chip = chips[prev];
       each(prev, (img, k) => {
         place(img, hero[k], true);
-        gsap.set(img, { zIndex: 20 + k, autoAlpha: 1 });
+        gsap.set(img, { zIndex: 21 - k, autoAlpha: 1 });
         tl.to(img, { ...dock[k], duration: 1.55, ease: "sine.inOut", zIndex: 8 }, k * 0.08);
       });
       if (chip) {
@@ -187,7 +190,7 @@ export function SpeakersEnd({ step, reduced }: SceneProps) {
       const hero = heroBoxes(featIdx);
       each(featIdx, (img, k) => {
         place(img, hero[k], true);
-        gsap.set(img, { x: 72, autoAlpha: 1, zIndex: 12 + k });
+        gsap.set(img, { x: 72, autoAlpha: 1, zIndex: 13 - k });
         tl.fromTo(img, { x: 72 }, { x: 0, duration: 1.25, ease: EASE.enter }, 1.15 + k * 0.12);
       });
     }
