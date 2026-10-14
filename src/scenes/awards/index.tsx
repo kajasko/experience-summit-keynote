@@ -235,9 +235,19 @@ export const AwardsCategories = withData(function AwardsCategories({ data, step,
   );
 });
 
+/** Equal-visual-area logo sizing: w·h ≈ A, capped to the box. */
+function logoBox(data: AwardsData, company: string, A: number, maxW: number, maxH: number): CSSProperties {
+  const r = data.logoRatio?.[company] ?? 3;
+  let w = Math.sqrt(A * r), h = w / r;
+  if (w > maxW) { w = maxW; h = w / r; }
+  if (h > maxH) { h = maxH; w = h * r; }
+  return { width: `${Math.round(w)}px`, height: `${Math.round(h)}px`, maxWidth: "none", maxHeight: "none", objectFit: "contain" };
+}
+
 function LogoChip({ data, company, className = "" }: { data: AwardsData; company: string; className?: string }) {
   const src = data.logos?.[company];
-  return <span className={`aw-chip ${className}`}>{src ? <img src={src} alt={company} /> : <em>{company}</em>}</span>;
+  const big = className.includes("is-lg");
+  return <span className={`aw-chip ${className}`}>{src ? <img src={src} alt={company} style={logoBox(data, company, big ? 7000 : 6000, big ? 250 : 200, big ? 70 : 50)} /> : <em>{company}</em>}</span>;
 }
 
 /** Nominations per category — glass cards dealt in one by one (transform/opacity). */
@@ -258,7 +268,7 @@ function Nominees({ data, categoryId, reduced, index }: { data: AwardsData; cate
         {cat.projects.map((p, i) => (
           <article key={p.company + p.project} className="aw-glass aw-nom" style={{ ...d((people ? 0.6 : 0.4) + i * (people ? 0.35 : 0.08)) } as CSSProperties}>
             {people && data.people?.[p.person ?? ""] ? <span className="aw-nom-photo"><img src={data.people[p.person!]} alt={p.person} /></span> : null}
-            <LogoChip data={data} company={p.company} />
+            <LogoChip data={data} company={p.company} className={size === "is-many" ? "" : "is-lg"} />
             {p.person ? <div className="aw-nom-person">{p.person}</div> : null}
             <div className="aw-nom-title">{p.project}</div>
           </article>
@@ -310,7 +320,7 @@ export const AwardsEntrants = withData(function AwardsEntrants({ data, reduced }
               "--r": `${(hash(i, 3) - 0.5) * 24}deg`,
             } as CSSProperties}
           >
-            {data.logos?.[name] ? <img src={data.logos[name]} alt={name} /> : <em>{name}</em>}
+            {data.logos?.[name] ? <img src={data.logos[name]} alt={name} style={logoBox(data, name, 6400, 180, 76)} /> : <em>{name}</em>}
           </span>
         ))}
       </div>
@@ -371,7 +381,7 @@ function Reveal({ data, categoryId, step, reduced }: { data: AwardsData; categor
             <div key={rank} className={`aw-slot is-${rank}${on(visible)}`}>
               <article className="aw-glass aw-winner">
                 <div className="aw-winner-rank">{rank}. místo</div>
-                <div className="aw-winner-co">{data.logos?.[p.company] ? <span className="aw-winner-logo"><img src={data.logos[p.company]} alt="" /></span> : null}{p.company}</div>
+                <div className="aw-winner-co">{data.logos?.[p.company] ? <span className="aw-winner-logo"><img src={data.logos[p.company]} alt="" style={logoBox(data, p.company, 6800, 220, 64)} /></span> : null}{p.company}</div>
                 <div className="aw-winner-pr">{p.project}</div>
               </article>
               <div className="aw-ped"><span>{rank}</span></div>
@@ -412,7 +422,7 @@ export const AwardsChange = withData(function AwardsChange({ step, data, reduced
         {cat.projects.map((p, i) => (
           <article key={p.project} className={`aw-glass aw-change-card aw-in${s >= 1 ? " is-dim" : ""}`} style={d(0.45 + i * 0.25)}>
             {data.people?.[p.person ?? ""] ? <span className="aw-nom-photo"><img src={data.people[p.person!]} alt="" /></span> : null}
-            <LogoChip data={data} company={p.company} />
+            <LogoChip data={data} company={p.company} className="is-lg" />
             <div className="aw-nom-person">{p.person}</div>
           </article>
         ))}

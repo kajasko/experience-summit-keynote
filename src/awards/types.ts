@@ -20,5 +20,6 @@ export type AwardsData = {
   notes: { applicants: string; publicVote: string };
   logos?: Record<string, string>;
   people?: Record<string, string>;
+  logoRatio?: Record<string, number>;
   source?: string;
 };
