@@ -103,6 +103,15 @@ export function AwardsGate({ reduced }: SceneProps) {
    · .aw-rise — word rises out of a mask
    Back-nav (reduced) renders the final state with no motion (see awards.css). */
 
+const ICONS: Record<string, string> = { impact: "experience-impact", pulse: "employee-pulse", changemakers: "cx-changemakers" };
+function CatIcon({ id, className = "" }: { id: string; className?: string }) {
+  return (
+    <span className={`aw-icon ${className}`} aria-hidden="true">
+      <img src={`${import.meta.env.BASE_URL}awards-icons/${ICONS[id]}.png`} alt="" draggable={false} />
+    </span>
+  );
+}
+
 const d = (s: number) => ({ "--d": `${s}s` }) as CSSProperties;
 const on = (b: boolean) => (b ? " is-on" : "");
 
@@ -204,6 +213,7 @@ export const AwardsCategories = withData(function AwardsCategories({ data, step,
       <div className="aw-cats">
         {data.categories.map((c, i) => (
           <article key={c.id} className={`aw-glass aw-cat aw-step${on(s >= i)}${c.decidedBy === "public" ? " is-public" : ""}`}>
+            <CatIcon id={c.id} className="is-card" />
             <div className="aw-cat-n">{String(i + 1).padStart(2, "0")}</div>
             <div className="aw-cat-name">{c.name}</div>
             <div className="aw-cat-count"><b>{c.count}</b> {c.count < 5 ? "nominace" : "nominací"}</div>
@@ -242,6 +252,7 @@ function Nominees({ data, categoryId, reduced, index }: { data: AwardsData; cate
       <div className="aw-head">
         <div className="awards-kicker aw-in" style={d(0.05)}>Kategorie {String(index).padStart(2, "0")} · {cat.count} {cat.count < 5 ? "nominace" : "nominací"}</div>
         <h2 className="aw-h2 aw-in" style={d(0.15)}>{cat.name}</h2>
+        <CatIcon id={cat.id} className="is-head aw-in" />
       </div>
       <div className="aw-nom-grid">
         {cat.projects.map((p, i) => (
