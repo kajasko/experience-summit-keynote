@@ -631,12 +631,10 @@ function ProveReason({ step, reduced }: SceneProps) {
         const cardBox = local(card);
         const x0 = cardBox.right - 1;
         const y0 = cardBox.midY;
-        if (index === 1) {
-          path.setAttribute("d", `M${x0} ${y0} H${joinX}`);
-        } else {
-          const midX = x0 + Math.max(110, (joinX - x0) * 0.46);
-          path.setAttribute("d", `M${x0} ${y0} C${midX} ${y0} ${midX} ${joinY} ${joinX} ${joinY}`);
-        }
+        // Every route (incl. the middle one) converges on the same point at the
+        // check's left edge; if a card's midpoint is level with it, the curve is straight.
+        const midX = x0 + Math.max(110, (joinX - x0) * 0.46);
+        path.setAttribute("d", `M${x0} ${y0} C${midX} ${y0} ${midX} ${joinY} ${joinX} ${joinY}`);
       });
       if (findExit && findResult) {
         const result = local(findResult);

@@ -5912,7 +5912,7 @@ button { font-family: inherit; }
 .prove-find-labels {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
   margin-top: 18px;
   min-height: 48px;
   max-width: 100%;
@@ -5924,7 +5924,7 @@ button { font-family: inherit; }
   align-items: center;
   justify-content: center;
   height: 44px;
-  padding: 0 18px;
+  padding: 0 15px;
   max-width: 100%;
   border-radius: 999px;
   background: rgba(195, 213, 82, 0.32);
