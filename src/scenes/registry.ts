@@ -3,7 +3,7 @@ import type { SceneProps } from "../deck/types";
 import { Opening } from "./act0/Opening";
 import { History } from "./act0/History";
 import { Intent } from "./act0/Intent";
-import { Thesis, Adoption, Normalization, ValueGap, Twist } from "./act0/Stats";
+import { Thesis, Adoption, Normalization, ValueGap, AdoptionNotValue, Twist } from "./act0/Stats";
 import { Visions, Challenges } from "./act0/Visions";
 import { Chapter } from "./Chapter";
 import { CoMap } from "./CoMap";
@@ -22,6 +22,7 @@ export const registry: Record<string, ComponentType<SceneProps & { sceneId: stri
   Adoption,
   Normalization,
   ValueGap,
+  AdoptionNotValue,
   Twist,
   Visions,
   Challenges,

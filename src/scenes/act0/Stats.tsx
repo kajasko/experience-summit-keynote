@@ -258,3 +258,32 @@ export function Twist({ step, reduced }: SceneProps) {
     </div>
   );
 }
+
+/** Statement slide between the value gap and the twist. */
+export function AdoptionNotValue({ step, reduced }: SceneProps) {
+  const root = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    if (reduced) return;
+    const ctx = gsap.context(() => {
+      const lines = gsap.utils.toArray<HTMLElement>("[data-anv-line]", root.current);
+      gsap.set(lines, { autoAlpha: 0, y: 18 });
+      gsap.to(lines, { autoAlpha: 1, y: 0, duration: 0.6, ease: EASE.enter, stagger: 0.35, delay: 0.2 });
+    }, root);
+    return () => ctx.revert();
+  }, [step, reduced]);
+
+  return (
+    <div ref={root} className="scene">
+      <SlideChrome kicker="11 Hodnota" page="11 / 75" caption="Od adopce k hodnotě" captionDot mark={false} />
+      <div className="safe twist-copy" style={{ maxWidth: "none" }}>
+        <div data-hero-title className="twist-title" style={{ fontSize: 128, fontWeight: 800, letterSpacing: "-0.055em", color: "#03383d", lineHeight: 1.02 }}>
+          <div data-anv-line>Adopce technologie</div>
+          <div data-anv-line>
+            <span style={{ color: "var(--lime)" }}>≠</span> <span className="twist-strong">tvorba hodnoty</span><span style={{ color: "var(--lime)" }}>.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

@@ -52,6 +52,12 @@ const allScenes: SceneDef[] = [
     ],
   },
   {
+    id: "adoption-value", act: 0, actName: "ÚVOD", component: "AdoptionNotValue",
+    steps: [
+      { id: "av1", title: "Adopce technologie ≠ tvorba hodnoty", speakerNote: "Adopce technologie ještě neznamená tvorbu hodnoty. To, že AI používáme, neznamená, že nám přináší výsledky.", sources: ["bcg"], sourcePage: 5 },
+    ],
+  },
+  {
     id: "twist", act: 0, actName: "ÚVOD", component: "Twist",
     steps: [
       { id: "tw1", title: "Problém není AI", speakerNote: "Pauza. Problém není samotná technologie.", sourcePage: 6 },
