@@ -346,12 +346,6 @@ const allScenes: SceneDef[] = [
     ],
   },
   {
-    id: "awards-nom-impact", act: 4, actName: "CX AWARDS", component: "AwardsNomImpact",
-    steps: [
-      { id: "awn1", title: "Nominace · Experience Impact", speakerNote: "Představení nominací v kategorii." },
-    ],
-  },
-  {
     id: "awards-impact", act: 4, actName: "CX AWARDS", component: "AwardsImpact",
     steps: [
       { id: "aw6", title: "Vyhlášení · kategorie 1", speakerNote: "Napětí: A cenu poroty získává… Klik: 3. místo." },
@@ -362,12 +356,6 @@ const allScenes: SceneDef[] = [
     ],
   },
   {
-    id: "awards-nom-pulse", act: 4, actName: "CX AWARDS", component: "AwardsNomPulse",
-    steps: [
-      { id: "awn2", title: "Nominace · Employee Pulse", speakerNote: "Představení nominací v kategorii." },
-    ],
-  },
-  {
     id: "awards-pulse", act: 4, actName: "CX AWARDS", component: "AwardsPulse",
     steps: [
       { id: "aw7", title: "Vyhlášení · kategorie 2", speakerNote: "Napětí: A cenu poroty získává… Klik: 3. místo." },
@@ -375,12 +363,6 @@ const allScenes: SceneDef[] = [
       { id: "aw7b", title: "Vyhlášení · 2. místo", speakerNote: "Druhé místo." },
       { id: "aw7c", title: "Vyhlášení · 1. místo", speakerNote: "Vítěz." },
       { id: "aw7d", title: "Vyhlášení · Hlas lidu", speakerNote: "Hlas lidu — doplníme." },
-    ],
-  },
-  {
-    id: "awards-nom-change", act: 4, actName: "CX AWARDS", component: "AwardsNomChange",
-    steps: [
-      { id: "awn3", title: "Nominace · CX Changemakers", speakerNote: "Představení nominací v kategorii." },
     ],
   },
   {
