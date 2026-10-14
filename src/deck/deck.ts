@@ -307,6 +307,62 @@ const allScenes: SceneDef[] = [
     ],
   },
   {
+    id: "awards-gate", act: 4, actName: "CX AWARDS", component: "AwardsGate",
+    steps: [
+      { id: "aw0", title: "CX Awards · heslo", speakerNote: "Kapitola je chráněná heslem. Zadejte heslo a pokračujte šipkou." },
+    ],
+  },
+  {
+    id: "awards-open", act: 4, actName: "CX AWARDS", component: "AwardsOpen",
+    steps: [
+      { id: "aw1", title: "CX Awards 2026", speakerNote: "Kapitola CX Awards: představení a vyhlášení." },
+    ],
+  },
+  {
+    id: "awards-what", act: 4, actName: "CX AWARDS", component: "AwardsWhat",
+    steps: [
+      { id: "aw2", title: "Co jsou CX Awards", speakerNote: "Co jsou CX Awards a kdo je pořádá." },
+    ],
+  },
+  {
+    id: "awards-categories", act: 4, actName: "CX AWARDS", component: "AwardsCategories",
+    steps: [
+      { id: "aw3", title: "Kategorie a kritéria", speakerNote: "Dvě kategorie a čtyři vážená kritéria." },
+    ],
+  },
+  {
+    id: "awards-entrants", act: 4, actName: "CX AWARDS", component: "AwardsEntrants",
+    steps: [
+      { id: "aw4", title: "Kdo se přihlásil", speakerNote: "Přihlášené projekty a firmy." },
+    ],
+  },
+  {
+    id: "awards-prizes", act: 4, actName: "CX AWARDS", component: "AwardsPrizes",
+    steps: [
+      { id: "aw5", title: "Hlas poroty a Hlas lidu", speakerNote: "V každé kategorii dvě ceny." },
+    ],
+  },
+  {
+    id: "awards-impact", act: 4, actName: "CX AWARDS", component: "AwardsImpact",
+    steps: [
+      { id: "aw6", title: "Vyhlášení · kategorie 1", speakerNote: "Vyhlašujeme první kategorii. Klik: 3. místo." },
+      { id: "aw6a", title: "Vyhlášení · 3. místo", speakerNote: "Třetí místo." },
+      { id: "aw6b", title: "Vyhlášení · 2. místo", speakerNote: "Druhé místo." },
+      { id: "aw6c", title: "Vyhlášení · 1. místo", speakerNote: "Vítěz." },
+      { id: "aw6d", title: "Vyhlášení · Hlas lidu", speakerNote: "Hlas lidu — doplníme." },
+    ],
+  },
+  {
+    id: "awards-pulse", act: 4, actName: "CX AWARDS", component: "AwardsPulse",
+    steps: [
+      { id: "aw7", title: "Vyhlášení · kategorie 2", speakerNote: "Vyhlašujeme druhou kategorii. Klik: 3. místo." },
+      { id: "aw7a", title: "Vyhlášení · 3. místo", speakerNote: "Třetí místo." },
+      { id: "aw7b", title: "Vyhlášení · 2. místo", speakerNote: "Druhé místo." },
+      { id: "aw7c", title: "Vyhlášení · 1. místo", speakerNote: "Vítěz." },
+      { id: "aw7d", title: "Vyhlášení · Hlas lidu", speakerNote: "Hlas lidu — doplníme." },
+    ],
+  },
+  {
     id: "closing", act: 4, actName: "JAK?", component: "Closing",
     steps: [
       { id: "cl1", title: "Děkujeme", speakerNote: "Závěr. Děkujeme. Experience Summit 2026." },

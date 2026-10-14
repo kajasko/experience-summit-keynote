@@ -29,3 +29,7 @@ Thumbs.db
 # local working files
 _hitl-tmp.html
 motion-katalog.html
+
+# CX Awards — plaintext never committed; only AES-GCM ciphertext ships
+source/awards.plaintext.json
+source/awards.password
