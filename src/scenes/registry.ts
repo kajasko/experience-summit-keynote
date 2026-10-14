@@ -12,7 +12,7 @@ import { Journey, Adapt, Funnel, Conversation, Chat, UiAi, Partner, HumanAi } fr
 import { Distrust, Brand, Prove, Findability, BrandExp, Principles, Bias, Trust, Hitl } from "./act3";
 import { Orch, Channels, Mortgage, BxCxEx } from "./act4";
 import { SpeakerIntro, Hosts, HoldSlide, Closing } from "./bookends";
-import { AwardsGate, AwardsOpen, AwardsWhat, AwardsCategories, AwardsEntrants, AwardsPrizes, AwardsImpact, AwardsPulse } from "./awards";
+import { AwardsGate, AwardsOpen, AwardsWhat, AwardsCategories, AwardsEntrants, AwardsPrizes, AwardsImpact, AwardsPulse, AwardsNomImpact, AwardsNomPulse, AwardsNomChange, AwardsChange } from "./awards";
 import { Skills, HeroEnd, Roles, Leadership, VideoEnd } from "./finale";
 
 export const registry: Record<string, ComponentType<SceneProps & { sceneId: string }>> = {
@@ -33,6 +33,10 @@ export const registry: Record<string, ComponentType<SceneProps & { sceneId: stri
   AwardsPrizes,
   AwardsImpact,
   AwardsPulse,
+  AwardsNomImpact,
+  AwardsNomPulse,
+  AwardsNomChange,
+  AwardsChange,
   Twist,
   Visions,
   Challenges,

@@ -191,25 +191,28 @@ export const AwardsWhat = withData(function AwardsWhat({ data, reduced }: DataPr
 export const AwardsCategories = withData(function AwardsCategories({ data, step, reduced }: DataProps) {
   const s = step;
   const max = Math.max(...data.criteria.map((c) => c.weight));
+  const n = data.categories.length;
+  const juryCats = data.categories.filter((c) => c.decidedBy !== "public").map((c) => c.short ?? c.name);
   return (
-    <div className={darkScene(reduced)}>
+    <div className={darkScene(reduced, " aw-cats3")}>
       <Bleed />
-      <SlideChrome caption="Dvě kategorie · čtyři kritéria" mark={false} />
+      <SlideChrome caption="Tři kategorie" mark={false} />
       <div className="aw-head">
         <div className="awards-kicker aw-in" style={d(0.05)}>Kategorie</div>
-        <h2 className="aw-h2 aw-in" style={d(0.15)}>Dvě soutěže, jedno měřítko.</h2>
+        <h2 className="aw-h2 aw-in" style={d(0.15)}>Tři kategorie, jeden cíl.</h2>
       </div>
       <div className="aw-cats">
         {data.categories.map((c, i) => (
-          <article key={c.id} className={`aw-glass aw-cat aw-step${on(s >= i)}`}>
+          <article key={c.id} className={`aw-glass aw-cat aw-step${on(s >= i)}${c.decidedBy === "public" ? " is-public" : ""}`}>
             <div className="aw-cat-n">{String(i + 1).padStart(2, "0")}</div>
             <div className="aw-cat-name">{c.name}</div>
-            <div className="aw-cat-count"><b>{c.count}</b> projektů</div>
+            <div className="aw-cat-count"><b>{c.count}</b> {c.count < 5 ? "nominace" : "nominací"}</div>
+            <div className="aw-cat-who">{c.decidedBy === "public" ? "Rozhodují účastníci summitu" : "Rozhoduje odborná porota"}</div>
           </article>
         ))}
       </div>
-      <div className={`aw-crit aw-step${on(s >= 2)}`}>
-        <div className="aw-crit-label">Porota hodnotí</div>
+      <div className={`aw-crit aw-step${on(s >= n)}`}>
+        <div className="aw-crit-label">Porota hodnotí · {juryCats.join(" a ")}</div>
         {data.criteria.map((c, i) => (
           <div key={c.id} className="aw-crit-row" style={d(i * 0.12)}>
             <span className="aw-crit-name">{c.label}</span>
@@ -220,6 +223,48 @@ export const AwardsCategories = withData(function AwardsCategories({ data, step,
       </div>
     </div>
   );
+});
+
+function LogoChip({ data, company, className = "" }: { data: AwardsData; company: string; className?: string }) {
+  const src = data.logos?.[company];
+  return <span className={`aw-chip ${className}`}>{src ? <img src={src} alt={company} /> : <em>{company}</em>}</span>;
+}
+
+/** Nominations per category — glass cards dealt in one by one (transform/opacity). */
+function Nominees({ data, categoryId, reduced, index }: { data: AwardsData; categoryId: AwardCategory["id"]; reduced: boolean; index: number }) {
+  const cat = data.categories.find((c) => c.id === categoryId)!;
+  const people = cat.decidedBy === "public";
+  const size = people ? "is-people" : cat.projects.length > 8 ? "is-many" : "is-few";
+  return (
+    <div className={darkScene(reduced, ` aw-noms ${size}`)}>
+      <Bleed spot={people} />
+      <SlideChrome caption={`Nominace · ${cat.short ?? cat.name}`} mark={false} />
+      <div className="aw-head">
+        <div className="awards-kicker aw-in" style={d(0.05)}>Kategorie {String(index).padStart(2, "0")} · {cat.count} {cat.count < 5 ? "nominace" : "nominací"}</div>
+        <h2 className="aw-h2 aw-in" style={d(0.15)}>{cat.name}</h2>
+      </div>
+      <div className="aw-nom-grid">
+        {cat.projects.map((p, i) => (
+          <article key={p.company + p.project} className="aw-glass aw-nom" style={{ ...d((people ? 0.6 : 0.4) + i * (people ? 0.35 : 0.08)) } as CSSProperties}>
+            {people && data.people?.[p.person ?? ""] ? <span className="aw-nom-photo"><img src={data.people[p.person!]} alt={p.person} /></span> : null}
+            <LogoChip data={data} company={p.company} />
+            {p.person ? <div className="aw-nom-person">{p.person}</div> : null}
+            <div className="aw-nom-title">{p.project}</div>
+          </article>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export const AwardsNomImpact = withData(function AwardsNomImpact({ data, reduced }: DataProps) {
+  return <Nominees data={data} categoryId="impact" reduced={reduced} index={1} />;
+});
+export const AwardsNomPulse = withData(function AwardsNomPulse({ data, reduced }: DataProps) {
+  return <Nominees data={data} categoryId="pulse" reduced={reduced} index={2} />;
+});
+export const AwardsNomChange = withData(function AwardsNomChange({ data, reduced }: DataProps) {
+  return <Nominees data={data} categoryId="changemakers" reduced={reduced} index={3} />;
 });
 
 function hash(i: number, n: number) {
@@ -233,11 +278,11 @@ export const AwardsEntrants = withData(function AwardsEntrants({ data, reduced }
   return (
     <div className={darkScene(reduced, " is-light")}>
       <Bleed />
-      <SlideChrome caption="Kdo se přihlásil" mark={false} />
+      <SlideChrome caption="Kdo je nominován" mark={false} />
       <div className="aw-head">
-        <div className="awards-kicker aw-in" style={d(0.05)}>Přihlášené projekty</div>
+        <div className="awards-kicker aw-in" style={d(0.05)}>Nominace · tři kategorie</div>
         <h2 className="aw-h2">
-          <span className="aw-in aw-big" style={d(0.2)}>{total}</span> <span className="aw-in" style={d(0.35)}>projektů</span>{" "}
+          <span className="aw-in aw-big" style={d(0.2)}>{total}</span> <span className="aw-in" style={d(0.35)}>nominací</span>{" "}
           <span className="aw-in aw-dim" style={d(0.5)}>·</span>{" "}
           <span className="aw-in aw-big" style={d(0.6)}>{companies.length}</span> <span className="aw-in" style={d(0.75)}>firem</span>
         </h2>
@@ -266,9 +311,9 @@ export const AwardsPrizes = withData(function AwardsPrizes({ reduced }: DataProp
   return (
     <div className={darkScene(reduced)}>
       <Bleed spot />
-      <SlideChrome caption="Dvě ceny v každé kategorii" mark={false} />
+      <SlideChrome caption="Kdo rozhoduje" mark={false} />
       <div className="aw-head is-center">
-        <div className="awards-kicker aw-in" style={d(0.05)}>V každé kategorii</div>
+        <div className="awards-kicker aw-in" style={d(0.05)}>Kdo rozhoduje</div>
         <h2 className="aw-h2 aw-in" style={d(0.15)}>Dvě ceny. Dva pohledy.</h2>
       </div>
       <div className="aw-pillars">
@@ -276,13 +321,13 @@ export const AwardsPrizes = withData(function AwardsPrizes({ reduced }: DataProp
           <Trophy />
           <div className="aw-pillar-label">Odborníci</div>
           <div className="aw-pillar-name">Hlas poroty</div>
-          <div className="aw-pillar-sub">Vážené hodnocení podle čtyř kritérií</div>
+          <div className="aw-pillar-sub">Experience Impact a Employee Pulse</div>
         </div>
         <div className="aw-pillar aw-glass is-public" style={d(0.75)}>
           <People />
           <div className="aw-pillar-label">Publikum</div>
           <div className="aw-pillar-name">Hlas lidu</div>
-          <div className="aw-pillar-sub">Hlasování účastníků summitu</div>
+          <div className="aw-pillar-sub">CX Changemakers\u2019 Award · hlasování účastníků</div>
         </div>
       </div>
     </div>
@@ -338,4 +383,38 @@ export const AwardsImpact = withData(function AwardsImpact({ step, data, reduced
 
 export const AwardsPulse = withData(function AwardsPulse({ step, data, reduced }: DataProps) {
   return <Reveal data={data} categoryId="pulse" step={step} reduced={reduced} />;
+});
+
+/** Changemakers — decided by summit attendees: finalists, then winner placeholder. */
+export const AwardsChange = withData(function AwardsChange({ step, data, reduced }: DataProps) {
+  const cat = data.categories.find((c) => c.id === "changemakers")!;
+  const s = Math.min(Math.max(step, 0), 1);
+  return (
+    <div className={darkScene(reduced, " aw-reveal aw-change")}>
+      <Bleed spot />
+      <SlideChrome mark={false} />
+      <div className="aw-head is-center">
+        <div className="awards-kicker aw-in" style={d(0.05)}>Hlas lidu · rozhodli účastníci summitu</div>
+        <h2 className="aw-h2 aw-in" style={d(0.15)}>{cat.name}</h2>
+      </div>
+      <div className="aw-change-row">
+        {cat.projects.map((p, i) => (
+          <article key={p.project} className={`aw-glass aw-change-card aw-in${s >= 1 ? " is-dim" : ""}`} style={d(0.45 + i * 0.25)}>
+            {data.people?.[p.person ?? ""] ? <span className="aw-nom-photo"><img src={data.people[p.person!]} alt="" /></span> : null}
+            <LogoChip data={data} company={p.company} />
+            <div className="aw-nom-person">{p.person}</div>
+          </article>
+        ))}
+      </div>
+      <div className={`aw-suspense aw-change-sus${s >= 1 ? " is-off" : ""}`}>
+        <span className="aw-in" style={d(1)}>Cenu získává</span>
+        <span className="aw-dots" aria-hidden="true"><i /><i /><i /></span>
+      </div>
+      <div className={`aw-public aw-step aw-change-win${on(s >= 1)}`}>
+        <People className="is-sm" />
+        <span className="aw-public-label">Vítěz</span>
+        <span className="aw-public-ph">doplníme</span>
+      </div>
+    </div>
+  );
 });

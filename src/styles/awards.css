@@ -351,3 +351,52 @@ div.aw-in, h2.aw-in { display: block; }
 .aw-cats { top: 318px; }
 .aw-cat-name { min-height: 0; }
 .aw-crit { top: 610px; }
+
+/* v5 · three categories */
+.aw-cats3 .aw-cats { grid-template-columns: repeat(3, 1fr); top: 300px; gap: 26px; }
+.aw-cats3 .aw-cat { padding: 30px 34px 32px; }
+.aw-cats3 .aw-cat-name { font-size: 38px; min-height: 2.1em; }
+.aw-cats3 .aw-cat-count b { font-size: 40px; }
+.aw-cat-who { margin-top: 8px; font-size: 20px; font-weight: 700; letter-spacing: .02em; color: rgba(255,255,255,.6); }
+.aw-cat.is-public .aw-cat-who { color: var(--lime); }
+.aw-cats3 .aw-crit { top: 650px; }
+
+/* v5 · nominations */
+.aw-noms .aw-h2 { font-size: 64px; }
+.aw-nom-grid { position: absolute; left: var(--safe-x); right: var(--safe-x); top: 330px; bottom: 90px; display: grid; gap: 18px; align-content: center; }
+.aw-noms.is-many .aw-nom-grid { grid-template-columns: repeat(6, 1fr); gap: 16px; }
+.aw-noms.is-few .aw-nom-grid { grid-template-columns: repeat(3, 1fr); gap: 26px; }
+.aw-noms.is-people .aw-nom-grid { grid-template-columns: repeat(2, 560px); justify-content: center; gap: 60px; top: 300px; }
+.aw-nom {
+  display: flex; flex-direction: column; gap: 14px; padding: 18px 18px 20px; border-radius: 24px; box-sizing: border-box;
+  background: linear-gradient(155deg, rgba(255,255,255,.2) 0%, rgba(255,255,255,.07) 45%, rgba(255,255,255,.03) 100%);
+  background-color: rgba(3,52,59,.55); border: 1px solid rgba(255,255,255,.2);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.35), inset 0 -14px 28px rgba(0,0,0,.16), 0 24px 48px rgba(0,20,24,.42);
+}
+.aw-nom.aw-in { display: flex; transform: translateY(46px) scale(.94); }
+.aw-chip { display: flex; align-items: center; justify-content: center; height: 64px; padding: 10px 16px; box-sizing: border-box; border-radius: 14px;
+  background: linear-gradient(152deg, #fff 0%, #f1f5f4 55%, #e2eae9 100%); box-shadow: inset 0 1px 0 #fff, 0 8px 18px rgba(0,20,24,.3); }
+.aw-chip img { max-width: 100%; max-height: 44px; object-fit: contain; display: block; }
+.aw-chip em { font-style: normal; font-size: 18px; font-weight: 800; color: #03383d; }
+.aw-nom-title { font-size: 19px; font-weight: 700; line-height: 1.22; color: #fff; letter-spacing: -.01em; }
+.aw-noms.is-few .aw-nom { padding: 26px 26px 30px; gap: 20px; min-height: 230px; }
+.aw-noms.is-few .aw-chip { height: 90px; }
+.aw-noms.is-few .aw-chip img { max-height: 62px; }
+.aw-noms.is-few .aw-nom-title { font-size: 30px; font-weight: 750; letter-spacing: -.025em; }
+.aw-noms.is-people .aw-nom { padding: 0 0 30px; overflow: hidden; align-items: stretch; }
+.aw-nom-photo { display: block; height: 340px; overflow: hidden; background: radial-gradient(80% 90% at 50% 100%, rgba(195,213,82,.35), rgba(195,213,82,0) 70%); }
+.aw-nom-photo img { width: 100%; height: 100%; object-fit: contain; object-position: bottom; display: block; }
+.aw-noms.is-people .aw-chip { margin: 0 30px; height: 70px; align-self: flex-start; width: 220px; }
+.aw-nom-person { margin: 0 30px; font-size: 34px; font-weight: 800; letter-spacing: -.035em; line-height: 1.05; color: #fff; }
+.aw-noms.is-people .aw-nom-title { margin: 0 30px; font-size: 24px; color: rgba(255,255,255,.75); font-weight: 650; }
+
+/* v5 · changemakers reveal */
+.aw-change-row { position: absolute; left: 50%; top: 330px; transform: translateX(-50%); display: flex; gap: 60px; }
+.aw-change-card { width: 480px; display: flex !important; flex-direction: column; gap: 16px; padding: 0 0 28px; overflow: hidden; border-radius: 28px; transition: opacity .8s var(--ease); }
+.aw-change-card .aw-nom-photo { height: 300px; }
+.aw-change-card .aw-chip { margin: 0 28px; width: 200px; }
+.aw-change-card .aw-nom-person { font-size: 30px; }
+.aw-change-card.is-dim { opacity: .45 !important; }
+.aw-change-sus { top: auto; bottom: 150px; font-size: 64px; }
+.aw-change-win { top: auto; bottom: 130px; }
+.aw-change-win.is-on .aw-public-ph { font-size: 52px; }
