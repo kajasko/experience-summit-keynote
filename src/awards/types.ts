@@ -16,4 +16,5 @@ export type AwardsData = {
   categories: AwardCategory[];
   prizes: string[];
   notes: { applicants: string; publicVote: string };
+  logos?: Record<string, string>;
 };

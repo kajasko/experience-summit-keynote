@@ -109,7 +109,10 @@ const on = (b: boolean) => (b ? " is-on" : "");
 function Bleed({ spot = false }: { spot?: boolean }) {
   return (
     <div className="aw-bleed" aria-hidden="true">
-      <div className="aw-glow" />
+      <div className="aw-amb">
+        <div className="aw-cg aw-cg-tr"><span className="aw-t-red aw-ph-a" /><span className="aw-t-teal aw-ph-b" /></div>
+        <div className="aw-cg aw-cg-bl"><span className="aw-t-teal aw-ph-a" /><span className="aw-t-red aw-ph-b" /></div>
+      </div>
       {spot && <div className="aw-beams"><i /><i /><i /></div>}
     </div>
   );
@@ -228,7 +231,7 @@ export const AwardsEntrants = withData(function AwardsEntrants({ data, reduced }
     .sort((a, b) => a.localeCompare(b, "cs"));
   const total = data.categories.reduce((n, c) => n + c.count, 0);
   return (
-    <div className={darkScene(reduced)}>
+    <div className={darkScene(reduced, " is-light")}>
       <Bleed />
       <SlideChrome caption="Kdo se přihlásil" mark={false} />
       <div className="aw-head">
@@ -251,7 +254,7 @@ export const AwardsEntrants = withData(function AwardsEntrants({ data, reduced }
               "--r": `${(hash(i, 3) - 0.5) * 24}deg`,
             } as CSSProperties}
           >
-            {name}
+            {data.logos?.[name] ? <img src={data.logos[name]} alt={name} /> : <em>{name}</em>}
           </span>
         ))}
       </div>
@@ -312,7 +315,7 @@ function Reveal({ data, categoryId, step, reduced }: { data: AwardsData; categor
             <div key={rank} className={`aw-slot is-${rank}${on(visible)}`}>
               <article className="aw-glass aw-winner">
                 <div className="aw-winner-rank">{rank}. místo</div>
-                <div className="aw-winner-co">{p.company}</div>
+                <div className="aw-winner-co">{data.logos?.[p.company] ? <span className="aw-winner-logo"><img src={data.logos[p.company]} alt="" /></span> : null}{p.company}</div>
                 <div className="aw-winner-pr">{p.project}</div>
               </article>
               <div className="aw-ped"><span>{rank}</span></div>
