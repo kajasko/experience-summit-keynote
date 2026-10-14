@@ -327,7 +327,9 @@ const allScenes: SceneDef[] = [
   {
     id: "awards-categories", act: 4, actName: "CX AWARDS", component: "AwardsCategories",
     steps: [
-      { id: "aw3", title: "Kategorie a kritéria", speakerNote: "Dvě kategorie a čtyři vážená kritéria." },
+      { id: "aw3", title: "Kategorie · Experience Impact", speakerNote: "První kategorie: The Experience Impact Award. Klik: druhá kategorie." },
+      { id: "aw3b", title: "Kategorie · Employee Pulse", speakerNote: "Druhá kategorie: The Employee Pulse Award. Klik: kritéria." },
+      { id: "aw3c", title: "Kritéria hodnocení", speakerNote: "Porota hodnotí podle čtyř vážených kritérií." },
     ],
   },
   {
@@ -345,7 +347,7 @@ const allScenes: SceneDef[] = [
   {
     id: "awards-impact", act: 4, actName: "CX AWARDS", component: "AwardsImpact",
     steps: [
-      { id: "aw6", title: "Vyhlášení · kategorie 1", speakerNote: "Vyhlašujeme první kategorii. Klik: 3. místo." },
+      { id: "aw6", title: "Vyhlášení · kategorie 1", speakerNote: "Napětí: A cenu poroty získává… Klik: 3. místo." },
       { id: "aw6a", title: "Vyhlášení · 3. místo", speakerNote: "Třetí místo." },
       { id: "aw6b", title: "Vyhlášení · 2. místo", speakerNote: "Druhé místo." },
       { id: "aw6c", title: "Vyhlášení · 1. místo", speakerNote: "Vítěz." },
@@ -355,7 +357,7 @@ const allScenes: SceneDef[] = [
   {
     id: "awards-pulse", act: 4, actName: "CX AWARDS", component: "AwardsPulse",
     steps: [
-      { id: "aw7", title: "Vyhlášení · kategorie 2", speakerNote: "Vyhlašujeme druhou kategorii. Klik: 3. místo." },
+      { id: "aw7", title: "Vyhlášení · kategorie 2", speakerNote: "Napětí: A cenu poroty získává… Klik: 3. místo." },
       { id: "aw7a", title: "Vyhlášení · 3. místo", speakerNote: "Třetí místo." },
       { id: "aw7b", title: "Vyhlášení · 2. místo", speakerNote: "Druhé místo." },
       { id: "aw7c", title: "Vyhlášení · 1. místo", speakerNote: "Vítěz." },

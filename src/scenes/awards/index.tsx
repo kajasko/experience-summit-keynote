@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FormEvent, type JSX } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type FormEvent, type JSX } from "react";
 import type { SceneProps } from "../../deck/types";
 import { SlideChrome } from "../../components/SlideChrome";
 import { useAwards } from "../../awards/AwardsContext";
@@ -95,146 +95,244 @@ export function AwardsGate({ reduced }: SceneProps) {
   );
 }
 
-export const AwardsOpen = withData(function AwardsOpen({ data }: DataProps) {
+
+/* ───────────── v2: storytelling build ─────────────
+   Motion vocabulary (transform/opacity only):
+   · .aw-in   — entrance fade-up on mount, delay via --d
+   · .aw-step — click-driven, visible when .is-on
+   · .aw-rise — word rises out of a mask
+   Back-nav (reduced) renders the final state with no motion (see awards.css). */
+
+const d = (s: number) => ({ "--d": `${s}s` }) as CSSProperties;
+const on = (b: boolean) => (b ? " is-on" : "");
+
+function Bleed({ spot = false }: { spot?: boolean }) {
   return (
-    <div className="scene is-awards-dark is-cinematic">
+    <div className="aw-bleed" aria-hidden="true">
+      <div className="aw-glow" />
+      {spot && <div className="aw-beams"><i /><i /><i /></div>}
+    </div>
+  );
+}
+
+function Trophy({ className = "" }: { className?: string }) {
+  return (
+    <svg className={`aw-trophy ${className}`} viewBox="0 0 64 64" aria-hidden="true">
+      <path d="M20 8h24v14a12 12 0 0 1-24 0V8Z" />
+      <path d="M20 12h-8v4a10 10 0 0 0 9 10M44 12h8v4a10 10 0 0 1-9 10" fill="none" />
+      <path d="M32 34v10M24 54h16M26 54l2-10h8l2 10" fill="none" />
+    </svg>
+  );
+}
+
+function People({ className = "" }: { className?: string }) {
+  return (
+    <svg className={`aw-trophy ${className}`} viewBox="0 0 64 64" aria-hidden="true">
+      <circle cx="32" cy="20" r="8" />
+      <circle cx="14" cy="26" r="6" />
+      <circle cx="50" cy="26" r="6" />
+      <path d="M18 54c0-9 6-16 14-16s14 7 14 16M2 52c0-7 5-12 12-12 3 0 5 1 7 2M62 52c0-7-5-12-12-12-3 0-5 1-7 2" fill="none" />
+    </svg>
+  );
+}
+
+const darkScene = (reduced: boolean, extra = "") => `scene is-awards-dark aw-scene${reduced ? " is-reduced" : ""}${extra}`;
+
+export const AwardsOpen = withData(function AwardsOpen({ data, reduced }: DataProps) {
+  return (
+    <div className={darkScene(reduced, " aw-open")}>
+      <Bleed spot />
+      <div className="aw-year aw-in" style={d(0.1)} aria-hidden="true">2026</div>
       <SlideChrome caption={`${data.summit} · ${data.date}`} mark={false} />
-      <div className="safe" style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-        <div className="awards-kicker">{data.organizer}</div>
-        <h1 className="awards-title">CX Awards<br />2026</h1>
-        <div className="awards-rule" />
-        <div className="awards-sub">Představení a vyhlášení výsledků</div>
+      <div className="aw-open-copy">
+        <div className="awards-kicker aw-in" style={d(0.35)}>{data.organizer} uděluje</div>
+        <h1 className="aw-open-title">
+          <span className="aw-mask"><span className="aw-rise" style={d(0.55)}>CX</span></span>{" "}
+          <span className="aw-mask"><span className="aw-rise" style={d(0.7)}>Awards</span></span>
+          <span className="aw-mask"><span className="aw-rise aw-lime" style={d(0.85)}>.</span></span>
+        </h1>
+        <div className="aw-rule aw-draw" style={d(1.15)} />
+        <div className="aw-open-sub aw-in" style={d(1.35)}>Představení a vyhlášení výsledků</div>
       </div>
     </div>
   );
 });
 
-export const AwardsWhat = withData(function AwardsWhat({ data }: DataProps) {
+export const AwardsWhat = withData(function AwardsWhat({ data, reduced }: DataProps) {
+  const beats = [
+    "Zákaznická zkušenost se nedá vyhlásit.",
+    "Musí se postavit — projekt po projektu.",
+    "CX Awards oceňují týmy, které to dokázaly.",
+  ];
   return (
-    <div className="scene">
-      <SlideChrome kicker="CX Awards" page="00 / 00" caption="Co jsou CX Awards" captionDot />
-      <div className="awards-copy">
-        <div className="awards-kicker">{data.organizer}</div>
-        <div className="awards-title" style={{ maxWidth: "18ch" }}>Ocenění zkušeností, které opravdu fungují.</div>
-        <div className="awards-sub" style={{ maxWidth: "36ch" }}>
-          CX Awards pořádá {data.organizer} v rámci {data.summit}. Porota hodnotí projekty podle čtyř vážených kritérií.
+    <div className={darkScene(reduced)}>
+      <Bleed />
+      <SlideChrome caption="Co jsou CX Awards" mark={false} />
+      <div className="aw-story">
+        <div className="awards-kicker aw-in" style={d(0.1)}>Co jsou CX Awards</div>
+        {beats.map((b, i) => (
+          <div key={b} className={`aw-beat aw-in${i === beats.length - 1 ? " is-last" : ""}`} style={d(0.4 + i * 0.9)}>
+            {b}
+          </div>
+        ))}
+        <div className="aw-story-foot aw-in" style={d(0.4 + beats.length * 0.9)}>
+          <span className="aw-pill">{data.organizer}</span>
+          <span className="aw-pill">{data.summit}</span>
+          <span className="aw-pill">Nezávislá porota</span>
         </div>
       </div>
     </div>
   );
 });
 
-export const AwardsCategories = withData(function AwardsCategories({ data }: DataProps) {
+export const AwardsCategories = withData(function AwardsCategories({ data, step, reduced }: DataProps) {
+  const s = step;
+  const max = Math.max(...data.criteria.map((c) => c.weight));
   return (
-    <div className="scene">
-      <SlideChrome kicker="CX Awards" page="00 / 00" caption="Dvě kategorie · čtyři kritéria" captionDot />
-      <div className="awards-copy" style={{ top: 130 }}>
-        <div className="awards-kicker">Kategorie a kritéria</div>
+    <div className={darkScene(reduced)}>
+      <Bleed />
+      <SlideChrome caption="Dvě kategorie · čtyři kritéria" mark={false} />
+      <div className="aw-head">
+        <div className="awards-kicker aw-in" style={d(0.05)}>Kategorie</div>
+        <h2 className="aw-h2 aw-in" style={d(0.15)}>Dvě soutěže, jedno měřítko.</h2>
       </div>
-      <div className="awards-grid is-2" style={{ top: 190, bottom: "auto" }}>
+      <div className="aw-cats">
         {data.categories.map((c, i) => (
-          <article key={c.id} className="awards-card">
-            <div className="awards-card-n">{String(i + 1).padStart(2, "0")}</div>
-            <div className="awards-card-title">{c.name}</div>
-            <div className="awards-card-sub">{c.count} projektů</div>
+          <article key={c.id} className={`aw-glass aw-cat aw-step${on(s >= i)}`}>
+            <div className="aw-cat-n">{String(i + 1).padStart(2, "0")}</div>
+            <div className="aw-cat-name">{c.name}</div>
+            <div className="aw-cat-count"><b>{c.count}</b> projektů</div>
           </article>
         ))}
       </div>
-      <div className="awards-grid is-4">
-        {data.criteria.map((c) => (
-          <article key={c.id} className="awards-card">
-            <div className="awards-card-weight">{c.weight}<small>%</small></div>
-            <div className="awards-card-sub" style={{ marginTop: 10 }}>{c.label}</div>
-          </article>
+      <div className={`aw-crit aw-step${on(s >= 2)}`}>
+        <div className="aw-crit-label">Porota hodnotí</div>
+        {data.criteria.map((c, i) => (
+          <div key={c.id} className="aw-crit-row" style={d(i * 0.12)}>
+            <span className="aw-crit-name">{c.label}</span>
+            <span className="aw-crit-track"><span className="aw-crit-bar" style={{ ...d(0.15 + i * 0.12), width: `${(c.weight / max) * 100}%` }} /></span>
+            <span className="aw-crit-w">{c.weight} %</span>
+          </div>
         ))}
       </div>
     </div>
   );
 });
 
-export const AwardsEntrants = withData(function AwardsEntrants({ data }: DataProps) {
+function hash(i: number, n: number) {
+  return (((Math.sin(i * 12.9898 + n * 78.233) * 43758.5453) % 1) + 1) % 1;
+}
+
+export const AwardsEntrants = withData(function AwardsEntrants({ data, reduced }: DataProps) {
   const companies = Array.from(new Set(data.categories.flatMap((c) => c.projects.map((p) => p.company))))
     .sort((a, b) => a.localeCompare(b, "cs"));
   const total = data.categories.reduce((n, c) => n + c.count, 0);
-  const [a, b] = data.categories;
   return (
-    <div className="scene">
-      <SlideChrome kicker="CX Awards" page="00 / 00" caption="Kdo se přihlásil" captionDot />
-      <div className="awards-copy" style={{ top: 140 }}>
-        <div className="awards-kicker">Přihlášené projekty</div>
-        <div className="awards-title" style={{ fontSize: 72, maxWidth: "none" }}>{total} projektů · {companies.length} firem</div>
-        <div className="awards-sub" style={{ maxWidth: "44ch", fontSize: 26 }}>
-          {a.count} v {a.name.replace("The ", "")}, {b.count} v {b.name.replace("The ", "")}.
-        </div>
+    <div className={darkScene(reduced)}>
+      <Bleed />
+      <SlideChrome caption="Kdo se přihlásil" mark={false} />
+      <div className="aw-head">
+        <div className="awards-kicker aw-in" style={d(0.05)}>Přihlášené projekty</div>
+        <h2 className="aw-h2">
+          <span className="aw-in aw-big" style={d(0.2)}>{total}</span> <span className="aw-in" style={d(0.35)}>projektů</span>{" "}
+          <span className="aw-in aw-dim" style={d(0.5)}>·</span>{" "}
+          <span className="aw-in aw-big" style={d(0.6)}>{companies.length}</span> <span className="aw-in" style={d(0.75)}>firem</span>
+        </h2>
       </div>
-      <div className="awards-logos" aria-label="Firmy">
-        {companies.map((name) => (
-          <span key={name} className="awards-logo">{name}</span>
+      <div className="aw-wall">
+        {companies.map((name, i) => (
+          <span
+            key={name}
+            className="aw-brick"
+            style={{
+              ...d(0.9 + i * 0.07),
+              "--x": `${(hash(i, 1) - 0.5) * 520}px`,
+              "--y": `${(hash(i, 2) - 0.2) * 360}px`,
+              "--r": `${(hash(i, 3) - 0.5) * 24}deg`,
+            } as CSSProperties}
+          >
+            {name}
+          </span>
         ))}
       </div>
     </div>
   );
 });
 
-export const AwardsPrizes = withData(function AwardsPrizes({ data }: DataProps) {
+export const AwardsPrizes = withData(function AwardsPrizes({ reduced }: DataProps) {
   return (
-    <div className="scene is-awards-dark is-cinematic">
+    <div className={darkScene(reduced)}>
+      <Bleed spot />
       <SlideChrome caption="Dvě ceny v každé kategorii" mark={false} />
-      <div className="safe" style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-        <div className="awards-kicker">V každé kategorii</div>
-        <h1 className="awards-title" style={{ fontSize: 76, maxWidth: "16ch" }}>Hlas poroty &amp; Hlas lidu</h1>
-        <div className="awards-prize-row">
-          {data.prizes.map((p, i) => (
-            <div key={p} className="awards-prize">
-              <div className="awards-prize-label">{i === 0 ? "Porota" : "Publikum"}</div>
-              <div className="awards-prize-name">{p}</div>
-            </div>
-          ))}
+      <div className="aw-head is-center">
+        <div className="awards-kicker aw-in" style={d(0.05)}>V každé kategorii</div>
+        <h2 className="aw-h2 aw-in" style={d(0.15)}>Dvě ceny. Dva pohledy.</h2>
+      </div>
+      <div className="aw-pillars">
+        <div className="aw-pillar aw-glass is-jury" style={d(0.45)}>
+          <Trophy />
+          <div className="aw-pillar-label">Odborníci</div>
+          <div className="aw-pillar-name">Hlas poroty</div>
+          <div className="aw-pillar-sub">Vážené hodnocení podle čtyř kritérií</div>
+        </div>
+        <div className="aw-pillar aw-glass is-public" style={d(0.75)}>
+          <People />
+          <div className="aw-pillar-label">Publikum</div>
+          <div className="aw-pillar-name">Hlas lidu</div>
+          <div className="aw-pillar-sub">Hlasování účastníků summitu</div>
         </div>
       </div>
     </div>
   );
 });
 
-function Reveal({ data, categoryId, step }: { data: AwardsData; categoryId: AwardCategory["id"]; step: number }) {
+function Reveal({ data, categoryId, step, reduced }: { data: AwardsData; categoryId: AwardCategory["id"]; step: number; reduced: boolean }) {
   const cat = data.categories.find((c) => c.id === categoryId)!;
-  // 0 = stage set · 1 = 3rd · 2 = 2nd · 3 = 1st · 4 = Hlas lidu (placeholder)
-  const show = Math.min(Math.max(step, 0), 4);
+  // 0 = suspense · 1 = 3rd · 2 = 2nd · 3 = 1st (burst) · 4 = Hlas lidu (placeholder)
+  const s = Math.min(Math.max(step, 0), 4);
   const byRank = (r: number) => cat.jury.find((j) => j.rank === r)!;
   return (
-    <div className="scene">
-      <SlideChrome kicker="CX Awards" page="00 / 00" caption={`${cat.name} · vyhlášení`} captionDot />
-      <div className="awards-copy" style={{ top: 120 }}>
-        <div className="awards-kicker">Hlas poroty</div>
-        <div className="awards-title" style={{ fontSize: 56, maxWidth: "none" }}>{cat.name}</div>
+    <div className={darkScene(reduced, ` aw-reveal${s >= 3 ? " is-won" : ""}`)}>
+      <Bleed spot />
+      <SlideChrome mark={false} />
+      <div className="aw-head is-center">
+        <div className="awards-kicker aw-in" style={d(0.05)}>Hlas poroty</div>
+        <h2 className="aw-h2 aw-in" style={d(0.15)}>{cat.name}</h2>
       </div>
-      <div className="awards-reveal" style={{ top: 200, bottom: 190 }}>
-        <div className="awards-podium">
-          {[2, 1, 3].map((rank) => {
-            const place = byRank(rank);
-            const visible = show >= 4 - rank;
-            return (
-              <article key={rank} className={`awards-place is-${rank}${visible ? " is-on" : ""}`}>
-                <div className="awards-place-rank">{rank}. místo</div>
-                <div className="awards-place-company">{place.company}</div>
-                <div className="awards-place-project">{place.project}</div>
+      <div className={`aw-suspense${s >= 1 ? " is-off" : ""}`}>
+        <span className="aw-in" style={d(0.5)}>A cenu poroty získává</span>
+        <span className="aw-dots" aria-hidden="true"><i /><i /><i /></span>
+      </div>
+      <div className="aw-burst" aria-hidden="true"><i className="aw-rays" /><i className="aw-ring" /></div>
+      <div className="aw-podium">
+        {[2, 1, 3].map((rank) => {
+          const p = byRank(rank);
+          const visible = s >= 4 - rank;
+          return (
+            <div key={rank} className={`aw-slot is-${rank}${on(visible)}`}>
+              <article className="aw-glass aw-winner">
+                <div className="aw-winner-rank">{rank}. místo</div>
+                <div className="aw-winner-co">{p.company}</div>
+                <div className="aw-winner-pr">{p.project}</div>
               </article>
-            );
-          })}
-        </div>
+              <div className="aw-ped"><span>{rank}</span></div>
+            </div>
+          );
+        })}
       </div>
-      <div className={`awards-public${show >= 4 ? " is-on" : ""}`}>
-        <div className="awards-public-label">Hlas lidu</div>
-        <div className="awards-public-name"><span className="awards-public-ph">doplníme</span></div>
+      <div className={`aw-public aw-step${on(s >= 4)}`}>
+        <People className="is-sm" />
+        <span className="aw-public-label">Hlas lidu</span>
+        <span className="aw-public-ph">doplníme</span>
       </div>
     </div>
   );
 }
 
-export const AwardsImpact = withData(function AwardsImpact({ step, data }: DataProps) {
-  return <Reveal data={data} categoryId="impact" step={step} />;
+export const AwardsImpact = withData(function AwardsImpact({ step, data, reduced }: DataProps) {
+  return <Reveal data={data} categoryId="impact" step={step} reduced={reduced} />;
 });
 
-export const AwardsPulse = withData(function AwardsPulse({ step, data }: DataProps) {
-  return <Reveal data={data} categoryId="pulse" step={step} />;
+export const AwardsPulse = withData(function AwardsPulse({ step, data, reduced }: DataProps) {
+  return <Reveal data={data} categoryId="pulse" step={step} reduced={reduced} />;
 });
