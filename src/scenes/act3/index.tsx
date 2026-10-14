@@ -1338,11 +1338,10 @@ export function Bias({ step, reduced }: SceneProps) {
   const beat = Math.max(0, Math.min(step, 2));
   const portrait = {
     position: "absolute" as const,
-    right: 80,
-    top: 48,
-    bottom: 48,
-    height: "auto" as const,
-    width: 800,
+    right: 0,
+    top: 0,
+    height: "100%",
+    width: 860,
     objectFit: "contain" as const,
     pointerEvents: "none" as const,
   };

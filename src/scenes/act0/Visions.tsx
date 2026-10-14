@@ -339,11 +339,10 @@ function VisionPortrait({ step, reduced, adjacent }: { step: number; reduced: bo
 
   const portrait = {
     position: "absolute" as const,
-    right: 80,
-    top: 48,
-    bottom: 48,
-    height: "auto" as const,
-    width: 720,
+    right: 0,
+    top: 0,
+    height: "100%",
+    width: 780,
     objectFit: "contain" as const,
     objectPosition: "right bottom",
     pointerEvents: "none" as const,

@@ -224,12 +224,12 @@ export function Twist({ step, reduced }: SceneProps) {
         alt=""
         className="cutout abs"
         style={{
-          height: "92%",
+          height: "100%",
           width: "auto",
-          maxWidth: "52%",
-          right: 64,
-          top: "4%",
-          bottom: "4%",
+          maxWidth: "54%",
+          right: 0,
+          top: 0,
+          bottom: 0,
           objectFit: "contain",
           objectPosition: "right center",
         }}
