@@ -250,7 +250,8 @@ const allScenes: SceneDef[] = [
   {
     id: "trust", act: 3, actName: "PROČ VĚŘIT?", component: "Trust", stepBase: 7,
     steps: [
-      { id: "ts2", title: "Kontrola", speakerNote: "Zoom do Kontroly. Cyklus Human in the Loop se složí sám. Až dohraje, další klik: čtyři otázky a přechod k JAK.", sourcePage: 38 },
+      { id: "ts2", title: "Kontrola", speakerNote: "Zoom do Kontroly. Nadpis HITL princip.", sourcePage: 38 },
+      { id: "ts3", title: "HITL cyklus", speakerNote: "Klik: cyklus Human in the Loop se složí. Až dohraje, další klik: čtyři otázky a přechod k JAK.", sourcePage: 38 },
     ],
   },
   {

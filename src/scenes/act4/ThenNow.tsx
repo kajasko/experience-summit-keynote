@@ -441,7 +441,7 @@ function ThenNow({ beat, reduced }: { beat: number; reduced: boolean }) {
                     <path data-mortgage-route={i} d={`M210 248 C300 248, 320 ${y}, 368 ${y}`} fill="none" stroke="var(--lime)" strokeWidth="3" />
                     <rect x="368" y={y - 30} width="256" height="60" rx="18" fill="var(--bg)" stroke="var(--teal)" strokeWidth="2.5" />
                     <NodeGlyph name={node.id} x={380} y={y - 16} />
-                    <text x="430" y={y + 7} fill="var(--teal)" fontSize="18" fontWeight="700" letterSpacing=".4" fontFamily="var(--font)">{node.label}</text>
+                    <text x="430" y={y + 7} fill="var(--teal)" fontSize="18" fontWeight="700" letterSpacing=".4">{node.label}</text>
                   </g>
                 );
               })}

@@ -915,7 +915,7 @@ button { font-family: inherit; }
 .modes-title strong {
   color: var(--text-deep);
   font-size: 56px;
-  font-weight: 820;
+  font-weight: 800;
 }
 
 .modes-title.is-b {
@@ -1038,7 +1038,7 @@ button { font-family: inherit; }
   margin: 0;
   color: var(--text-deep);
   font-size: 38px;
-  font-weight: 820;
+  font-weight: 800;
   letter-spacing: -0.045em;
   line-height: 0.96;
 }
@@ -1059,7 +1059,7 @@ button { font-family: inherit; }
   bottom: 0;
   color: var(--lime-deep);
   font-size: 17px;
-  font-weight: 820;
+  font-weight: 800;
   letter-spacing: 0.04em;
   opacity: 0;
   text-transform: uppercase;
@@ -1458,7 +1458,7 @@ button { font-family: inherit; }
 .prd-title {
   color: var(--text-deep);
   font-size: 58px;
-  font-weight: 820;
+  font-weight: 800;
   letter-spacing: -0.06em;
   line-height: 1.14;
 }
@@ -1799,7 +1799,7 @@ button { font-family: inherit; }
 .challenge-intro-title strong {
   color: var(--text-deep);
   font-size: 94px;
-  font-weight: 820;
+  font-weight: 800;
 }
 
 .challenge-intro-title.is-long strong {
@@ -1841,7 +1841,7 @@ button { font-family: inherit; }
 .challenge-map-title strong {
   color: var(--text-deep);
   font-size: 54px;
-  font-weight: 820;
+  font-weight: 800;
 }
 
 .challenge-card {
@@ -1905,7 +1905,7 @@ button { font-family: inherit; }
   top: 35px;
   color: var(--text-deep);
   font-size: 34px;
-  font-weight: 820;
+  font-weight: 800;
   letter-spacing: -0.05em;
   line-height: 1;
   white-space: nowrap;
@@ -2185,9 +2185,12 @@ button { font-family: inherit; }
   flex-direction: column;
   align-items: center;
   text-align: center;
+  font-family: var(--font);
   font-size: 58px;
-  line-height: 1.16;
-  letter-spacing: -0.04em;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.05em;
+  color: var(--text-deep);
 }
 
 .tn-claim span {
@@ -2589,7 +2592,7 @@ button { font-family: inherit; }
   max-width: 19ch;
   color: var(--text-deep);
   font-size: 61px;
-  font-weight: 820;
+  font-weight: 800;
   letter-spacing: -0.05em;
   line-height: 1.16;
 }
@@ -2641,7 +2644,7 @@ button { font-family: inherit; }
   margin-top: 0;
   color: var(--teal);
   font-size: 13px;
-  font-weight: 820;
+  font-weight: 800;
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
@@ -2650,7 +2653,7 @@ button { font-family: inherit; }
   margin-top: 12px;
   color: var(--text-deep);
   font-size: 40px;
-  font-weight: 820;
+  font-weight: 800;
   letter-spacing: -0.045em;
   line-height: 1.02;
 }
@@ -2732,7 +2735,7 @@ button { font-family: inherit; }
   bottom: 38px;
   color: var(--muted);
   font-size: 12px;
-  font-weight: 820;
+  font-weight: 800;
   letter-spacing: 0.14em;
   text-align: center;
 }
@@ -5909,18 +5912,29 @@ button { font-family: inherit; }
 .prove-find-labels {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 16px;
-  min-height: 40px;
+  gap: 10px;
+  margin-top: 18px;
+  min-height: 48px;
+  max-width: 100%;
 }
 
+/* LED-wall legible pills: bigger, text optically centred, never wider than the card. */
 .prove-find-label {
-  padding: 7px 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  padding: 0 18px;
+  max-width: 100%;
   border-radius: 999px;
   background: rgba(195, 213, 82, 0.32);
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: -0.01em;
+  font-size: 21px;
+  font-weight: 750;
+  line-height: 1;
+  letter-spacing: -0.015em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   color: var(--text-deep);
   opacity: 0;
 }
@@ -7482,3 +7496,7 @@ html.thumbs-capture .stage-frame {
   letter-spacing: -0.03em;
   line-height: 1.2;
 }
+
+/* ThenNow (slide 60): SVG labels must use the deck font via CSS, not a var() presentation attribute. */
+.tn-graph text, .tn-flow text { font-family: var(--font); }
+.tn-graph text { font-weight: 700; }

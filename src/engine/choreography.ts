@@ -115,6 +115,7 @@ export const score: Record<string, Score> = {
  ts1s: s('Otázka 3','Co když se něco pokazí? se napíše na středu a čeká'),
  ts1c: s('Náprava','otázka se přesune do karty, objeví se Náprava'),
  ts2: s('Kontrola','magic move: karta Kontrola vyroste, cyklus Human in the Loop se složí sám'),
+ ts3: s('HITL cyklus','klik: cyklus se složí'),
  jm1: s('Od PROČ VĚŘIT k JAK','mapa čtyř otázek, zvýraznění z 03 na 04'),
  ja1: chapter('Jak musí fungovat firma?'),
  or1: s('78 % firem','slova, pak glass ze středu, číslo se dopočítá'),

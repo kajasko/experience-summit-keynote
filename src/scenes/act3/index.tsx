@@ -1467,8 +1467,10 @@ const TRUST = [
 export function Trust({ step, reduced }: SceneProps) {
   const root = useRef<HTMLDivElement>(null);
   const prev = useRef<number | null>(null);
-  const beat = Math.max(0, Math.min(step, 17));
+  // Beat 7 = zoom into Kontrola (panel + title only). Beat 8 = click → HITL cycle plays.
+  const beat = Math.max(0, Math.min(step, 7));
   const zoomed = beat >= 7;
+  const cyclePlaying = step >= 8;
 
   useLayoutEffect(() => {
     const el = root.current;
@@ -1782,7 +1784,7 @@ export function Trust({ step, reduced }: SceneProps) {
           </div>
           <div data-hitl-lead-sub className="hitl-lead-sub">human in the loop</div>
         </div>
-        <HitlCycle active={zoomed} reduced={reduced} />
+        <HitlCycle active={cyclePlaying} reduced={reduced} />
       </div>
     </div>
   );
