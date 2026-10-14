@@ -186,7 +186,8 @@ const allScenes: SceneDef[] = [
   {
     id: "human-ai", act: 2, actName: "CO?", component: "HumanAi",
     steps: [
-      { id: "ha1", title: "Míra autonomie je rozhodnutí podle situace", speakerNote: "Volíme mezi třemi režimy: AI jedná; AI navrhne a člověk potvrdí; člověk vede a AI podporuje. Rozhoduje důsledek, vratnost, nejistota a emoce. Čím více autonomie AI dostává, tím důležitější je, aby zákazník rozuměl, co se děje a proč tomu může věřit.", sources: ["gartnerHuman"], sourcePage: 28 },
+      { id: "ha1", title: "Míra autonomie je rozhodnutí podle situace", speakerNote: "87 % chce možnost přejít z AI k člověku. Volíme mezi třemi režimy: AI jedná; AI navrhne a člověk potvrdí; člověk vede a AI podporuje. Rozhoduje důsledek, vratnost, nejistota a emoce. Čím více autonomie AI dostává, tím důležitější je, aby zákazník rozuměl, co se děje a proč tomu může věřit.", sources: ["gartnerHuman"], sourcePage: 28 },
+      { id: "ha2", title: "Kompas autonomie", speakerNote: "Klik: 87 % se zmenší na místě, přijde kompas (kývá se mezi Člověkem a AI) a tři režimy.", sourcePage: 28 },
     ],
   },
 

@@ -74,6 +74,7 @@ export const score: Record<string, Score> = {
  ui3b: s('To nejlepší z obou světů','fotka a hlas → dopíše se dotaz → doplňující bublina → limetka → doporučení, srovnání s ukazateli, video a rádce'),
  pa1: s('AI není parťák','obraz se oddálí, pak titul'),
   ha1: s('Tři režimy autonomie','87 % se dopočítá, přijde text, číslo se odsunu a zmenší, pak kompas a tři režimy'),
+ ha2: s('Kompas autonomie','klik: 87 % se zmenší na místě, kompas se kývá, tři režimy'),
  vm1: s('Od CO k PROČ VĚŘIT','mapa čtyř otázek, zvýraznění z 02 na 03'),
  ve1: chapter('Proč tomu věřit?'),
  d0: s('Nedůvěra','zjednodušit: ticho, věta, cutout fade obrazu',cue('default','[data-hero-title]',T.hold),cue('porušení','[data-hero-visual]',T.meaning,'cutout')),
