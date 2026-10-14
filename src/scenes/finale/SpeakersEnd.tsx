@@ -5,7 +5,7 @@ import { SlideChrome } from "../../components/SlideChrome";
 import { asset } from "../../engine/assets";
 import { EASE, shouldAnimate } from "../../engine/motion";
 import { useAdjacentStep } from "../../engine/useAdjacentStep";
-import { SUMMIT_SPEAKERS as SPEAKERS } from "./speakersData";
+import { SUMMIT_TALKS as SPEAKERS, SUMMIT_PEOPLE as PEOPLE } from "./speakersData";
 
 /** Click-driven speaker sequence — persistent portraits FLIP hero → dock. */
 
@@ -39,23 +39,36 @@ export function SpeakersEnd({ step, reduced }: SceneProps) {
     const finale = el.querySelector<HTMLElement>("[data-sp-finale]");
     const copy = el.querySelector<HTMLElement>("[data-sp-copy]");
     const chips = gsap.utils.toArray<HTMLElement>("[data-sp-chip]", el);
-    const portraits = SPEAKERS.map(
-      (s) => el.querySelector<HTMLElement>(`[data-sp-portrait="${s.id}"]`)!,
+    // One entry per talk; a shared talk (03 · LEGO) has two portraits side by side.
+    const groups = SPEAKERS.map((t) =>
+      t.people.map((p) => el.querySelector<HTMLElement>(`[data-sp-portrait="${p.id}"]`)!),
     );
 
     const from = prevStep.current;
     prevStep.current = step;
 
-    const heroBox = heroSlot
+    const heroSlotBox = heroSlot
       ? stageBox(heroSlot, stage, sx)
       : { left: 1100, top: 200, width: 760, height: 860 };
 
-    const chipBox = (i: number) => {
-      const slot = chips[i]?.querySelector<HTMLElement>("[data-sp-chip-slot]");
-      return slot ? stageBox(slot, stage, sx) : { left: 80 + i * 360, top: 100, width: 88, height: 110 };
+    type Box = { left: number; top: number; width: number; height: number };
+    const heroBoxes = (i: number): Box[] => {
+      const n = SPEAKERS[i].people.length;
+      if (n === 1) return [heroSlotBox];
+      // Pair: each person takes ~62 % of the slot, overlapping slightly, side by side.
+      const w = heroSlotBox.width * 0.62;
+      const shift = (heroSlotBox.width - w) / (n - 1);
+      return Array.from({ length: n }, (_, k) => ({ ...heroSlotBox, left: heroSlotBox.left + k * shift, width: w }));
     };
 
-    const place = (img: HTMLElement, box: { left: number; top: number; width: number; height: number }, visible: boolean) => {
+    const chipBoxes = (i: number): Box[] => {
+      const slots = chips[i] ? gsap.utils.toArray<HTMLElement>("[data-sp-chip-slot]", chips[i]) : [];
+      return SPEAKERS[i].people.map((_, k) =>
+        slots[k] ? stageBox(slots[k], stage, sx) : { left: 80 + i * 360 + k * 70, top: 100, width: 88, height: 110 },
+      );
+    };
+
+    const place = (img: HTMLElement, box: Box, visible: boolean) => {
       gsap.set(img, {
         left: box.left,
         top: box.top,
@@ -69,17 +82,23 @@ export function SpeakersEnd({ step, reduced }: SceneProps) {
       });
     };
 
+    const each = (i: number, fn: (img: HTMLElement, k: number) => void) => groups[i].forEach(fn);
+
     const settle = () => {
-      portraits.forEach((img, i) => {
-        if (i < parked) {
-          place(img, chipBox(i), true);
-          gsap.set(img, { zIndex: 8 });
-        } else if (i === featIdx) {
-          place(img, heroBox, true);
-          gsap.set(img, { zIndex: 12 });
-        } else {
-          place(img, { ...heroBox, left: heroBox.left + 120 }, false);
-        }
+      groups.forEach((imgs, i) => {
+        const hero = heroBoxes(i);
+        const dock = chipBoxes(i);
+        imgs.forEach((img, k) => {
+          if (i < parked) {
+            place(img, dock[k], true);
+            gsap.set(img, { zIndex: 8 });
+          } else if (i === featIdx) {
+            place(img, hero[k], true);
+            gsap.set(img, { zIndex: 12 + k });
+          } else {
+            place(img, { ...hero[k], left: hero[k].left + 120 }, false);
+          }
+        });
       });
       chips.forEach((chip, i) => {
         gsap.set(chip, { autoAlpha: i < parked ? 1 : 0, y: 0 });
@@ -96,84 +115,64 @@ export function SpeakersEnd({ step, reduced }: SceneProps) {
       return;
     }
 
-    // First enter — Petřina slides in from the right (same element)
+    // First enter — first talk slides in from the right (same element)
     if (from === null && step === 0) {
       chips.forEach((chip) => gsap.set(chip, { autoAlpha: 0 }));
-      portraits.forEach((img, i) => {
-        if (i === 0) {
-          place(img, heroBox, true);
-          gsap.set(img, { x: 80, autoAlpha: 0 });
-        } else {
-          place(img, heroBox, false);
-        }
+      groups.forEach((imgs, i) => {
+        const hero = heroBoxes(i);
+        imgs.forEach((img, k) => {
+          place(img, hero[k], i === 0);
+          if (i === 0) gsap.set(img, { x: 80, autoAlpha: 0 });
+        });
       });
       if (copy) gsap.set(copy, { autoAlpha: 0, x: -24, y: 8 });
       if (finale) gsap.set(finale, { autoAlpha: 0 });
       const intro = gsap.timeline();
-      intro.to(portraits[0], { x: 0, autoAlpha: 1, duration: 1.2, ease: EASE.enter }, 0.1);
+      intro.to(groups[0], { x: 0, autoAlpha: 1, duration: 1.2, ease: EASE.enter, stagger: 0.12 }, 0.1);
       if (copy) intro.to(copy, { autoAlpha: 1, x: 0, y: 0, duration: 1.0, ease: EASE.enter }, 0.28);
       return () => intro.kill();
     }
 
-    if (from === null || !animate) {
+    if (from === null || !animate || step <= from) {
       settle();
       return;
     }
 
     const prev = from;
-    const advancing = step > prev;
-    if (!advancing) {
-      settle();
-      return;
-    }
-
     const tl = gsap.timeline();
 
-    // Keep already-parked portraits/chips settled
-    portraits.forEach((img, i) => {
-      if (i < prev) {
-        place(img, chipBox(i), true);
-        gsap.set(img, { zIndex: 8 });
-      }
-      if (i > prev && i !== featIdx) {
-        place(img, heroBox, false);
-      }
+    // Keep already-parked portraits/chips settled; hide future ones
+    groups.forEach((imgs, i) => {
+      const dock = chipBoxes(i);
+      const hero = heroBoxes(i);
+      imgs.forEach((img, k) => {
+        if (i < prev) {
+          place(img, dock[k], true);
+          gsap.set(img, { zIndex: 8 });
+        }
+        if (i > prev && i !== featIdx) place(img, hero[k], false);
+      });
     });
     chips.forEach((chip, i) => {
       gsap.set(chip, { autoAlpha: i < prev ? 1 : 0, y: 0 });
     });
 
-    // Park outgoing: SAME portrait element flies hero → chip (never fades)
+    // Park outgoing: SAME portrait elements fly hero → chip (never fade)
     if (prev < SPEAKERS.length) {
-      const outgoing = portraits[prev];
-      const target = chipBox(prev);
+      const hero = heroBoxes(prev);
+      const dock = chipBoxes(prev);
       const chip = chips[prev];
-      // Ensure starting at hero (React may have remounted copy, but portrait is persistent)
-      place(outgoing, heroBox, true);
-      gsap.set(outgoing, { zIndex: 20, autoAlpha: 1 });
-      // Chip chrome fades in under the arriving portrait (portrait itself stays opaque)
-      if (chip) gsap.set(chip, { autoAlpha: 0, y: 4 });
-
-      tl.to(
-        outgoing,
-        {
-          left: target.left,
-          top: target.top,
-          width: target.width,
-          height: target.height,
-          duration: 1.55,
-          ease: "sine.inOut",
-          zIndex: 8,
-        },
-        0,
-      );
+      each(prev, (img, k) => {
+        place(img, hero[k], true);
+        gsap.set(img, { zIndex: 20 + k, autoAlpha: 1 });
+        tl.to(img, { ...dock[k], duration: 1.55, ease: "sine.inOut", zIndex: 8 }, k * 0.08);
+      });
       if (chip) {
+        gsap.set(chip, { autoAlpha: 0, y: 4 });
         tl.to(chip, { autoAlpha: 1, y: 0, duration: 0.8, ease: EASE.enter }, 1.05);
       }
     }
 
-    // Outgoing copy leaves gently
-    // (copy already swapped to next speaker by React — fade the new copy in after fly)
     if (copy) {
       if (featured) {
         gsap.set(copy, { autoAlpha: 0, x: -20, y: 8 });
@@ -183,17 +182,14 @@ export function SpeakersEnd({ step, reduced }: SceneProps) {
       }
     }
 
-    // Next featured portrait: continuous slide from the right into hero (no blink)
+    // Next featured talk: continuous slide from the right into hero (no blink)
     if (featIdx >= 0) {
-      const incoming = portraits[featIdx];
-      place(incoming, heroBox, true);
-      gsap.set(incoming, { x: 72, autoAlpha: 1, zIndex: 12 });
-      tl.fromTo(
-        incoming,
-        { x: 72 },
-        { x: 0, duration: 1.25, ease: EASE.enter },
-        1.15,
-      );
+      const hero = heroBoxes(featIdx);
+      each(featIdx, (img, k) => {
+        place(img, hero[k], true);
+        gsap.set(img, { x: 72, autoAlpha: 1, zIndex: 12 + k });
+        tl.fromTo(img, { x: 72 }, { x: 0, duration: 1.25, ease: EASE.enter }, 1.15 + k * 0.12);
+      });
     }
 
     if (finale) {
@@ -215,14 +211,16 @@ export function SpeakersEnd({ step, reduced }: SceneProps) {
       <SlideChrome kicker="ZÁVĚR / EXPERIENCE SUMMIT" page="67 / 67" />
 
       <div className="sp-dock">
-        {SPEAKERS.map((s) => (
-          <article key={s.id} data-sp-chip={s.id} className="sp-chip">
-            <div data-sp-chip-slot className="sp-chip-slot" />
+        {SPEAKERS.map((t) => (
+          <article key={t.id} data-sp-chip={t.id} className={`sp-chip${t.people.length > 1 ? " is-pair" : ""}`}>
+            <div className="sp-chip-slots">
+              {t.people.map((p) => <div key={p.id} data-sp-chip-slot className="sp-chip-slot" />)}
+            </div>
             <div className="sp-chip-body">
-              <span className="sp-chip-n">{s.n}</span>
-              <div className="sp-chip-name">{s.name}</div>
+              <span className="sp-chip-n">{t.n}</span>
+              <div className="sp-chip-name">{t.people.length > 1 ? "Michaela & Kryštof" : t.people[0].name}</div>
               <div className="sp-chip-role">
-                {s.org} · {s.time}
+                {t.people[0].org} · {t.time}
               </div>
             </div>
           </article>
@@ -230,13 +228,13 @@ export function SpeakersEnd({ step, reduced }: SceneProps) {
       </div>
 
       {/* Persistent portraits — never remounted between steps */}
-      {SPEAKERS.map((s) => (
+      {PEOPLE.map((p) => (
         <img
-          key={s.id}
-          data-sp-portrait={s.id}
+          key={p.id}
+          data-sp-portrait={p.id}
           data-art
           className="sp-portrait cutout"
-          src={asset(s.photo)}
+          src={asset(p.photo)}
           alt=""
         />
       ))}
@@ -252,15 +250,19 @@ export function SpeakersEnd({ step, reduced }: SceneProps) {
 
       <div className="sp-feature">
         {featured && (
-          <div data-sp-copy className="sp-feature-copy">
+          <div data-sp-copy className={`sp-feature-copy${featured.people.length > 1 ? " is-pair" : ""}`}>
             <div className="sp-feature-n">{featured.n}</div>
             <div className="sp-feature-time">{featured.time}</div>
             <h2 className="sp-feature-topic">{featured.topic}</h2>
-            <div className="sp-feature-name">{featured.name}</div>
-            <div className="sp-feature-role">
-              {featured.role}
-              <span className="sp-feature-org"> · {featured.org}</span>
-            </div>
+            {featured.people.map((p) => (
+              <div key={p.id} className="sp-feature-person">
+                <div className="sp-feature-name">{p.name}</div>
+                <div className="sp-feature-role">
+                  {p.role}
+                  <span className="sp-feature-org"> · {p.org}</span>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>

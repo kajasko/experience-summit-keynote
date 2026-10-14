@@ -291,16 +291,21 @@ const allScenes: SceneDef[] = [
     steps: [
       { id: "vd1", title: "Jakub Petřina", speakerNote: "9:45–10:15 · PPF · Od rychlých člunů po zaoceánské tankery.", sourcePage: 46 },
       { id: "vd2", title: "Dejan Krstic", speakerNote: "10:15–10:45 · ex-Spotify · Od softwaru ke kontextu.", sourcePage: 46 },
-      { id: "vd3", title: "Michaela Edgerley Stovicek", speakerNote: "11:15–12:00 · LEGO · Jen to nejlepší je dost dobré.", sourcePage: 46 },
-      { id: "vd4", title: "Vladimír Kryštof Maliňák", speakerNote: "11:15–12:00 · LEGO · společná stage s Michaelou.", sourcePage: 46 },
-      { id: "vd5", title: "Miloš Nejezchleb", speakerNote: "12:00–12:30 · Home Credit · Anatomie úspěšného týmu.", sourcePage: 46 },
-      { id: "vd6", title: "Pět hlasů ze stage", speakerNote: "Všichni řečníci main stage Experience Summit 2026.", sourcePage: 46 },
+      { id: "vd3", title: "Míša & Kryštof · LEGO", speakerNote: "11:15–12:00 · the LEGO Group · Michaela Edgerley Stovicek a Vladimír Kryštof Maliňák společně na stage. Jen to nejlepší je dost dobré.", sourcePage: 46 },
+      { id: "vd4", title: "Miloš Nejezchleb", speakerNote: "12:00–12:30 · Home Credit · Anatomie úspěšného týmu.", sourcePage: 46 },
+      { id: "vd5", title: "Pět hlasů ze stage", speakerNote: "Všichni řečníci main stage Experience Summit 2026.", sourcePage: 46 },
     ],
   },
   {
     id: "hosts", act: 4, actName: "JAK?", component: "Hosts",
     steps: [
       { id: "hs1", title: "Kdo vás provede dál", speakerNote: "Představíme moderátora a lektory odpoledních masterclass: Daniel Koutný a Zuzana Mezerová (Persony v akci), Jakub Šťastný a Dejan Krstic (AI prototyp), Kateřina Stehlíková a Libor Hykeš (CVP v praxi)." },
+    ],
+  },
+  {
+    id: "closing", act: 4, actName: "JAK?", component: "Closing",
+    steps: [
+      { id: "cl1", title: "Děkujeme", speakerNote: "Závěr. Děkujeme. Experience Summit 2026." },
     ],
   },
 ];

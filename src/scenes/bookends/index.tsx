@@ -105,3 +105,5 @@ export function HoldSlide(_props: SceneProps) {
     </div>
   );
 }
+
+export { Closing } from "./Closing";
