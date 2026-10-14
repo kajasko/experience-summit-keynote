@@ -331,3 +331,23 @@ div.aw-in, h2.aw-in { display: block; }
 .aw-winner-logo { display: flex; align-items: center; justify-content: center; height: 84px; margin: 0 auto 14px; padding: 12px 20px; max-width: 260px; border-radius: 18px;
   background: linear-gradient(152deg, #fff 0%, #eef3f2 100%); box-shadow: inset 0 1px 0 #fff, 0 12px 24px rgba(0,20,24,.35); }
 .aw-winner-logo img { max-width: 100%; max-height: 60px; object-fit: contain; }
+
+/* v4 · categories slide layout fix */
+.aw-cats { top: 280px; gap: 28px; align-items: stretch; }
+.aw-cat { min-height: 0; padding: 34px 40px 36px; }
+.aw-cat-name { margin-top: 12px; font-size: 44px; line-height: 1.05; text-wrap: balance; min-height: 2.1em; }
+.aw-cat-count { padding-top: 18px; }
+.aw-crit {
+  top: 626px; gap: 12px; padding: 28px 40px 30px; border-radius: 32px; overflow: hidden;
+  background: linear-gradient(155deg, rgba(255,255,255,.16) 0%, rgba(255,255,255,.05) 50%, rgba(255,255,255,.02) 100%);
+  background-color: rgba(3,52,59,.55); border: 1px solid rgba(255,255,255,.18);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.3), 0 30px 60px rgba(0,20,24,.4);
+}
+.aw-crit-label { margin-bottom: 2px; }
+.aw-crit-row { grid-template-columns: 420px 1fr 100px; gap: 28px; min-height: 40px; }
+.aw-crit-name { font-size: 26px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.aw-crit-w { font-size: 30px; line-height: 1; }
+.aw-crit-track { position: relative; height: 14px; }
+.aw-cats { top: 318px; }
+.aw-cat-name { min-height: 0; }
+.aw-crit { top: 610px; }
