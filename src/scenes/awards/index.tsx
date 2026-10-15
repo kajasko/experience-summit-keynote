@@ -199,9 +199,9 @@ export const AwardsWhat = withData(function AwardsWhat({ data, reduced }: DataPr
 
 export const AwardsCategories = withData(function AwardsCategories({ data, step, reduced }: DataProps) {
   const s = step;
-  const max = Math.max(...data.criteria.map((c) => c.weight));
   const n = data.categories.length;
   const juryCats = data.categories.filter((c) => c.decidedBy !== "public").map((c) => c.short ?? c.name);
+  const publicCat = data.categories.find((c) => c.decidedBy === "public");
   return (
     <div className={darkScene(reduced, " aw-cats3")}>
       <Bleed />
@@ -222,14 +222,31 @@ export const AwardsCategories = withData(function AwardsCategories({ data, step,
         ))}
       </div>
       <div className={`aw-crit aw-step${on(s >= n)}`}>
-        <div className="aw-crit-label">Porota hodnotí · {juryCats.join(" a ")}</div>
-        {data.criteria.map((c, i) => (
-          <div key={c.id} className="aw-crit-row" style={d(i * 0.12)}>
-            <span className="aw-crit-name">{c.label}</span>
-            <span className="aw-crit-track"><span className="aw-crit-bar" style={{ ...d(0.15 + i * 0.12), width: `${(c.weight / max) * 100}%` }} /></span>
-            <span className="aw-crit-w">{c.weight} %</span>
+        <div className="aw-crit-label">Jak se vybírají vítězové · {data.categories.map((c) => c.short ?? c.name).join(" · ")}</div>
+        <div className="aw-crit-grid">
+        <div className="aw-crit-jury">
+        <div className="aw-crit-sub">Odborná porota · {juryCats.join(" a ")}</div>
+        <div className="aw-seg">
+          {data.criteria.map((c, i) => (
+            <div key={c.id} className={`aw-seg-part is-${i}`} style={{ flexGrow: c.weight, flexBasis: 0 }}>
+              <span className="aw-seg-bar" style={d(0.1 + i * 0.35)} />
+              <span className="aw-seg-pct" style={d(0.35 + i * 0.35)}>{c.weight} %</span>
+              <span className="aw-seg-name" style={d(0.4 + i * 0.35)}>{c.label}</span>
+            </div>
+          ))}
+        </div>
+        </div>
+        {publicCat ? (
+          <div className="aw-crit-public" style={d(0.1 + data.criteria.length * 0.35)}>
+            <People className="is-sm" />
+            <div>
+              <div className="aw-crit-public-k">Hlas publika</div>
+              <div className="aw-crit-public-n">{publicCat.name}</div>
+              <div className="aw-crit-public-s">Vybírají návštěvníci summitu</div>
+            </div>
           </div>
-        ))}
+        ) : null}
+        </div>
       </div>
     </div>
   );
@@ -366,20 +383,21 @@ function Reveal({ data, categoryId, step, reduced }: { data: AwardsData; categor
       <SlideChrome mark={false} />
       <div className="aw-head is-center">
         <div className="awards-kicker aw-in" style={d(0.05)}>Hlas poroty</div>
-        <h2 className="aw-h2 aw-in" style={d(0.15)}>{cat.name}</h2>
+        <h2 className="aw-h2 aw-fit aw-in" style={d(0.15)}>{cat.name}</h2>
       </div>
       <div className={`aw-suspense${s >= 1 ? " is-off" : ""}`}>
         <span className="aw-in" style={d(0.5)}>A cenu poroty získává</span>
         <span className="aw-dots" aria-hidden="true"><i /><i /><i /></span>
       </div>
-      <div className="aw-burst" aria-hidden="true"><i className="aw-rays" /><i className="aw-ring" /></div>
       <div className="aw-podium">
         {[2, 1, 3].map((rank) => {
           const p = byRank(rank);
           const visible = s >= 4 - rank;
           return (
             <div key={rank} className={`aw-slot is-${rank}${on(visible)}`}>
+              {rank === 1 ? <span className="aw-win-glow" aria-hidden="true" /> : null}
               <article className="aw-glass aw-winner">
+                {rank === 1 ? <span className="aw-sweep" aria-hidden="true"><i /></span> : null}
                 <div className="aw-winner-rank">{rank}. místo</div>
                 <div className="aw-winner-co">{data.logos?.[p.company] ? <span className="aw-winner-logo"><img src={data.logos[p.company]} alt="" style={logoBox(data, p.company, 6800, 220, 64)} /></span> : null}{p.company}</div>
                 <div className="aw-winner-pr">{p.project}</div>
@@ -416,7 +434,7 @@ export const AwardsChange = withData(function AwardsChange({ step, data, reduced
       <SlideChrome mark={false} />
       <div className="aw-head is-center">
         <div className="awards-kicker aw-in" style={d(0.05)}>Hlas lidu · rozhodli účastníci summitu</div>
-        <h2 className="aw-h2 aw-in" style={d(0.15)}>{cat.name}</h2>
+        <h2 className="aw-h2 aw-fit aw-in" style={d(0.15)}>{cat.name}</h2>
       </div>
       <div className="aw-change-row">
         {cat.projects.map((p, i) => (
