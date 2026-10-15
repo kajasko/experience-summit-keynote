@@ -11,6 +11,8 @@ import { SUMMIT_TALKS as SPEAKERS, SUMMIT_PEOPLE as PEOPLE } from "./speakersDat
 
 const DUO_SCALE = 1.4;
 const DUO_ANCHOR_X = 1880;
+/** Extra push of the duo to the right in the hero view. */
+const DUO_SHIFT_X = 170;
 /** Dock chip: duo portraits are enlarged inside their slot and clipped to it. */
 const DUO_CHIP_H = [94, 104];
 const DUO_RATIO = [1247 / 1369, 1510 / 1370];
@@ -72,7 +74,7 @@ export function SpeakersEnd({ step, reduced }: SceneProps) {
       const front = { left: back.left - W * 0.36, top: heroSlotBox.top + H * 0.1, width: W * 0.56, height: H * 0.9 };
       // Scale the duo up (bottom-right anchored) so their heads read the same size as Jakub/Dejan.
       const F = DUO_SCALE, ax = DUO_ANCHOR_X, ay = heroSlotBox.top + H;
-      const grow = (b: Box): Box => ({ left: ax + (b.left - ax) * F, top: ay + (b.top - ay) * F, width: b.width * F, height: b.height * F });
+      const grow = (b: Box): Box => ({ left: ax + (b.left - ax) * F + DUO_SHIFT_X, top: ay + (b.top - ay) * F, width: b.width * F, height: b.height * F });
       return [grow(front), grow(back)];
     };
 
