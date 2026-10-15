@@ -115,14 +115,44 @@ function CatIcon({ id, className = "" }: { id: string; className?: string }) {
 const d = (s: number) => ({ "--d": `${s}s` }) as CSSProperties;
 const on = (b: boolean) => (b ? " is-on" : "");
 
-function Bleed({ spot = false }: { spot?: boolean }) {
+function Bleed(_: { spot?: boolean } = {}) {
   return (
     <div className="aw-bleed" aria-hidden="true">
       <div className="aw-amb">
         <div className="aw-cg aw-cg-tr"><span className="aw-t-red aw-ph-a" /><span className="aw-t-teal aw-ph-b" /></div>
         <div className="aw-cg aw-cg-bl"><span className="aw-t-teal aw-ph-a" /><span className="aw-t-red aw-ph-b" /></div>
       </div>
-      {spot && <div className="aw-beams"><i /><i /><i /></div>}
+    </div>
+  );
+}
+
+
+/* ───────────── v10: reactive spotlights ─────────────
+   7 soft beams hung above the stage. Modes: idle (gentle sway), scan (slow search
+   during suspense), aim (swing to point at stage coords; converge when one target).
+   Only transform/opacity; .is-reduced disables transitions/animations (final state). */
+type Pt = [number, number];
+type SpotMode = { mode: "idle" | "scan" | "aim"; pts?: Pt[]; strong?: boolean };
+const SPOT_X = [140, 420, 700, 960, 1220, 1500, 1780];
+const SPOT_Y = -160;
+const IDLE_A = [-22, -14, -6, 0, 6, 14, 22];
+function Spots({ mode, pts = [], strong = false }: SpotMode) {
+  return (
+    <div className={`aw-spots is-${mode}${strong ? " is-strong" : ""}`} aria-hidden="true">
+      {SPOT_X.map((x, i) => {
+        let a = IDLE_A[i];
+        if (mode === "aim" && pts.length) {
+          const [tx, ty] = pts.length === 1 ? pts[0] : pts[Math.min(pts.length - 1, Math.floor((i / SPOT_X.length) * pts.length))];
+          a = (-Math.atan2(tx - x, ty - SPOT_Y) * 180) / Math.PI;
+        }
+        return (
+          <span key={x} className="aw-spot" style={{ left: `${x}px`, top: `${SPOT_Y}px`, "--i": i } as CSSProperties}>
+            <span className="aw-spot-aim" style={{ transform: `rotate(${a.toFixed(2)}deg)` }}>
+              <i />
+            </span>
+          </span>
+        );
+      })}
     </div>
   );
 }
@@ -153,7 +183,8 @@ const darkScene = (reduced: boolean, extra = "") => `scene is-awards-dark aw-sce
 export const AwardsOpen = withData(function AwardsOpen({ data, reduced }: DataProps) {
   return (
     <div className={darkScene(reduced, " aw-open")}>
-      <Bleed spot />
+      <Bleed />
+      <Spots mode="idle" />
       <div className="aw-year aw-in" style={d(0.1)} aria-hidden="true">2026</div>
       <SlideChrome caption={`${data.summit} · ${data.date}`} mark={false} />
       <div className="aw-open-copy">
@@ -179,6 +210,7 @@ export const AwardsWhat = withData(function AwardsWhat({ data, reduced }: DataPr
   return (
     <div className={darkScene(reduced)}>
       <Bleed />
+      <Spots mode="idle" />
       <SlideChrome caption="Co jsou CX Awards" mark={false} />
       <div className="aw-story">
         <div className="awards-kicker aw-in" style={d(0.1)}>Co jsou CX Awards</div>
@@ -205,6 +237,7 @@ export const AwardsCategories = withData(function AwardsCategories({ data, step,
   return (
     <div className={darkScene(reduced, " aw-cats3")}>
       <Bleed />
+      <Spots mode="aim" pts={s >= n ? [[400, 820], [960, 820], [1520, 820]] : ([[400, 430], [960, 430], [1520, 430]] as Pt[]).slice(Math.min(s, n - 1), Math.min(s, n - 1) + 1)} />
       <SlideChrome caption="Tři kategorie" mark={false} />
       <div className="aw-head">
         <div className="awards-kicker aw-in" style={d(0.05)}>Kategorie</div>
@@ -348,7 +381,8 @@ export const AwardsEntrants = withData(function AwardsEntrants({ data, reduced }
 export const AwardsPrizes = withData(function AwardsPrizes({ reduced }: DataProps) {
   return (
     <div className={darkScene(reduced)}>
-      <Bleed spot />
+      <Bleed />
+      <Spots mode="aim" pts={[[656, 640], [1264, 640]]} />
       <SlideChrome caption="Kdo rozhoduje" mark={false} />
       <div className="aw-head is-center">
         <div className="awards-kicker aw-in" style={d(0.05)}>Kdo rozhoduje</div>
@@ -377,9 +411,12 @@ function Reveal({ data, categoryId, step, reduced }: { data: AwardsData; categor
   // 0 = suspense · 1 = 3rd · 2 = 2nd · 3 = 1st (burst) · 4 = Hlas lidu (placeholder)
   const s = Math.min(Math.max(step, 0), 4);
   const byRank = (r: number) => cat.jury.find((j) => j.rank === r)!;
+  const POS: Record<number, Pt> = { 3: [1448, 820], 2: [472, 780], 1: [960, 690] };
+  const spot: SpotMode = s === 0 ? { mode: "scan" } : s === 4 ? { mode: "aim", pts: [[960, 345], POS[1]] } : { mode: "aim", pts: [POS[4 - s]], strong: s === 3 };
   return (
     <div className={darkScene(reduced, ` aw-reveal${s >= 3 ? " is-won" : ""}`)}>
-      <Bleed spot />
+      <Bleed />
+      <Spots {...spot} />
       <SlideChrome mark={false} />
       <div className="aw-head is-center">
         <div className="awards-kicker aw-in" style={d(0.05)}>Hlas poroty</div>
@@ -430,7 +467,8 @@ export const AwardsChange = withData(function AwardsChange({ step, data, reduced
   const s = Math.min(Math.max(step, 0), 1);
   return (
     <div className={darkScene(reduced, " aw-reveal aw-change")}>
-      <Bleed spot />
+      <Bleed />
+      <Spots {...(s >= 1 ? { mode: "aim", pts: [[960, 900]] } : { mode: "aim", pts: [[690, 520], [1230, 520]] }) as SpotMode} />
       <SlideChrome mark={false} />
       <div className="aw-head is-center">
         <div className="awards-kicker aw-in" style={d(0.05)}>Hlas lidu · rozhodli účastníci summitu</div>
