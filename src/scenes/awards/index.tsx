@@ -275,7 +275,6 @@ export const AwardsCategories = withData(function AwardsCategories({ data, step,
             <div>
               <div className="aw-crit-public-k">Hlas publika</div>
               <div className="aw-crit-public-n">{publicCat.name}</div>
-              <div className="aw-crit-public-s">Vybírají návštěvníci summitu</div>
             </div>
           </div>
         ) : null}
@@ -406,6 +405,35 @@ export const AwardsPrizes = withData(function AwardsPrizes({ reduced }: DataProp
   );
 });
 
+
+/** Gentle blue-white confetti from both side edges — plays once on 1st-place reveal (never on back-nav/reduced). */
+function Confetti() {
+  const pieces = Array.from({ length: 44 }, (_, i) => {
+    const left = i % 2 === 0;
+    const r = (k: number) => hash(i, k);
+    return {
+      left,
+      style: {
+        top: `${380 + r(1) * 300}px`,
+        "--dx": `${(left ? 1 : -1) * (260 + r(2) * 520)}px`,
+        "--up": `${-(120 + r(3) * 260)}px`,
+        "--dy": `${380 + r(4) * 420}px`,
+        "--rot": `${(r(5) - 0.5) * 900}deg`,
+        "--dl": `${r(6) * 0.5}s`,
+        "--dur": `${2.6 + r(7) * 1.4}s`,
+        "--w": `${8 + r(8) * 8}px`,
+        "--h": `${12 + r(9) * 10}px`,
+        "--o": `${0.55 + r(10) * 0.4}`,
+      } as CSSProperties,
+    };
+  });
+  return (
+    <div className="aw-confetti" aria-hidden="true">
+      {pieces.map((p, i) => <i key={i} className={p.left ? "is-l" : "is-r"} style={p.style} />)}
+    </div>
+  );
+}
+
 function Reveal({ data, categoryId, step, reduced }: { data: AwardsData; categoryId: AwardCategory["id"]; step: number; reduced: boolean }) {
   const cat = data.categories.find((c) => c.id === categoryId)!;
   // 0 = suspense · 1 = 3rd · 2 = 2nd · 3 = 1st (burst) · 4 = Hlas lidu (placeholder)
@@ -426,6 +454,7 @@ function Reveal({ data, categoryId, step, reduced }: { data: AwardsData; categor
         <span className="aw-in" style={d(0.5)}>A cenu poroty získává</span>
         <span className="aw-dots" aria-hidden="true"><i /><i /><i /></span>
       </div>
+      {s >= 3 && !reduced ? <Confetti /> : null}
       <div className="aw-podium">
         {[2, 1, 3].map((rank) => {
           const p = byRank(rank);
@@ -434,7 +463,6 @@ function Reveal({ data, categoryId, step, reduced }: { data: AwardsData; categor
             <div key={rank} className={`aw-slot is-${rank}${on(visible)}`}>
               {rank === 1 ? <span className="aw-win-glow" aria-hidden="true" /> : null}
               <article className="aw-glass aw-winner">
-                {rank === 1 ? <span className="aw-sweep" aria-hidden="true"><i /></span> : null}
                 <div className="aw-winner-rank">{rank}. místo</div>
                 <div className="aw-winner-co">{data.logos?.[p.company] ? <span className="aw-winner-logo"><img src={data.logos[p.company]} alt="" style={logoBox(data, p.company, 6800, 220, 64)} /></span> : null}{p.company}</div>
                 <div className="aw-winner-pr">{p.project}</div>
@@ -491,6 +519,59 @@ export const AwardsChange = withData(function AwardsChange({ step, data, reduced
         <People className="is-sm" />
         <span className="aw-public-label">Vítěz</span>
         <span className="aw-public-ph">doplníme</span>
+      </div>
+    </div>
+  );
+});
+
+/** Awards finale — calm summary of the winners, with gently falling blue-white confetti. */
+function Snow() {
+  return (
+    <div className="aw-snow" aria-hidden="true">
+      {Array.from({ length: 36 }, (_, i) => (
+        <i key={i} style={{
+          left: `${hash(i, 1) * 100}%`,
+          "--w": `${7 + hash(i, 2) * 7}px`, "--h": `${10 + hash(i, 3) * 9}px`,
+          "--dur": `${9 + hash(i, 4) * 8}s`, "--dl": `${-hash(i, 5) * 16}s`,
+          "--sx": `${(hash(i, 6) - 0.5) * 160}px`, "--rot": `${(hash(i, 7) - 0.5) * 720}deg`,
+          "--o": `${0.35 + hash(i, 8) * 0.4}`,
+        } as CSSProperties} />
+      ))}
+    </div>
+  );
+}
+
+export const AwardsFinale = withData(function AwardsFinale({ data, reduced }: DataProps) {
+  return (
+    <div className={darkScene(reduced, " aw-finale")}>
+      <Bleed />
+      <Spots mode="idle" />
+      {!reduced ? <Snow /> : null}
+      <SlideChrome caption={`${data.summit} · CX Awards`} mark={false} />
+      <div className="aw-head is-center">
+        <div className="awards-kicker aw-in" style={d(0.05)}>Vítězové</div>
+        <h2 className="aw-h2 aw-fit aw-in" style={d(0.15)}>CX Awards 2026</h2>
+      </div>
+      <div className="aw-fin-row">
+        {data.categories.map((c, i) => {
+          const w = c.jury.find((j) => j.rank === 1);
+          return (
+            <article key={c.id} className="aw-glass aw-fin-card aw-in" style={d(0.45 + i * 0.25)}>
+              <CatIcon id={c.id} className="is-fin" />
+              <div className="aw-fin-cat">{c.name}</div>
+              {w ? (
+                <>
+                  <LogoChip data={data} company={w.company} className="is-lg" />
+                  <div className="aw-fin-co">{w.company}</div>
+                  <div className="aw-fin-pr">{w.project}</div>
+                </>
+              ) : (
+                <div className="aw-fin-ph">doplníme</div>
+              )}
+              <div className="aw-fin-by">{c.decidedBy === "public" ? "Hlas publika" : "Hlas poroty"}</div>
+            </article>
+          );
+        })}
       </div>
     </div>
   );

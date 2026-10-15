@@ -80,3 +80,11 @@
 .hosts-face figcaption { display: grid; gap: 2px; margin-top: 12px; }
 .hosts-face-name { font-size: 21px; font-weight: 800; letter-spacing: -0.02em; color: var(--text-deep); }
 .hosts-face-org { font-size: 16px; font-weight: 650; color: var(--teal); }
+
+/* 68 · masterclass cards revealed one per click */
+.scene.is-hosts .hosts-step { opacity: 0; transform: translateY(48px) scale(.97); transition: opacity .7s var(--ease, cubic-bezier(.2,.8,.2,1)), transform .9s var(--ease, cubic-bezier(.2,.8,.2,1)); will-change: transform, opacity; }
+.scene.is-hosts .hosts-step.is-on { opacity: 1; transform: none; }
+.scene.is-hosts .hosts-step .hosts-face { opacity: 0; transform: translateY(24px); transition: opacity .6s ease .25s, transform .8s var(--ease, ease) .25s; }
+.scene.is-hosts .hosts-step .hosts-face + .hosts-face { transition-delay: .4s; }
+.scene.is-hosts .hosts-step.is-on .hosts-face { opacity: 1; transform: none; }
+.scene.is-hosts.is-reduced .hosts-step, .scene.is-hosts.is-reduced .hosts-step .hosts-face { transition: none !important; }

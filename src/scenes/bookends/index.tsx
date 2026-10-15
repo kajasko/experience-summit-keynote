@@ -50,16 +50,16 @@ const MASTERCLASSES = [
 ] as const;
 
 /** Final slide · moderátor a lektoři masterclass. */
-export function Hosts(_props: SceneProps) {
+export function Hosts({ step = 0, reduced }: SceneProps) {
   return (
-    <div className="scene is-hosts">
+    <div className={`scene is-hosts${reduced ? " is-reduced" : ""}`}>
       <SlideChrome kicker="01 Odpoledne" page="01 / 01" caption="14:00 – 16:30 · Masterclassy" captionDot />
       <div className="hosts-head">
         <h2 className="hosts-title">Kdo vás provede dál</h2>
       </div>
       <div className="hosts-grid">
         {MASTERCLASSES.map((m, i) => (
-          <article key={m.id} className="hosts-card">
+          <article key={m.id} className={`hosts-card hosts-step${step >= i + 1 ? " is-on" : ""}`}>
             <span className="hosts-card-n">{String(i + 1).padStart(2, "0")}</span>
             <div className="hosts-card-label">Masterclass</div>
             <div className="hosts-card-title">{m.title}</div>

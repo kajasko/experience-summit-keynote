@@ -74,7 +74,7 @@ export const SUMMIT_TALKS: SummitTalk[] = [
     id: "milos",
     logo: { src: "logos/homecredit.svg", alt: "Home Credit", h: 120 },
     n: "04",
-    topic: "Anatomie úspěšného týmu — vztahy a kultura řídí výsledky",
+    topic: "Anatomie úspěšného týmu: vztahy a kultura řídí výsledky",
     time: "12:00–12:30",
     people: [{
       id: "milos",

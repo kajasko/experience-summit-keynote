@@ -303,7 +303,10 @@ const allScenes: SceneDef[] = [
   {
     id: "hosts", act: 4, actName: "JAK?", component: "Hosts",
     steps: [
-      { id: "hs1", title: "Kdo vás provede dál", speakerNote: "Představíme moderátora a lektory odpoledních masterclass: Daniel Koutný a Zuzana Mezerová (Persony v akci), Jakub Šťastný a Dejan Krstic (AI prototyp), Kateřina Stehlíková a Libor Hykeš (CVP v praxi)." },
+      { id: "hs1", title: "Kdo vás provede dál", speakerNote: "Odpolední masterclassy. Klik: první masterclass." },
+      { id: "hs2", title: "Masterclass 1", speakerNote: "Daniel Koutný a Zuzana Mezerová (Persony v akci). Klik: další." },
+      { id: "hs3", title: "Masterclass 2", speakerNote: "Jakub Šťastný a Dejan Krstic (AI prototyp). Klik: další." },
+      { id: "hs4", title: "Masterclass 3", speakerNote: "Kateřina Stehlíková a Libor Hykeš (CVP v praxi)." },
     ],
   },
   {
@@ -376,6 +379,12 @@ const allScenes: SceneDef[] = [
     steps: [
       { id: "aw8", title: "Vyhlášení · Changemakers", speakerNote: "Finalisté. Klik: Cenu získává… (vítěz podle hlasování účastníků — doplníme)." },
       { id: "aw8a", title: "Vyhlášení · Changemakers vítěz", speakerNote: "Vítěz — doplníme." },
+    ],
+  },
+  {
+    id: "awards-finale", act: 5, actName: "CX AWARDS 2026", component: "AwardsFinale",
+    steps: [
+      { id: "aw9", title: "CX Awards 2026 · vítězové", speakerNote: "Shrnutí vítězů všech kategorií." },
     ],
   },
 ];
