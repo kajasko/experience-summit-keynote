@@ -589,3 +589,8 @@ div.aw-in, h2.aw-in { display: block; }
   73%  { opacity: var(--o); transform: translate(calc(var(--dx) * .96 + var(--sw)), calc(var(--up) + (var(--dy) - var(--up)) * .75)) rotate(calc(var(--rot) * .85)); animation-timing-function: ease-in-out; }
   100% { opacity: 0; transform: translate(var(--dx), var(--dy)) rotate(var(--rot)); }
 }
+
+/* v15 · confetti behind content, above background/spotlights */
+.aw-confetti, .aw-snow { z-index: 1; }
+.aw-reveal .aw-podium, .aw-reveal .aw-head, .aw-reveal .aw-suspense, .aw-reveal .aw-lidu-slot, .aw-reveal .aw-change-row,
+.aw-finale .aw-fin-row, .aw-finale .aw-head { z-index: 2; }
