@@ -577,3 +577,15 @@ div.aw-in, h2.aw-in { display: block; }
 .aw-fin-row.is-4 .aw-fin-cat { font-size: 16px; padding-right: 76px; }
 .aw-fin-row.is-4 .aw-icon.is-fin { width: 96px; height: 96px; }
 .aw-fin-row.is-4 .aw-fin-card .aw-chip { width: 210px; }
+
+/* v14 · confetti: quick side burst, then slow floaty fall */
+.aw-confetti i { animation-name: aw-conf2; animation-timing-function: linear; }
+@keyframes aw-conf2 {
+  0%   { opacity: 0; transform: translate(0,0) rotate(0deg); animation-timing-function: cubic-bezier(.15,.75,.3,1); }
+  3%   { opacity: var(--o); }
+  13%  { transform: translate(calc(var(--dx) * .85), var(--up)) rotate(calc(var(--rot) * .25)); animation-timing-function: ease-in-out; }
+  33%  { transform: translate(calc(var(--dx) * .9 + var(--sw)), calc(var(--up) + (var(--dy) - var(--up)) * .25)) rotate(calc(var(--rot) * .45)); animation-timing-function: ease-in-out; }
+  53%  { transform: translate(calc(var(--dx) * .93 - var(--sw)), calc(var(--up) + (var(--dy) - var(--up)) * .5)) rotate(calc(var(--rot) * .65)); animation-timing-function: ease-in-out; }
+  73%  { opacity: var(--o); transform: translate(calc(var(--dx) * .96 + var(--sw)), calc(var(--up) + (var(--dy) - var(--up)) * .75)) rotate(calc(var(--rot) * .85)); animation-timing-function: ease-in-out; }
+  100% { opacity: 0; transform: translate(var(--dx), var(--dy)) rotate(var(--rot)); }
+}
