@@ -103,7 +103,7 @@ export function AwardsGate({ reduced }: SceneProps) {
    · .aw-rise — word rises out of a mask
    Back-nav (reduced) renders the final state with no motion (see awards.css). */
 
-const ICONS: Record<string, string> = { impact: "experience-impact", pulse: "employee-pulse", changemakers: "cx-changemakers" };
+const ICONS: Record<string, string> = { impact: "experience-impact", pulse: "employee-pulse", changemakers: "cx-changemakers", lidu: "hlas-lidu" };
 function CatIcon({ id, className = "" }: { id: string; className?: string }) {
   return (
     <span className={`aw-icon ${className}`} aria-hidden="true">
@@ -391,7 +391,7 @@ export const AwardsPrizes = withData(function AwardsPrizes({ reduced }: DataProp
     { k: "Hlas poroty", n: "The Experience Impact Award", t: "CX projekty", icon: "impact" },
     { k: "Hlas poroty", n: "The Employee Pulse Award", t: "EX projekty", icon: "pulse" },
     { k: "Hlas publika", n: "CX Changemakers\u2019 Award", t: "Osobnosti a týmy", icon: "changemakers" },
-    { k: "Hlas lidu", n: "Cena lidu", t: "CX + EX projekty dohromady", icon: "" },
+    { k: "Hlas lidu", n: "Cena lidu", t: "CX + EX projekty dohromady", icon: "lidu" },
   ];
   return (
     <div className={darkScene(reduced)}>
@@ -580,7 +580,7 @@ export const AwardsFinale = withData(function AwardsFinale({ data, reduced }: Da
           );
         })}
         <article className="aw-glass aw-fin-card aw-in" style={d(0.45 + data.categories.length * 0.22)}>
-          <People className="aw-fin-people" />
+          <CatIcon id="lidu" className="is-fin" />
           <div className="aw-fin-cat">Cena lidu · CX + EX</div>
           <div className="aw-fin-ph">doplníme</div>
           <div className="aw-fin-by">Hlas lidu</div>
