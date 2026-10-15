@@ -10,7 +10,13 @@ export const CHAPTERS = [
   { n: "02", t: "CO?", s: "Správná zkušenost pro situaci", sceneId: "co", act: 2 },
   { n: "03", t: "PROČ VĚŘIT?", s: "Od pozornosti k důvěře", sceneId: "verit", act: 3 },
   { n: "04", t: "JAK?", s: "Od kanálů k orchestraci", sceneId: "jak", act: 4 },
+  { n: "05", t: "CX AWARDS 2026", s: "Představení a vyhlášení · chráněno heslem", sceneId: "awards-gate", act: 5 },
 ] as const;
+
+/** Awards content slides never get a real preview — neutral lock tile only. */
+export function isLockedTile(slide: SlideDef) {
+  return slide.act === 5 && slide.sceneId !== "awards-gate";
+}
 
 function kliky(n: number) {
   if (n === 1) return "1 klik";
@@ -126,6 +132,12 @@ export function DeckNav({
                         }}
                       >
                         <span className="deck-tile-stage">
+                          {isLockedTile(slide) ? (
+                            <span className="deck-tile-locked" aria-label="Zamčeno">
+                              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2" /><path d="M8 11V8a4 4 0 0 1 8 0v3" fill="none" /></svg>
+                              <span>CX Awards 2026</span>
+                            </span>
+                          ) : (
                           <img
                             className="deck-tile-preview"
                             src={asset(`thumbs/${slide.id}.webp`)}
@@ -133,6 +145,7 @@ export function DeckNav({
                             loading="lazy"
                             onError={(e) => { e.currentTarget.style.display = "none"; }}
                           />
+                          )}
                         </span>
                         <span className="deck-tile-meta">
                           <span className="deck-tile-meta-top">

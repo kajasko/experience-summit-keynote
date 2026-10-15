@@ -307,25 +307,25 @@ const allScenes: SceneDef[] = [
     ],
   },
   {
-    id: "awards-gate", act: 4, actName: "CX AWARDS", component: "AwardsGate",
+    id: "awards-gate", act: 5, actName: "CX AWARDS 2026", component: "AwardsGate",
     steps: [
       { id: "aw0", title: "CX Awards · heslo", speakerNote: "Kapitola je chráněná heslem. Zadejte heslo a pokračujte šipkou." },
     ],
   },
   {
-    id: "awards-open", act: 4, actName: "CX AWARDS", component: "AwardsOpen",
+    id: "awards-open", act: 5, actName: "CX AWARDS 2026", component: "AwardsOpen",
     steps: [
       { id: "aw1", title: "CX Awards 2026", speakerNote: "Kapitola CX Awards: představení a vyhlášení." },
     ],
   },
   {
-    id: "awards-what", act: 4, actName: "CX AWARDS", component: "AwardsWhat",
+    id: "awards-what", act: 5, actName: "CX AWARDS 2026", component: "AwardsWhat",
     steps: [
       { id: "aw2", title: "Co jsou CX Awards", speakerNote: "Co jsou CX Awards a kdo je pořádá." },
     ],
   },
   {
-    id: "awards-categories", act: 4, actName: "CX AWARDS", component: "AwardsCategories",
+    id: "awards-categories", act: 5, actName: "CX AWARDS 2026", component: "AwardsCategories",
     steps: [
       { id: "aw3", title: "Kategorie · Experience Impact", speakerNote: "První kategorie: The Experience Impact Award (17 nominací). Klik: druhá kategorie." },
       { id: "aw3b", title: "Kategorie · Employee Pulse", speakerNote: "Druhá kategorie: The Employee Pulse Award (6 nominací). Klik: třetí kategorie." },
@@ -334,19 +334,19 @@ const allScenes: SceneDef[] = [
     ],
   },
   {
-    id: "awards-entrants", act: 4, actName: "CX AWARDS", component: "AwardsEntrants",
+    id: "awards-entrants", act: 5, actName: "CX AWARDS 2026", component: "AwardsEntrants",
     steps: [
       { id: "aw4", title: "Kdo se přihlásil", speakerNote: "25 nominací od 18 firem ve třech kategoriích." },
     ],
   },
   {
-    id: "awards-prizes", act: 4, actName: "CX AWARDS", component: "AwardsPrizes",
+    id: "awards-prizes", act: 5, actName: "CX AWARDS 2026", component: "AwardsPrizes",
     steps: [
       { id: "aw5", title: "Hlas poroty a Hlas lidu", speakerNote: "Porota rozhoduje Experience Impact a Employee Pulse, účastníci summitu Changemakers." },
     ],
   },
   {
-    id: "awards-impact", act: 4, actName: "CX AWARDS", component: "AwardsImpact",
+    id: "awards-impact", act: 5, actName: "CX AWARDS 2026", component: "AwardsImpact",
     steps: [
       { id: "aw6", title: "Vyhlášení · kategorie 1", speakerNote: "Napětí: A cenu poroty získává… Klik: 3. místo." },
       { id: "aw6a", title: "Vyhlášení · 3. místo", speakerNote: "Třetí místo." },
@@ -356,7 +356,7 @@ const allScenes: SceneDef[] = [
     ],
   },
   {
-    id: "awards-pulse", act: 4, actName: "CX AWARDS", component: "AwardsPulse",
+    id: "awards-pulse", act: 5, actName: "CX AWARDS 2026", component: "AwardsPulse",
     steps: [
       { id: "aw7", title: "Vyhlášení · kategorie 2", speakerNote: "Napětí: A cenu poroty získává… Klik: 3. místo." },
       { id: "aw7a", title: "Vyhlášení · 3. místo", speakerNote: "Třetí místo." },
@@ -366,7 +366,7 @@ const allScenes: SceneDef[] = [
     ],
   },
   {
-    id: "awards-change", act: 4, actName: "CX AWARDS", component: "AwardsChange",
+    id: "awards-change", act: 5, actName: "CX AWARDS 2026", component: "AwardsChange",
     steps: [
       { id: "aw8", title: "Vyhlášení · Changemakers", speakerNote: "Finalisté. Klik: Cenu získává… (vítěz podle hlasování účastníků — doplníme)." },
       { id: "aw8a", title: "Vyhlášení · Changemakers vítěz", speakerNote: "Vítěz — doplníme." },

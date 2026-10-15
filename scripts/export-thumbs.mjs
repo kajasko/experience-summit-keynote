@@ -25,7 +25,8 @@ async function main() {
   });
   await server.listen();
   const deck = await server.ssrLoadModule("/src/deck/deck.ts");
-  const shots = deck.slides.map((slide) => {
+  // Awards content (act 5, except the password gate) is never captured — the overview shows a lock tile.
+  const shots = deck.slides.filter((slide) => !(slide.act === 5 && slide.sceneId !== "awards-gate")).map((slide) => {
     const last = deck.steps[slide.last];
     return { id: slide.id, no: slide.no, sceneId: slide.sceneId, local: last.local };
   });

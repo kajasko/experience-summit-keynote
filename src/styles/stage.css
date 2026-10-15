@@ -7500,3 +7500,10 @@ html.thumbs-capture .stage-frame {
 /* ThenNow (slide 60): SVG labels must use the deck font via CSS, not a var() presentation attribute. */
 .tn-graph text, .tn-flow text { font-family: var(--font); }
 .tn-graph text { font-weight: 700; }
+
+/* overview: neutral lock tile for protected Awards slides */
+.deck-tile-locked { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+  background: radial-gradient(120% 100% at 80% 0%, #0b5a63 0%, #03383d 60%, #022a2e 100%); color: rgba(255,255,255,.75);
+  font: 800 11px/1 Montserrat, sans-serif; letter-spacing: .14em; text-transform: uppercase; }
+.deck-tile-locked svg { width: 26px; height: 26px; stroke: #c3d552; stroke-width: 2; fill: none; stroke-linecap: round; }
+.deck-tile-locked svg rect { fill: rgba(195,213,82,.15); }
