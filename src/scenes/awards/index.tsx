@@ -157,7 +157,7 @@ function Spots({ mode, pts = [], strong = false }: SpotMode) {
   );
 }
 
-function Trophy({ className = "" }: { className?: string }) {
+export function Trophy({ className = "" }: { className?: string }) {
   return (
     <svg className={`aw-trophy ${className}`} viewBox="0 0 64 64" aria-hidden="true">
       <path d="M20 8h24v14a12 12 0 0 1-24 0V8Z" />
@@ -269,6 +269,7 @@ export const AwardsCategories = withData(function AwardsCategories({ data, step,
           ))}
         </div>
         </div>
+        <div className="aw-crit-pills">
         {publicCat ? (
           <div className="aw-crit-public" style={d(0.1 + data.criteria.length * 0.35)}>
             <People className="is-sm" />
@@ -278,6 +279,14 @@ export const AwardsCategories = withData(function AwardsCategories({ data, step,
             </div>
           </div>
         ) : null}
+        <div className="aw-crit-public is-lidu" style={d(0.35 + data.criteria.length * 0.35)}>
+          <People className="is-sm" />
+          <div>
+            <div className="aw-crit-public-k">Hlas lidu</div>
+            <div className="aw-crit-public-n">CX + EX projekty dohromady</div>
+          </div>
+        </div>
+        </div>
         </div>
       </div>
     </div>
@@ -378,28 +387,30 @@ export const AwardsEntrants = withData(function AwardsEntrants({ data, reduced }
 });
 
 export const AwardsPrizes = withData(function AwardsPrizes({ reduced }: DataProps) {
+  const prizes = [
+    { k: "Hlas poroty", n: "The Experience Impact Award", t: "CX projekty", icon: "impact" },
+    { k: "Hlas poroty", n: "The Employee Pulse Award", t: "EX projekty", icon: "pulse" },
+    { k: "Hlas publika", n: "CX Changemakers\u2019 Award", t: "Osobnosti a týmy", icon: "changemakers" },
+    { k: "Hlas lidu", n: "Cena lidu", t: "CX + EX projekty dohromady", icon: "" },
+  ];
   return (
     <div className={darkScene(reduced)}>
       <Bleed />
-      <Spots mode="aim" pts={[[656, 640], [1264, 640]]} />
+      <Spots mode="aim" pts={[[330, 640], [750, 640], [1170, 640], [1590, 640]]} />
       <SlideChrome caption="Kdo rozhoduje" mark={false} />
       <div className="aw-head is-center">
         <div className="awards-kicker aw-in" style={d(0.05)}>Kdo rozhoduje</div>
-        <h2 className="aw-h2 aw-in" style={d(0.15)}>Dvě ceny. Dva pohledy.</h2>
+        <h2 className="aw-h2 aw-in" style={d(0.15)}>Čtyři ceny.</h2>
       </div>
-      <div className="aw-pillars">
-        <div className="aw-pillar aw-glass is-jury" style={d(0.45)}>
-          <Trophy />
-          <div className="aw-pillar-label">Odborníci</div>
-          <div className="aw-pillar-name">Hlas poroty</div>
-          <div className="aw-pillar-sub">Experience Impact a Employee Pulse</div>
-        </div>
-        <div className="aw-pillar aw-glass is-public" style={d(0.75)}>
-          <People />
-          <div className="aw-pillar-label">Publikum</div>
-          <div className="aw-pillar-name">Hlas lidu</div>
-          <div className="aw-pillar-sub">CX Changemakers\u2019 Award · hlasování účastníků</div>
-        </div>
+      <div className="aw-prize4">
+        {prizes.map((p, i) => (
+          <article key={p.n} className={`aw-glass aw-p4 aw-in${p.k === "Hlas poroty" ? " is-jury" : " is-public"}`} style={d(0.4 + i * 0.22)}>
+            {p.icon ? <CatIcon id={p.icon} className="is-p4" /> : <People className="aw-p4-people" />}
+            <div className="aw-p4-k">{p.k}</div>
+            <div className="aw-p4-n">{p.n}</div>
+            <div className="aw-p4-t">{p.t}</div>
+          </article>
+        ))}
       </div>
     </div>
   );
@@ -437,10 +448,10 @@ function Confetti() {
 function Reveal({ data, categoryId, step, reduced }: { data: AwardsData; categoryId: AwardCategory["id"]; step: number; reduced: boolean }) {
   const cat = data.categories.find((c) => c.id === categoryId)!;
   // 0 = suspense · 1 = 3rd · 2 = 2nd · 3 = 1st (burst) · 4 = Hlas lidu (placeholder)
-  const s = Math.min(Math.max(step, 0), 4);
+  const s = Math.min(Math.max(step, 0), 3);
   const byRank = (r: number) => cat.jury.find((j) => j.rank === r)!;
   const POS: Record<number, Pt> = { 3: [1448, 820], 2: [472, 780], 1: [960, 690] };
-  const spot: SpotMode = s === 0 ? { mode: "scan" } : s === 4 ? { mode: "aim", pts: [[960, 345], POS[1]] } : { mode: "aim", pts: [POS[4 - s]], strong: s === 3 };
+  const spot: SpotMode = s === 0 ? { mode: "scan" } : { mode: "aim", pts: [POS[4 - s]], strong: s === 3 };
   return (
     <div className={darkScene(reduced, ` aw-reveal${s >= 3 ? " is-won" : ""}`)}>
       <Bleed />
@@ -472,11 +483,6 @@ function Reveal({ data, categoryId, step, reduced }: { data: AwardsData; categor
           );
         })}
       </div>
-      <div className={`aw-public aw-step${on(s >= 4)}`}>
-        <People className="is-sm" />
-        <span className="aw-public-label">Hlas lidu</span>
-        <span className="aw-public-ph">doplníme</span>
-      </div>
     </div>
   );
 }
@@ -499,7 +505,7 @@ export const AwardsChange = withData(function AwardsChange({ step, data, reduced
       <Spots {...(s >= 1 ? { mode: "aim", pts: [[960, 900]] } : { mode: "aim", pts: [[690, 520], [1230, 520]] }) as SpotMode} />
       <SlideChrome mark={false} />
       <div className="aw-head is-center">
-        <div className="awards-kicker aw-in" style={d(0.05)}>Hlas lidu · rozhodli účastníci summitu</div>
+        <div className="awards-kicker aw-in" style={d(0.05)}>Hlas publika · rozhodují účastníci summitu</div>
         <h2 className="aw-h2 aw-fit aw-in" style={d(0.15)}>{cat.name}</h2>
       </div>
       <div className="aw-change-row">
@@ -552,11 +558,11 @@ export const AwardsFinale = withData(function AwardsFinale({ data, reduced }: Da
         <div className="awards-kicker aw-in" style={d(0.05)}>Vítězové</div>
         <h2 className="aw-h2 aw-fit aw-in" style={d(0.15)}>CX Awards 2026</h2>
       </div>
-      <div className="aw-fin-row">
+      <div className="aw-fin-row is-4">
         {data.categories.map((c, i) => {
           const w = c.jury.find((j) => j.rank === 1);
           return (
-            <article key={c.id} className="aw-glass aw-fin-card aw-in" style={d(0.45 + i * 0.25)}>
+            <article key={c.id} className="aw-glass aw-fin-card aw-in" style={d(0.45 + i * 0.22)}>
               <CatIcon id={c.id} className="is-fin" />
               <div className="aw-fin-cat">{c.name}</div>
               {w ? (
@@ -572,6 +578,41 @@ export const AwardsFinale = withData(function AwardsFinale({ data, reduced }: Da
             </article>
           );
         })}
+        <article className="aw-glass aw-fin-card aw-in" style={d(0.45 + data.categories.length * 0.22)}>
+          <People className="aw-fin-people" />
+          <div className="aw-fin-cat">Cena lidu · CX + EX</div>
+          <div className="aw-fin-ph">doplníme</div>
+          <div className="aw-fin-by">Hlas lidu</div>
+        </article>
+      </div>
+    </div>
+  );
+});
+
+/** Hlas lidu — one combined people's vote across CX + EX projects. */
+export const AwardsLidu = withData(function AwardsLidu({ step, reduced }: DataProps) {
+  const s = Math.min(Math.max(step, 0), 1);
+  return (
+    <div className={darkScene(reduced, ` aw-reveal aw-lidu${s >= 1 ? " is-won" : ""}`)}>
+      <Bleed />
+      <Spots {...(s >= 1 ? { mode: "aim", pts: [[960, 640]], strong: true } : { mode: "scan" }) as SpotMode} />
+      {s >= 1 && !reduced ? <Confetti /> : null}
+      <SlideChrome mark={false} />
+      <div className="aw-head is-center">
+        <div className="awards-kicker aw-in" style={d(0.05)}>Hlas lidu · CX + EX projekty</div>
+        <h2 className="aw-h2 aw-fit aw-in" style={d(0.15)}>Cena lidu</h2>
+      </div>
+      <div className={`aw-suspense${s >= 1 ? " is-off" : ""}`}>
+        <span className="aw-in" style={d(0.5)}>Hlas lidu získává</span>
+        <span className="aw-dots" aria-hidden="true"><i /><i /><i /></span>
+      </div>
+      <div className={`aw-lidu-slot${on(s >= 1)}`}>
+        <span className="aw-win-glow" aria-hidden="true" />
+        <article className="aw-glass aw-lidu-card">
+          <People className="aw-p4-people" />
+          <div className="aw-lidu-k">Vítěz</div>
+          <div className="aw-lidu-ph">doplníme</div>
+        </article>
       </div>
     </div>
   );

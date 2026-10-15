@@ -351,7 +351,7 @@ const allScenes: SceneDef[] = [
   {
     id: "awards-prizes", act: 5, actName: "CX AWARDS 2026", component: "AwardsPrizes",
     steps: [
-      { id: "aw5", title: "Hlas poroty a Hlas lidu", speakerNote: "Porota rozhoduje Experience Impact a Employee Pulse, účastníci summitu Changemakers." },
+      { id: "aw5", title: "Čtyři ceny", speakerNote: "Hlas poroty: Experience Impact (CX) a Employee Pulse (EX). Hlas publika: CX Changemakers. Hlas lidu: jedna společná cena pro CX + EX projekty." },
     ],
   },
   {
@@ -361,7 +361,6 @@ const allScenes: SceneDef[] = [
       { id: "aw6a", title: "Vyhlášení · 3. místo", speakerNote: "Třetí místo." },
       { id: "aw6b", title: "Vyhlášení · 2. místo", speakerNote: "Druhé místo." },
       { id: "aw6c", title: "Vyhlášení · 1. místo", speakerNote: "Vítěz." },
-      { id: "aw6d", title: "Vyhlášení · Hlas lidu", speakerNote: "Hlas lidu — doplníme." },
     ],
   },
   {
@@ -371,7 +370,6 @@ const allScenes: SceneDef[] = [
       { id: "aw7a", title: "Vyhlášení · 3. místo", speakerNote: "Třetí místo." },
       { id: "aw7b", title: "Vyhlášení · 2. místo", speakerNote: "Druhé místo." },
       { id: "aw7c", title: "Vyhlášení · 1. místo", speakerNote: "Vítěz." },
-      { id: "aw7d", title: "Vyhlášení · Hlas lidu", speakerNote: "Hlas lidu — doplníme." },
     ],
   },
   {
@@ -379,6 +377,13 @@ const allScenes: SceneDef[] = [
     steps: [
       { id: "aw8", title: "Vyhlášení · Changemakers", speakerNote: "Finalisté. Klik: Cenu získává… (vítěz podle hlasování účastníků — doplníme)." },
       { id: "aw8a", title: "Vyhlášení · Changemakers vítěz", speakerNote: "Vítěz — doplníme." },
+    ],
+  },
+  {
+    id: "awards-lidu", act: 5, actName: "CX AWARDS 2026", component: "AwardsLidu",
+    steps: [
+      { id: "aw10", title: "Vyhlášení · Hlas lidu", speakerNote: "Hlas lidu (CX + EX projekty dohromady) získává… Klik: vítěz." },
+      { id: "aw10a", title: "Vyhlášení · Hlas lidu vítěz", speakerNote: "Vítěz Hlasu lidu — doplníme." },
     ],
   },
   {
