@@ -307,6 +307,12 @@ const allScenes: SceneDef[] = [
     ],
   },
   {
+    id: "closing", act: 4, actName: "JAK?", component: "Closing",
+    steps: [
+      { id: "cl1", title: "Děkujeme", speakerNote: "Závěr. Děkujeme. Experience Summit 2026." },
+    ],
+  },
+  {
     id: "awards-gate", act: 5, actName: "CX AWARDS 2026", component: "AwardsGate",
     steps: [
       { id: "aw0", title: "CX Awards · heslo", speakerNote: "Kapitola je chráněná heslem. Zadejte heslo a pokračujte šipkou." },
@@ -370,12 +376,6 @@ const allScenes: SceneDef[] = [
     steps: [
       { id: "aw8", title: "Vyhlášení · Changemakers", speakerNote: "Finalisté. Klik: Cenu získává… (vítěz podle hlasování účastníků — doplníme)." },
       { id: "aw8a", title: "Vyhlášení · Changemakers vítěz", speakerNote: "Vítěz — doplníme." },
-    ],
-  },
-  {
-    id: "closing", act: 4, actName: "JAK?", component: "Closing",
-    steps: [
-      { id: "cl1", title: "Děkujeme", speakerNote: "Závěr. Děkujeme. Experience Summit 2026." },
     ],
   },
 ];
