@@ -310,6 +310,13 @@ const allScenes: SceneDef[] = [
     ],
   },
   {
+    id: "panel-q", act: 4, actName: "JAK?", component: "PanelQuestions",
+    steps: [
+      { id: "pq1", title: "Máte otázku na řečníky?", speakerNote: "Pozvěte publikum, ať během dne posílá otázky na řečníky. Nejlepší zazní v panelové diskusi. Klik: čas panelu." },
+      { id: "pq2", title: "Panel ve 12:30", speakerNote: "Dnes ve 12:30 společná panelová diskuse řečníků a Clientology." },
+    ],
+  },
+  {
     id: "closing", act: 4, actName: "JAK?", component: "Closing",
     steps: [
       { id: "cl1", title: "Děkujeme", speakerNote: "Závěr. Děkujeme. Experience Summit 2026." },

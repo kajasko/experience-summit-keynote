@@ -11,7 +11,7 @@ import { Trend1, UxAx, Understanding, BuyerUser, Needs, Modes, Examples, Prd } f
 import { Journey, Adapt, Funnel, Conversation, Chat, UiAi, Partner, HumanAi } from "./act2";
 import { Distrust, Brand, Prove, Findability, BrandExp, Principles, Bias, Trust, Hitl } from "./act3";
 import { Orch, Channels, Mortgage, BxCxEx } from "./act4";
-import { SpeakerIntro, Hosts, HoldSlide, Closing } from "./bookends";
+import { SpeakerIntro, Hosts, HoldSlide, Closing, PanelQuestions } from "./bookends";
 import { AwardsGate, AwardsOpen, AwardsWhat, AwardsCategories, AwardsEntrants, AwardsPrizes, AwardsImpact, AwardsPulse, AwardsNomImpact, AwardsNomPulse, AwardsNomChange, AwardsChange, AwardsFinale, AwardsLidu } from "./awards";
 import { Skills, HeroEnd, Roles, Leadership, VideoEnd } from "./finale";
 
@@ -81,4 +81,5 @@ export const registry: Record<string, ComponentType<SceneProps & { sceneId: stri
   HoldSlide,
   SpeakerIntro,
   Hosts,
+  PanelQuestions,
 };
