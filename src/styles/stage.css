@@ -7507,3 +7507,7 @@ html.thumbs-capture .stage-frame {
   font: 800 11px/1 Montserrat, sans-serif; letter-spacing: .14em; text-transform: uppercase; }
 .deck-tile-locked svg { width: 26px; height: 26px; stroke: #c3d552; stroke-width: 2; fill: none; stroke-linecap: round; }
 .deck-tile-locked svg rect { fill: rgba(195,213,82,.15); }
+
+/* Fullscreen letterbox (contain-fit): black bars read as 'projector off', never as slide content. */
+html.is-fullscreen, html.is-fullscreen body, html.is-fullscreen #root,
+html.is-fullscreen .stage-frame, html:fullscreen .stage-frame { background: #000 !important; }

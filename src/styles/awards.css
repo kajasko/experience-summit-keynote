@@ -594,3 +594,6 @@ div.aw-in, h2.aw-in { display: block; }
 .aw-confetti, .aw-snow { z-index: 1; }
 .aw-reveal .aw-podium, .aw-reveal .aw-head, .aw-reveal .aw-suspense, .aw-reveal .aw-lidu-slot, .aw-reveal .aw-change-row,
 .aw-finale .aw-fin-row, .aw-finale .aw-head { z-index: 2; }
+
+/* v16 · QA: equal title block height so logos / "doplníme" line up across finale cards */
+.aw-fin-row.is-4 .aw-fin-cat { min-height: calc(2 * 1.3em); }
