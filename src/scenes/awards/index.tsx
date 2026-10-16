@@ -204,7 +204,7 @@ export const AwardsOpen = withData(function AwardsOpen({ data, reduced }: DataPr
 export const AwardsWhat = withData(function AwardsWhat({ data, reduced }: DataProps) {
   const beats = [
     "Zákaznická zkušenost se nedá vyhlásit.",
-    "Musí se postavit — projekt po projektu.",
+    "Musí se postavit, projekt po projektu.",
     "CX Awards oceňují týmy, které to dokázaly.",
   ];
   return (

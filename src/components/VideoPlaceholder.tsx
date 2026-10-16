@@ -16,7 +16,7 @@ export function VideoPlaceholder({ stage = true }: { stage?: boolean }) {
         </div>
         <div style={{ fontSize: 72, fontWeight: 700, letterSpacing: "-0.04em" }}>Video</div>
         {!stage && (
-          <div style={{ marginTop: 24, fontSize: 14, color: "var(--muted)" }}>VIDEO CJG — ASSET REQUIRED</div>
+          <div style={{ marginTop: 24, fontSize: 14, color: "var(--muted)" }}>VIDEO CJG: ASSET REQUIRED</div>
         )}
       </div>
     </div>

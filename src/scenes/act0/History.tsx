@@ -231,7 +231,7 @@ export function History({ step, reduced }: SceneProps) {
           <div data-rest className="year-rest" style={{ paddingBottom: 18 }}>
             {era.rest.map((y) => (
               <span key={y} style={{ display: "flex", alignItems: "center", gap: 22 }}>
-                <span style={{ opacity: 0.45 }}>—</span>
+                <span style={{ opacity: 0.45 }}>-</span>
                 {y}
               </span>
             ))}

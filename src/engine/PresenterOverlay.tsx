@@ -27,7 +27,7 @@ export function PresenterOverlay({
       </div>
       <div style={{ fontWeight: 700, marginBottom: 6 }}>{step.title}</div>
       <div style={{ opacity: 0.88 }}>{step.speakerNote}</div>
-      <div style={{ marginTop: 10, opacity: 0.55 }}>Další: {nextTitle || "—"}</div>
+      <div style={{ marginTop: 10, opacity: 0.55 }}>Další: {nextTitle || "-"}</div>
       {showSources && src.length > 0 && (
         <div style={{ marginTop: 10, color: "#c9db3c" }}>
           {src.map((s) => (

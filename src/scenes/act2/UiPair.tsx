@@ -148,12 +148,12 @@ function MixFace() {
 
 const ALZA_FILTERS = [
   { name: "Značka", opts: ["Samsung", "Apple", "Xiaomi", "Motorola", "Google"] },
-  { name: "Cena", opts: ["do 8 000", "8–15 000", "15–25 000", "nad 25 000"] },
-  { name: "Úhlopříčka", opts: ["do 6,1\"", "6,1–6,5\"", "6,5–6,8\"", "nad 6,8\""] },
+  { name: "Cena", opts: ["do 8 000", "8-15 000", "15-25 000", "nad 25 000"] },
+  { name: "Úhlopříčka", opts: ["do 6,1\"", "6,1-6,5\"", "6,5-6,8\"", "nad 6,8\""] },
   { name: "RAM", opts: ["6 GB", "8 GB", "12 GB", "16 GB"] },
   { name: "Úložiště", opts: ["128 GB", "256 GB", "512 GB", "1 TB"] },
-  { name: "Fotoaparát", opts: ["do 50 Mpx", "50–108 Mpx", "200 Mpx+", "periscope"] },
-  { name: "Baterie", opts: ["do 4 500", "4 500–5 000", "5 000–5 500", "nad 5 500"] },
+  { name: "Fotoaparát", opts: ["do 50 Mpx", "50-108 Mpx", "200 Mpx+", "periscope"] },
+  { name: "Baterie", opts: ["do 4 500", "4 500-5 000", "5 000-5 500", "nad 5 500"] },
   { name: "Další", opts: ["5G", "Dual SIM", "IP68", "bezdrátové", "eSIM"] },
 ] as const;
 
@@ -205,15 +205,15 @@ function RealChat() {
           Pomoz mi vybrat nejlepší telefon do 15 tisíc, ať slušně fotí a vydrží baterka. Ideálně ne úplně velký.
         </div>
         <div className="ui-gpt-bot">
-          Jasně — i když „nejlepší“ je vždycky trochu ošidné, protože záleží, jestli ti víc vadí velikost, výdrž, foto, nebo to, jak dlouho dostaneš aktualizace, a u 15 000 Kč stejně skoro vždycky něco obětuješ. Obecně bych se teď díval spíš na střední Android než na starší iPhone, protože za ty peníze často dostaneš lepší baterku a nabíjení, ale iPhone zase drží cenu a ekosystém, takže pokud už máš AirPods a Mac, dává to jiný smysl, a naopak pokud fotíš hodně večer, řeš spíš zpracování a optiku než megapixely na papíře.
+          Jasně, i když „nejlepší“ je vždycky trochu ošidné, protože záleží, jestli ti víc vadí velikost, výdrž, foto, nebo to, jak dlouho dostaneš aktualizace, a u 15 000 Kč stejně skoro vždycky něco obětuješ. Obecně bych se teď díval spíš na střední Android než na starší iPhone, protože za ty peníze často dostaneš lepší baterku a nabíjení, ale iPhone zase drží cenu a ekosystém, takže pokud už máš AirPods a Mac, dává to jiný smysl, a naopak pokud fotíš hodně večer, řeš spíš zpracování a optiku než megapixely na papíře.
           <br /><br />
-          1) Něco jako Pixel / čistší Android — fajn foto a čistý systém, ale ověř dostupnost a cenu u nás, někdy to skočí přes budget.
+          1) Něco jako Pixel / čistší Android: fajn foto a čistý systém, ale ověř dostupnost a cenu u nás, někdy to skočí přes budget.
           <br />
-          2) Samsung A / S FE řada — většinou bezpečná volba, hodně výbavy, ale One UI je hutnější a telefony bývají větší, což jsi nechtěl.
+          2) Samsung A / S FE řada: většinou bezpečná volba, hodně výbavy, ale One UI je hutnější a telefony bývají větší, což jsi nechtěl.
           <br />
-          3) Xiaomi / Motorola — poměr cena/výkon, pozor na bloat, aktualizace a konkrétní recenze baterie, ne na tabulku mAh.
+          3) Xiaomi / Motorola: poměr cena/výkon, pozor na bloat, aktualizace a konkrétní recenze baterie, ne na tabulku mAh.
           <br /><br />
-          Když to zúžím bez toho, abych viděl, co už máš: ber střední třídu s 8 GB RAM, 256 GB, analogovým 50+ Mpx a baterií nad 5 000 mAh, ideálně do 6,4". Pokud chceš, můžu ti udělat tabulku podle toho, jestli víc řešíš foto, velikost, nebo výdrž — ale stejně ti neřeknu jednu pravdu, spíš tři kompromisy a ty si vybereš, který ti nejmíň vadí.
+          Když to zúžím bez toho, abych viděl, co už máš: ber střední třídu s 8 GB RAM, 256 GB, analogovým 50+ Mpx a baterií nad 5 000 mAh, ideálně do 6,4". Pokud chceš, můžu ti udělat tabulku podle toho, jestli víc řešíš foto, velikost, nebo výdrž, ale stejně ti neřeknu jednu pravdu, spíš tři kompromisy a ty si vybereš, který ti nejmíň vadí.
         </div>
       </div>
     </div>

@@ -24,7 +24,7 @@ export const SUMMIT_TALKS: SummitTalk[] = [
     logo: { src: "logos/ppf.svg", alt: "PPF", h: 130 },
     n: "01",
     topic: "Od rychlých člunů po zaoceánské tankery",
-    time: "9:45–10:15",
+    time: "9:45-10:15",
     people: [{
       id: "jakub",
       name: "Jakub Petřina",
@@ -37,8 +37,8 @@ export const SUMMIT_TALKS: SummitTalk[] = [
     id: "dejan",
     logo: { src: "logos/spotify.svg", alt: "Spotify", h: 100 },
     n: "02",
-    topic: "Od softwaru ke kontextu — produktový cyklus v éře AI",
-    time: "10:15–10:45",
+    topic: "Od softwaru ke kontextu: produktový cyklus v éře AI",
+    time: "10:15-10:45",
     people: [{
       id: "dejan",
       name: "Dejan Krstic",
@@ -52,7 +52,7 @@ export const SUMMIT_TALKS: SummitTalk[] = [
     logo: { src: "logos/lego.svg", alt: "the LEGO Group", h: 140 },
     n: "03",
     topic: "„Jen to nejlepší je dost dobré“ v éře umělé inteligence",
-    time: "11:15–12:00",
+    time: "11:15-12:00",
     people: [
       {
         id: "michaela",
@@ -75,7 +75,7 @@ export const SUMMIT_TALKS: SummitTalk[] = [
     logo: { src: "logos/homecredit.svg", alt: "Home Credit", h: 120 },
     n: "04",
     topic: "Anatomie úspěšného týmu: vztahy a kultura řídí výsledky",
-    time: "12:00–12:30",
+    time: "12:00-12:30",
     people: [{
       id: "milos",
       name: "Miloš Nejezchleb",

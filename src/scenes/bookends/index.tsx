@@ -53,7 +53,7 @@ const MASTERCLASSES = [
 export function Hosts({ step = 0, reduced }: SceneProps) {
   return (
     <div className={`scene is-hosts${reduced ? " is-reduced" : ""}`}>
-      <SlideChrome kicker="01 Odpoledne" page="01 / 01" caption="14:00 – 16:30 · Masterclassy" captionDot />
+      <SlideChrome kicker="01 Odpoledne" page="01 / 01" caption="14:00-16:30 · Masterclassy" captionDot />
       <div className="hosts-head">
         <h2 className="hosts-title">Kdo vás provede dál</h2>
       </div>

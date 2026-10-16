@@ -164,7 +164,7 @@ export function Skills({ step, reduced }: SceneProps) {
     <div ref={root} className="scene skills-stage">
       <SlideChrome kicker="FINÁLE / KOMPETENCE BUDOUCNOSTI" page="69 / 75" caption="Kompetence na vzestupu" rail="2025 → 2030" />
       <div data-skills-title className="skills-story-title">
-        <div data-skills-eyebrow className="skills-story-eyebrow">SKILLS ON THE RISE · 2025–2030 · WORLD ECONOMIC FORUM</div>
+        <div data-skills-eyebrow className="skills-story-eyebrow">SKILLS ON THE RISE · 2025-2030 · WORLD ECONOMIC FORUM</div>
         <div data-skills-main className="skills-story-main">Hodnota se přesouvá.</div>
         <div data-skills-sub className="skills-story-sub">Proto potřebujeme rozvíjet kompetence budoucnosti.</div>
       </div>
@@ -226,7 +226,7 @@ export function HeroEnd({ step, reduced }: SceneProps) {
 
 const ROLES = [
   { t: "AI EXPERIENCE DESIGNER", s: "Jak spolu komunikuje člověk a AI." },
-  { t: "HUMAN + AI WORKFLOW DESIGNER", s: "Kdo co dělá — člověk vs. AI." },
+  { t: "HUMAN + AI WORKFLOW DESIGNER", s: "Kdo co dělá: člověk vs. AI." },
   { t: "EXPERIENCE ORCHESTRATOR", s: "Jak to celé funguje napříč firmou." },
 ];
 

@@ -143,8 +143,8 @@ const allScenes: SceneDef[] = [
   {
     id: "adapt", act: 2, actName: "CO?", component: "Adapt",
     steps: [
-      { id: "ad1", title: "Ví, co mi sedí.", speakerNote: "Personalizace znamená, že systém o člověku něco ví: běhá 20 km týdně, potřebuje víc tlumení, kupuje silniční modely. Z těchto signálů vznikne doporučení — Best match s 92% shodou. Pozor na rozdíl: když si vyberu barvu nebo velikost, je to konfigurace; když si nechám vyšít jméno, je to customizace (ScienceDirect). Personalizace stojí na tom, co systém ví.", sourcePage: 20 },
-      { id: "ad2", title: "Podle mě. Právě teď.", speakerNote: "Adaptace: celá zkušenost reaguje na to, kdo jsem, co dělám a v jaké jsem situaci. Rodina s dětmi, let zpožděn 3 h — systém změní transfer, check-in, pokoj, aktivitu i komunikaci. Adaptace není jen „co dostanu“; systém průběžně mění, co se má stát dál. Odpovídá to akademickému pohledu na adaptivní systémy, které se dynamicky přizpůsobují aktuálnímu kontextu použití.", sourcePage: 20 },
+      { id: "ad1", title: "Ví, co mi sedí.", speakerNote: "Personalizace znamená, že systém o člověku něco ví: běhá 20 km týdně, potřebuje víc tlumení, kupuje silniční modely. Z těchto signálů vznikne doporučení: Best match s 92% shodou. Pozor na rozdíl: když si vyberu barvu nebo velikost, je to konfigurace; když si nechám vyšít jméno, je to customizace (ScienceDirect). Personalizace stojí na tom, co systém ví.", sourcePage: 20 },
+      { id: "ad2", title: "Podle mě. Právě teď.", speakerNote: "Adaptace: celá zkušenost reaguje na to, kdo jsem, co dělám a v jaké jsem situaci. Rodina s dětmi, let zpožděn 3 h. Systém změní transfer, check-in, pokoj, aktivitu i komunikaci. Adaptace není jen „co dostanu“; systém průběžně mění, co se má stát dál. Odpovídá to akademickému pohledu na adaptivní systémy, které se dynamicky přizpůsobují aktuálnímu kontextu použití.", sourcePage: 20 },
     ],
   },
   {
@@ -210,7 +210,7 @@ const allScenes: SceneDef[] = [
   {
     id: "prove", act: 3, actName: "PROČ VĚŘIT?", component: "Prove", stepBase: 2,
     steps: [
-      { id: "pr1c", title: "Slib získává pozornost", speakerNote: "Rovnou celek, bez mezikroků slib → zážitek. Slib získává pozornost. Zkušenost buduje důvěru — a proto slib nestačí.", sourcePage: 32 },
+      { id: "pr1c", title: "Slib získává pozornost", speakerNote: "Rovnou celek, bez mezikroků slib → zážitek. Slib získává pozornost. Zkušenost buduje důvěru, a proto slib nestačí.", sourcePage: 32 },
       { id: "pr2", title: "AI musí mít důvod vás doporučit", speakerNote: "Nejdřív jen karta značky. Citát ještě ne.", sourcePage: 32 },
       { id: "pr2a", title: "Máme nejlepší zákaznickou péči", speakerNote: "Značka říká obecné tvrzení. Nechte to dopsat, pak klik.", sourcePage: 32 },
       { id: "pr2b", title: "Neověřitelné", speakerNote: "AI s tím neumí pracovat. Neříká, čím jste skutečně jiní.", sourcePage: 32 },
@@ -225,17 +225,17 @@ const allScenes: SceneDef[] = [
       { id: "pr6", title: "Konzistence, odpověď-first, důvěryhodnost", speakerNote: "Tři podmínky, bez kterých nemá co ověřovat: stejná fakta, dohledatelné odpovědi, důvěra mimo vlastní web.", sourcePage: 33 },
       { id: "pr6b", title: "Kde to AI hledá", speakerNote: "Web, Wikipedia, recenze, katalogy. FAQ, podmínky, nadpisy, ceny. PR, média, recenze, komunity.", sourcePage: 33 },
       { id: "pr7", title: "Ověření", speakerNote: "Až když se stopy sejdou, má AI co ověřit.", sourcePage: 33 },
-      { id: "pr8", title: "AI najde důvod vás doporučit", speakerNote: "GEO/AEO je práce na dohledatelnosti a správné reprezentaci značky — ne nový trik na algoritmus.", sourcePage: 33 },
+      { id: "pr8", title: "AI najde důvod vás doporučit", speakerNote: "GEO/AEO je práce na dohledatelnosti a správné reprezentaci značky, ne nový trik na algoritmus.", sourcePage: 33 },
     ],
   },
   {
     id: "principles", act: 3, actName: "PROČ VĚŘIT?", component: "Principles",
     steps: [
       { id: "xp1", title: "Dodat značku do zážitku", speakerNote: "Nejdřív věta. Experience principy jsou to, co značku dostane z manuálu do zážitku.", sourcePage: 35 },
-      { id: "xp1b", title: "Produkt", speakerNote: "Je naše značka v tom, co nabízíme — nejen na obalu a ve slibech.", sourcePage: 35 },
+      { id: "xp1b", title: "Produkt", speakerNote: "Je naše značka v tom, co nabízíme, nejen na obalu a ve slibech.", sourcePage: 35 },
       { id: "xp1c", title: "Chování lidí", speakerNote: "Pozná nás člověk podle toho, jak se k němu chováme na pobočce i na lince.", sourcePage: 35 },
       { id: "xp1d", title: "AI Soul & Identity", speakerNote: "AI musí mluvit a jednat jako naše značka. Osobnost, humor, hranice.", sourcePage: 35 },
-      { id: "xp1e", title: "Digitální design", speakerNote: "Chybová hláška, flow, pattern — totéž, jen v rozhraní.", sourcePage: 35 },
+      { id: "xp1e", title: "Digitální design", speakerNote: "Chybová hláška, flow, pattern: totéž, jen v rozhraní.", sourcePage: 35 },
       { id: "xp1f", title: "Experience principy propojují systém", speakerNote: "Principy jsou střed. Stejné pravidlo pro produkt, lidi, AI i digitál. Když je v systému nemáme, AI se učí z toho, co tam reálně je.", sourcePage: 35 },
     ],
   },
@@ -293,10 +293,10 @@ const allScenes: SceneDef[] = [
   {
     id: "video", act: 4, actName: "JAK?", component: "VideoEnd",
     steps: [
-      { id: "vd1", title: "Jakub Petřina", speakerNote: "9:45–10:15 · PPF · Od rychlých člunů po zaoceánské tankery.", sourcePage: 46 },
-      { id: "vd2", title: "Dejan Krstic", speakerNote: "10:15–10:45 · ex-Spotify · Od softwaru ke kontextu.", sourcePage: 46 },
-      { id: "vd3", title: "Míša & Kryštof · LEGO", speakerNote: "11:15–12:00 · the LEGO Group · Michaela Edgerley Stovicek a Vladimír Kryštof Maliňák společně na stage. Jen to nejlepší je dost dobré.", sourcePage: 46 },
-      { id: "vd4", title: "Miloš Nejezchleb", speakerNote: "12:00–12:30 · Home Credit · Anatomie úspěšného týmu.", sourcePage: 46 },
+      { id: "vd1", title: "Jakub Petřina", speakerNote: "9:45-10:15 · PPF · Od rychlých člunů po zaoceánské tankery.", sourcePage: 46 },
+      { id: "vd2", title: "Dejan Krstic", speakerNote: "10:15-10:45 · ex-Spotify · Od softwaru ke kontextu.", sourcePage: 46 },
+      { id: "vd3", title: "Míša & Kryštof · LEGO", speakerNote: "11:15-12:00 · the LEGO Group · Michaela Edgerley Stovicek a Vladimír Kryštof Maliňák společně na stage. Jen to nejlepší je dost dobré.", sourcePage: 46 },
+      { id: "vd4", title: "Miloš Nejezchleb", speakerNote: "12:00-12:30 · Home Credit · Anatomie úspěšného týmu.", sourcePage: 46 },
       { id: "vd5", title: "Pět hlasů ze stage", speakerNote: "Všichni řečníci main stage Experience Summit 2026.", sourcePage: 46 },
     ],
   },
@@ -375,15 +375,15 @@ const allScenes: SceneDef[] = [
   {
     id: "awards-change", act: 5, actName: "CX AWARDS 2026", component: "AwardsChange",
     steps: [
-      { id: "aw8", title: "Vyhlášení · Changemakers", speakerNote: "Finalisté. Klik: Cenu získává… (vítěz podle hlasování účastníků — doplníme)." },
-      { id: "aw8a", title: "Vyhlášení · Changemakers vítěz", speakerNote: "Vítěz — doplníme." },
+      { id: "aw8", title: "Vyhlášení · Changemakers", speakerNote: "Finalisté. Klik: Cenu získává… (vítěz podle hlasování účastníků, doplníme)." },
+      { id: "aw8a", title: "Vyhlášení · Changemakers vítěz", speakerNote: "Vítěz: doplníme." },
     ],
   },
   {
     id: "awards-lidu", act: 5, actName: "CX AWARDS 2026", component: "AwardsLidu",
     steps: [
       { id: "aw10", title: "Vyhlášení · Hlas lidu", speakerNote: "Hlas lidu (CX + EX projekty dohromady) získává… Klik: vítěz." },
-      { id: "aw10a", title: "Vyhlášení · Hlas lidu vítěz", speakerNote: "Vítěz Hlasu lidu — doplníme." },
+      { id: "aw10a", title: "Vyhlášení · Hlas lidu vítěz", speakerNote: "Vítěz Hlasu lidu: doplníme." },
     ],
   },
   {

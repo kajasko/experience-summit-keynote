@@ -5,13 +5,13 @@ export const sources: Record<string, Source> = {
   cvvm: {
     id: "cvvm",
     short: "CVVM, 06/2026",
-    full: "CVVM, Umělá inteligence (AI) – znalosti, zkušenosti a postoje, 06/2026",
+    full: "CVVM, Umělá inteligence (AI): znalosti, zkušenosti a postoje, 06/2026",
     sourcePage: 4,
   },
   eurostat: {
     id: "eurostat",
     short: "Eurostat, 02/2026",
-    full: "Eurostat, 64% of 16–24-year-olds used AI in 2025, 02/2026",
+    full: "Eurostat, 64% of 16-24-year-olds used AI in 2025, 02/2026",
     sourcePage: 4,
   },
   mckinseyAgentic: {
@@ -83,7 +83,7 @@ export const sources: Record<string, Source> = {
   wef: {
     id: "wef",
     short: "WEF, Future of Jobs Report 2025",
-    full: "World Economic Forum, The Future of Jobs Report 2025, 01/2025; Future of Jobs Survey 2024, Figure 3.4 – Skills on the rise, 2025–2030",
+    full: "World Economic Forum, The Future of Jobs Report 2025, 01/2025; Future of Jobs Survey 2024, Figure 3.4: Skills on the rise, 2025-2030",
     sourcePage: 43,
   },
   gartnerLead: {
