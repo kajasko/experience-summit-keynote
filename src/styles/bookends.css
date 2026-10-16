@@ -121,3 +121,18 @@
 .pq-step.is-on { opacity: 1; transform: none; }
 .scene.is-panelq.is-reduced .pq-in { animation: none; opacity: 1; transform: none; }
 .scene.is-panelq.is-reduced .pq-step { transition: none; }
+
+/* Final logo · dark, minimal; Clientology mark glows softly, then recolors into Experience Summit palette */
+.scene.fl-scene { background: radial-gradient(1200px 800px at 50% 46%, #04363b 0%, var(--dark-2) 55%, #001518 100%); overflow: hidden; }
+.fl-amb { position: absolute; inset: 0; pointer-events: none; }
+.fl-amb-cl { background: radial-gradient(620px 480px at 50% 44%, rgba(195, 213, 82, 0.10), transparent 70%); }
+.fl-amb-es { background: radial-gradient(560px 440px at 44% 40%, rgba(42, 166, 173, 0.14), transparent 70%), radial-gradient(420px 360px at 58% 50%, rgba(163, 47, 59, 0.10), transparent 70%); }
+.fl-center { position: absolute; inset: 0; display: grid; place-items: center; }
+.fl-mark { position: relative; width: 340px; height: 340px; will-change: transform, opacity; }
+.fl-layer { position: absolute; inset: 0; }
+.fl-layer svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.fl-glow { filter: blur(34px); transform: scale(1.06); }
+.fl-word { position: absolute; left: 0; right: 0; top: calc(50% + 140px); text-align: center; }
+.fl-word > * { will-change: transform, opacity; }
+.fl-word-main { font-size: 64px; font-weight: 600; letter-spacing: .02em; text-transform: uppercase; color: #fff; line-height: 1.1; }
+.fl-word-by { margin-top: 14px; font-size: 26px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: rgba(220, 230, 232, 0.6); }

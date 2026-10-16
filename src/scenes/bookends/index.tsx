@@ -114,3 +114,4 @@ export function HoldSlide(_props: SceneProps) {
 
 export { Closing } from "./Closing";
 export { PanelQuestions } from "./PanelQuestions";
+export { FinalLogo } from "./FinalLogo";

@@ -399,6 +399,12 @@ const allScenes: SceneDef[] = [
       { id: "aw9", title: "CX Awards 2026 · vítězové", speakerNote: "Shrnutí vítězů všech kategorií." },
     ],
   },
+  {
+    id: "final-logo", act: 5, actName: "ZÁVĚR", component: "FinalLogo",
+    steps: [
+      { id: "fl1", title: "Experience Summit by Clientology", speakerNote: "Úplný závěr. Logo Clientology se samo přelije do barev Experience Summitu. Bez obsahu CX Awards, není zamčeno." },
+    ],
+  },
 ];
 
 const cutoffScene = import.meta.env.VITE_DECK_CUTOFF_SCENE;

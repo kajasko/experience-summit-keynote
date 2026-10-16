@@ -15,7 +15,7 @@ export const CHAPTERS = [
 
 /** Awards content slides never get a real preview — neutral lock tile only. */
 export function isLockedTile(slide: SlideDef) {
-  return slide.act === 5 && slide.sceneId !== "awards-gate";
+  return slide.act === 5 && slide.sceneId !== "awards-gate" && slide.sceneId !== "final-logo";
 }
 
 function kliky(n: number) {
