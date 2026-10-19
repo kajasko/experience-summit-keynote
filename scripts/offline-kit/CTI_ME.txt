@@ -1,0 +1,41 @@
+﻿EXPERIENCE SUMMIT 2026 · KEYNOTE (OFFLINE VERZE)
+=================================================
+Funguje bez internetu. Celá prezentace (styly, fonty, obrázky, loga, animace,
+zašifrovaná data CX Awards) je v JEDNOM souboru:
+
+    Prezentace_Experience_Summit.html
+
+JAK SPUSTIT (WINDOWS)
+1. NEJDŘÍV ZIP ROZBALTE: pravý klik na ZIP › Extrahovat vše… › Extrahovat.
+   (Neotvírejte soubory přímo v okně ZIPu.)
+2. V rozbalené složce dvojklik na Prezentace_Experience_Summit.html.
+   Doporučeno Google Chrome nebo Microsoft Edge
+   (pravý klik › Otevřít v programu › Google Chrome / Microsoft Edge).
+3. Celá obrazovka: klávesa F (nebo F11). Ukončení: Esc.
+4. Na slajdu CX Awards zadejte heslo (stejné jako online).
+
+JAK SPUSTIT (MAC)
+1. Rozbalte ZIP (dvojklik).
+2. Dvojklik na Prezentace_Experience_Summit.html (Chrome nebo Safari).
+
+Soubor HTML lze zkopírovat kamkoliv (plocha, USB flash disk) i SAMOTNÝ, bez dalších souborů.
+Načtení trvá 1 až 3 sekundy (soubor má cca 24 MB).
+
+OVLÁDÁNÍ
+• Další krok: šipka → / mezerník / PageDown (klikr). Zpět: šipka ← / PageUp.
+• Kostičky (přehled slajdů): klávesa O. Kapitoly: klávesa G.
+
+ZÁLOHA, KDYBY HTML SOUBOR NEFUNGOVAL
+• Složka „Keynote_offline“ obsahuje stejnou prezentaci rozdělenou na soubory.
+• Windows: dvojklik na Spustit_prezentaci_zaloha_Windows.bat
+  (SmartScreen: Další informace › Přesto spustit). Spustí lokální server
+  (Python, jinak PowerShell) a otevře prohlížeč. Černé okno nechte otevřené.
+• Mac: Spustit_prezentaci_zaloha_Mac.command
+  (napoprvé: pravý klik › Otevřít › Otevřít).
+• Poslední záloha: web https://kajasko.github.io/experience-summit-keynote/
+
+TIPY PŘED VYSTOUPENÍM
+• Zapněte režim Nerušit / vypněte notifikace.
+• Vypněte spánek a spořič obrazovky; notebook mějte na nabíječce.
+• Prezentaci si předem jednou projděte až po CX Awards (ověří heslo i fonty).
+• Mějte kopii HTML souboru na USB flash disku.

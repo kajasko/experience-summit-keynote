@@ -257,7 +257,7 @@ function NeedPath({ chrome, reduced }: { chrome: { kicker: string; page: string;
             <span>Personas</span>
           </div>
           <div className="need-persona-hero">
-            <img data-art src={`${asset("persona-need.png")}?v=2`} alt="" />
+            <img data-art src={asset("persona-need.png?v=2")} alt="" />
             <div className="need-persona-tags">
               <span className="is-lilac">Persona</span>
               <span className="is-teal">✦ Strategic</span>
@@ -933,7 +933,7 @@ export function Examples({ step, reduced }: SceneProps) {
         {CASES.map((c) => (
           <article key={c.id} data-example-panel className={`example-panel is-${c.id}`}>
             <div data-example-bed className="example-bed">
-              {c.img ? <img data-art src={`${asset(c.img)}?v=5`} alt="" /> : null}
+              {c.img ? <img data-art src={asset(`${c.img}?v=5`)} alt="" /> : null}
               <div className="example-ghost" aria-hidden="true">
                 <span /><span /><span />
               </div>

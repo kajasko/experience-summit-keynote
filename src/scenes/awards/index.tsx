@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type CSSProperties, type FormEvent, type J
 import type { SceneProps } from "../../deck/types";
 import { SlideChrome } from "../../components/SlideChrome";
 import { useAwards } from "../../awards/AwardsContext";
+import { publicUrl } from "../../engine/assets";
 import type { AwardCategory, AwardsData } from "../../awards/types";
 
 type DataProps = SceneProps & { data: AwardsData };
@@ -122,7 +123,7 @@ const ICONS: Record<string, string> = { impact: "experience-impact", pulse: "emp
 function CatIcon({ id, className = "" }: { id: string; className?: string }) {
   return (
     <span className={`aw-icon ${className}`} aria-hidden="true">
-      <img src={`${import.meta.env.BASE_URL}awards-icons/${ICONS[id]}.png`} alt="" draggable={false} />
+      <img src={publicUrl(`awards-icons/${ICONS[id]}.png`)} alt="" draggable={false} />
     </span>
   );
 }

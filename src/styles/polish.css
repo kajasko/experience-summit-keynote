@@ -490,3 +490,6 @@
 .slide-fallback-sub { margin-top: 14px; font-size: 22px; font-weight: 600; opacity: .7; }
 .slide-fallback.is-root .slide-fallback-title { font-size: clamp(20px, 3vw, 44px); }
 .slide-fallback.is-root .slide-fallback-sub { font-size: clamp(14px, 1.6vw, 22px); }
+
+/* Offline: hint shown only when this stylesheet failed to load. */
+#css-missing { display: none !important; }
