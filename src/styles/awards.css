@@ -597,3 +597,17 @@ div.aw-in, h2.aw-in { display: block; }
 
 /* v16 · QA: equal title block height so logos / "doplníme" line up across finale cards */
 .aw-fin-row.is-4 .aw-fin-cat { min-height: calc(2 * 1.3em); }
+
+/* v17 · winners filled: Changemakers winner card + pill, Hlas lidu card, finale */
+.aw-change-card.is-win { opacity: 1 !important; transform: scale(1.04); transition: opacity .8s var(--ease), transform .9s var(--ease), box-shadow .9s var(--ease);
+  box-shadow: 0 0 0 2px rgba(205, 228, 255, .75), 0 0 70px rgba(150, 200, 255, .35), 0 30px 80px rgba(0, 0, 0, .35); }
+.aw-change-win { gap: 18px; }
+.aw-public-name { font-size: 46px; font-weight: 800; letter-spacing: -.03em; color: #fff; }
+.aw-public-co { font-size: 24px; font-weight: 700; color: rgba(220, 236, 255, .75); }
+.aw-lidu-card .aw-chip { margin-top: 18px; }
+.aw-lidu-co { margin-top: 16px; font-size: 64px; font-weight: 800; letter-spacing: -.04em; color: #fff; line-height: 1.02; }
+.aw-lidu-pr { margin-top: 10px; font-size: 30px; font-weight: 650; color: rgba(255, 255, 255, .8); max-width: 22ch; line-height: 1.25; }
+.aw-reveal.is-reduced .aw-change-card.is-win { transition: none; }
+.aw-change-win { width: auto !important; white-space: nowrap; padding-left: 40px; padding-right: 44px; }
+.aw-change-win .aw-public-name, .aw-change-win .aw-public-co { white-space: nowrap; }
+.aw-lidu-card .aw-chip.is-lg { transform: scale(1.7); margin: 34px 0 26px; }

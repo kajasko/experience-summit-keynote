@@ -8,6 +8,7 @@ export type AwardCategory = {
   count: number;
   jury: AwardPlace[];
   projects: AwardProject[];
+  winner?: AwardProject;
 };
 export type AwardsData = {
   event: string;
@@ -22,4 +23,5 @@ export type AwardsData = {
   people?: Record<string, string>;
   logoRatio?: Record<string, number>;
   source?: string;
+  lidu?: AwardProject;
 };

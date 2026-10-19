@@ -496,12 +496,12 @@ export const AwardsPulse = withData(function AwardsPulse({ step, data, reduced }
   return <Reveal data={data} categoryId="pulse" step={step} reduced={reduced} />;
 });
 
-/** Changemakers — decided by summit attendees: finalists, then winner placeholder. */
+/** Changemakers: decided by summit attendees; finalists, then the winner. */
 export const AwardsChange = withData(function AwardsChange({ step, data, reduced }: DataProps) {
   const cat = data.categories.find((c) => c.id === "changemakers")!;
   const s = Math.min(Math.max(step, 0), 1);
   return (
-    <div className={darkScene(reduced, " aw-reveal aw-change")}>
+    <div className={darkScene(reduced, ` aw-reveal aw-change${s >= 1 ? " is-won" : ""}`)}>
       <Bleed />
       <Spots {...(s >= 1 ? { mode: "aim", pts: [[960, 900]] } : { mode: "aim", pts: [[690, 520], [1230, 520]] }) as SpotMode} />
       <SlideChrome mark={false} />
@@ -509,9 +509,10 @@ export const AwardsChange = withData(function AwardsChange({ step, data, reduced
         <div className="awards-kicker aw-in" style={d(0.05)}>Hlas publika · rozhodují účastníci summitu</div>
         <h2 className="aw-h2 aw-fit aw-in" style={d(0.15)}>{cat.name}</h2>
       </div>
+      {s >= 1 && !reduced ? <Confetti /> : null}
       <div className="aw-change-row">
         {cat.projects.map((p, i) => (
-          <article key={p.project} className={`aw-glass aw-change-card aw-in${s >= 1 ? " is-dim" : ""}`} style={d(0.45 + i * 0.25)}>
+          <article key={p.project} className={`aw-glass aw-change-card aw-in${s >= 1 ? (cat.winner?.person === p.person ? " is-win" : " is-dim") : ""}`} style={d(0.45 + i * 0.25)}>
             {data.people?.[p.person ?? ""] ? <span className="aw-nom-photo"><img src={data.people[p.person!]} alt="" /></span> : null}
             <LogoChip data={data} company={p.company} className="is-lg" />
             <div className="aw-nom-person">{p.person}</div>
@@ -525,7 +526,8 @@ export const AwardsChange = withData(function AwardsChange({ step, data, reduced
       <div className={`aw-public aw-step aw-change-win${on(s >= 1)}`}>
         <People className="is-sm" />
         <span className="aw-public-label">Vítěz</span>
-        <span className="aw-public-ph">doplníme</span>
+        <span className="aw-public-name">{cat.winner?.person ?? ""}</span>
+        <span className="aw-public-co">{cat.winner?.company ?? ""}</span>
       </div>
     </div>
   );
@@ -572,9 +574,13 @@ export const AwardsFinale = withData(function AwardsFinale({ data, reduced }: Da
                   <div className="aw-fin-co">{w.company}</div>
                   <div className="aw-fin-pr">{w.project}</div>
                 </>
-              ) : (
-                <div className="aw-fin-ph">doplníme</div>
-              )}
+              ) : c.winner ? (
+                <>
+                  <LogoChip data={data} company={c.winner.company} className="is-lg" />
+                  <div className="aw-fin-co">{c.winner.person ?? c.winner.company}</div>
+                  <div className="aw-fin-pr">{c.winner.person ? c.winner.company : c.winner.project}</div>
+                </>
+              ) : null}
               <div className="aw-fin-by">{c.decidedBy === "public" ? "Hlas publika" : "Hlas poroty"}</div>
             </article>
           );
@@ -582,7 +588,13 @@ export const AwardsFinale = withData(function AwardsFinale({ data, reduced }: Da
         <article className="aw-glass aw-fin-card aw-in" style={d(0.45 + data.categories.length * 0.22)}>
           <CatIcon id="lidu" className="is-fin" />
           <div className="aw-fin-cat">Cena lidu · CX + EX</div>
-          <div className="aw-fin-ph">doplníme</div>
+          {data.lidu ? (
+            <>
+              <LogoChip data={data} company={data.lidu.company} className="is-lg" />
+              <div className="aw-fin-co">{data.lidu.company}</div>
+              <div className="aw-fin-pr">{data.lidu.project}</div>
+            </>
+          ) : null}
           <div className="aw-fin-by">Hlas lidu</div>
         </article>
       </div>
@@ -591,7 +603,7 @@ export const AwardsFinale = withData(function AwardsFinale({ data, reduced }: Da
 });
 
 /** Hlas lidu — one combined people's vote across CX + EX projects. */
-export const AwardsLidu = withData(function AwardsLidu({ step, reduced }: DataProps) {
+export const AwardsLidu = withData(function AwardsLidu({ step, data, reduced }: DataProps) {
   const s = Math.min(Math.max(step, 0), 1);
   return (
     <div className={darkScene(reduced, ` aw-reveal aw-lidu${s >= 1 ? " is-won" : ""}`)}>
@@ -612,7 +624,13 @@ export const AwardsLidu = withData(function AwardsLidu({ step, reduced }: DataPr
         <article className="aw-glass aw-lidu-card">
           <People className="aw-p4-people" />
           <div className="aw-lidu-k">Vítěz</div>
-          <div className="aw-lidu-ph">doplníme</div>
+          {data.lidu ? (
+            <>
+              <LogoChip data={data} company={data.lidu.company} className="is-lg" />
+              <div className="aw-lidu-co">{data.lidu.company}</div>
+              <div className="aw-lidu-pr">{data.lidu.project}</div>
+            </>
+          ) : null}
         </article>
       </div>
     </div>

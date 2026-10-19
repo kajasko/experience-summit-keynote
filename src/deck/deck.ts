@@ -382,15 +382,15 @@ const allScenes: SceneDef[] = [
   {
     id: "awards-change", act: 5, actName: "CX AWARDS 2026", component: "AwardsChange",
     steps: [
-      { id: "aw8", title: "Vyhlášení · Changemakers", speakerNote: "Finalisté. Klik: Cenu získává… (vítěz podle hlasování účastníků, doplníme)." },
-      { id: "aw8a", title: "Vyhlášení · Changemakers vítěz", speakerNote: "Vítěz: doplníme." },
+      { id: "aw8", title: "Vyhlášení · Changemakers", speakerNote: "Finalisté. Klik: Cenu získává… vítěz podle hlasování účastníků summitu." },
+      { id: "aw8a", title: "Vyhlášení · Changemakers vítěz", speakerNote: "Vítěz CX Changemakers' Award podle hlasování účastníků (jméno je na slajdu)." },
     ],
   },
   {
     id: "awards-lidu", act: 5, actName: "CX AWARDS 2026", component: "AwardsLidu",
     steps: [
       { id: "aw10", title: "Vyhlášení · Hlas lidu", speakerNote: "Hlas lidu (CX + EX projekty dohromady) získává… Klik: vítěz." },
-      { id: "aw10a", title: "Vyhlášení · Hlas lidu vítěz", speakerNote: "Vítěz Hlasu lidu: doplníme." },
+      { id: "aw10a", title: "Vyhlášení · Hlas lidu vítěz", speakerNote: "Vítěz Hlasu lidu (firma a projekt jsou na slajdu)." },
     ],
   },
   {
