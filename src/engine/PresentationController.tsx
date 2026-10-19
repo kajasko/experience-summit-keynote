@@ -13,6 +13,7 @@ import { preloadAround } from "./preload";
 import { SlideContext } from "./slideContext";
 import { usePrefersReducedMotion } from "./usePrefersReducedMotion";
 import { SceneMotion } from "./SceneMotion";
+import { SlideErrorBoundary } from "./ErrorBoundary";
 import { EASE, MOTION as T } from "./motion";
 import { isColorDip, isClovekMove, isKdoCoreExpand } from "./colorDip";
 
@@ -363,11 +364,13 @@ export function PresentationController() {
         <div
           style={{ position: "absolute", inset: 0 }}
         >
-          <SceneMotion key={view.sceneId} step={view} reduced={reduced}>
-            <SlideContext.Provider value={view}>
-              <Scene step={view.beat} reduced={reduced} sceneId={view.sceneId} />
-            </SlideContext.Provider>
-          </SceneMotion>
+          <SlideErrorBoundary key={view.sceneId} resetKey={view.id}>
+            <SceneMotion step={view} reduced={reduced}>
+              <SlideContext.Provider value={view}>
+                <Scene step={view.beat} reduced={reduced} sceneId={view.sceneId} />
+              </SlideContext.Provider>
+            </SceneMotion>
+          </SlideErrorBoundary>
           <SourceNote ids={view.sources} visible={showSources} />
           <div ref={morph} className="scene-morph" aria-hidden="true" />
           <div ref={core} className="scene-core" aria-hidden="true" />

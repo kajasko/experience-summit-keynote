@@ -20,6 +20,21 @@ function Locked() {
   );
 }
 
+/** Shown instead of crashing when a category is missing from the unlocked data. */
+function Missing({ reduced }: { reduced: boolean }) {
+  return (
+    <div className={`scene is-awards-dark aw-scene${reduced ? " is-reduced" : ""}`}>
+      <SlideChrome mark={false} />
+      <div className="awards-locked">
+        <div>
+          <div className="awards-locked-title">Data pro tento slide chybí</div>
+          <div className="awards-locked-sub">Pokračujte šipkou, nebo se vraťte na slide s heslem a odemkněte kapitolu znovu.</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function withData(Scene: (props: DataProps) => JSX.Element) {
   return function Guarded(props: SceneProps) {
     const { data } = useAwards();
@@ -310,7 +325,8 @@ function LogoChip({ data, company, className = "" }: { data: AwardsData; company
 
 /** Nominations per category — glass cards dealt in one by one (transform/opacity). */
 function Nominees({ data, categoryId, reduced, index }: { data: AwardsData; categoryId: AwardCategory["id"]; reduced: boolean; index: number }) {
-  const cat = data.categories.find((c) => c.id === categoryId)!;
+  const cat = data.categories.find((c) => c.id === categoryId);
+  if (!cat) return <Missing reduced={reduced} />;
   const people = cat.decidedBy === "public";
   const size = people ? "is-people" : cat.projects.length > 8 ? "is-many" : "is-few";
   return (
@@ -447,10 +463,11 @@ function Confetti() {
 }
 
 function Reveal({ data, categoryId, step, reduced }: { data: AwardsData; categoryId: AwardCategory["id"]; step: number; reduced: boolean }) {
-  const cat = data.categories.find((c) => c.id === categoryId)!;
+  const cat = data.categories.find((c) => c.id === categoryId);
+  if (!cat) return <Missing reduced={reduced} />;
   // 0 = suspense · 1 = 3rd · 2 = 2nd · 3 = 1st (burst) · 4 = Hlas lidu (placeholder)
   const s = Math.min(Math.max(step, 0), 3);
-  const byRank = (r: number) => cat.jury.find((j) => j.rank === r)!;
+  const byRank = (r: number) => cat.jury.find((j) => j.rank === r);
   const POS: Record<number, Pt> = { 3: [1448, 820], 2: [472, 780], 1: [960, 690] };
   const spot: SpotMode = s === 0 ? { mode: "scan" } : { mode: "aim", pts: [POS[4 - s]], strong: s === 3 };
   return (
@@ -470,6 +487,7 @@ function Reveal({ data, categoryId, step, reduced }: { data: AwardsData; categor
       <div className="aw-podium">
         {[2, 1, 3].map((rank) => {
           const p = byRank(rank);
+          if (!p) return <div key={rank} className={`aw-slot is-${rank}`} />;
           const visible = s >= 4 - rank;
           return (
             <div key={rank} className={`aw-slot is-${rank}${on(visible)}`}>
@@ -498,7 +516,8 @@ export const AwardsPulse = withData(function AwardsPulse({ step, data, reduced }
 
 /** Changemakers: decided by summit attendees; finalists, then the winner. */
 export const AwardsChange = withData(function AwardsChange({ step, data, reduced }: DataProps) {
-  const cat = data.categories.find((c) => c.id === "changemakers")!;
+  const cat = data.categories.find((c) => c.id === "changemakers");
+  if (!cat) return <Missing reduced={reduced} />;
   const s = Math.min(Math.max(step, 0), 1);
   return (
     <div className={darkScene(reduced, ` aw-reveal aw-change${s >= 1 ? " is-won" : ""}`)}>
@@ -512,7 +531,7 @@ export const AwardsChange = withData(function AwardsChange({ step, data, reduced
       {s >= 1 && !reduced ? <Confetti /> : null}
       <div className="aw-change-row">
         {cat.projects.map((p, i) => (
-          <article key={p.project} className={`aw-glass aw-change-card aw-in${s >= 1 ? (cat.winner?.person === p.person ? " is-win" : " is-dim") : ""}`} style={d(0.45 + i * 0.25)}>
+          <article key={`${p.person ?? ""}|${p.project}|${i}`} className={`aw-glass aw-change-card aw-in${s >= 1 ? (cat.winner?.person === p.person ? " is-win" : " is-dim") : ""}`} style={d(0.45 + i * 0.25)}>
             {data.people?.[p.person ?? ""] ? <span className="aw-nom-photo"><img src={data.people[p.person!]} alt="" /></span> : null}
             <LogoChip data={data} company={p.company} className="is-lg" />
             <div className="aw-nom-person">{p.person}</div>
