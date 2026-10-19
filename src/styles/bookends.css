@@ -136,5 +136,4 @@
 .fl-word > * { will-change: transform, opacity; }
 .fl-word-main { font-size: 64px; font-weight: 600; letter-spacing: .02em; text-transform: uppercase; color: #fff; line-height: 1.1; }
 .fl-word-by { margin-top: 14px; font-size: 26px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: rgba(220, 230, 232, 0.6); }
-.fl-shine { mix-blend-mode: soft-light; opacity: 0; }
 .fl-glow-es { will-change: transform, opacity; }
