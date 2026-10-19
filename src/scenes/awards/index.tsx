@@ -250,7 +250,7 @@ export const AwardsCategories = withData(function AwardsCategories({ data, step,
             <div className="aw-cat-n">{String(i + 1).padStart(2, "0")}</div>
             <div className="aw-cat-name">{c.name}</div>
             <div className="aw-cat-count"><b>{c.count}</b> {c.count < 5 ? "nominace" : "nominací"}</div>
-            <div className="aw-cat-who">{c.decidedBy === "public" ? "Rozhodují účastníci summitu" : "Rozhoduje odborná porota"}</div>
+            <div className="aw-cat-who">{c.decidedBy === "public" ? "Hlas publika" : "Rozhoduje odborná porota"}</div>
           </article>
         ))}
       </div>

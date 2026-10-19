@@ -345,7 +345,7 @@ const allScenes: SceneDef[] = [
     steps: [
       { id: "aw3", title: "Kategorie · Experience Impact", speakerNote: "První kategorie: The Experience Impact Award (17 nominací). Klik: druhá kategorie." },
       { id: "aw3b", title: "Kategorie · Employee Pulse", speakerNote: "Druhá kategorie: The Employee Pulse Award (6 nominací). Klik: třetí kategorie." },
-      { id: "aw3d", title: "Kategorie · CX Changemakers", speakerNote: "Třetí kategorie: CX Changemakers' Award (2 nominace), rozhodují účastníci summitu. Klik: kritéria." },
+      { id: "aw3d", title: "Kategorie · CX Changemakers", speakerNote: "Třetí kategorie: CX Changemakers' Award (2 nominace), Hlas publika. Klik: kritéria." },
       { id: "aw3c", title: "Kritéria hodnocení", speakerNote: "Porota hodnotí Experience Impact a Employee Pulse podle čtyř vážených kritérií." },
     ],
   },
