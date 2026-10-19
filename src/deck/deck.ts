@@ -136,8 +136,8 @@ const allScenes: SceneDef[] = [
   {
     id: "journey", act: 2, actName: "CO?", component: "Journey",
     steps: [
-      { id: "j1", title: "Roste očekávání relevance", speakerNote: "64 % spotřebitelů preferuje zkušenost přizpůsobenou jejich potřebám. Nejde ještě o důkaz adaptace, ale o jasné očekávání relevance.", sources: ["qualtrics"], sourcePage: 19 },
-      { id: "j1b", title: "Mění se způsob hledání", speakerNote: "25 miliard vizuálních vyhledávání přes Google Lens měsíčně ukazuje, že hledání už nezačíná jen textovým dotazem.", sources: ["googleLens"], sourcePage: 19 },
+      { id: "j1", title: "Zákazník čeká adaptaci", speakerNote: "65 % zákazníků čeká, že se firma přizpůsobí jejich měnícím se potřebám.", sources: ["salesforce"] },
+      { id: "j1b", title: "Dostává průměr", speakerNote: "61 % říká, že s nimi většina firem jedná jako s číslem. Čekají adaptaci, dostávají průměr.", sources: ["salesforce"] },
     ],
   },
   {
@@ -229,17 +229,6 @@ const allScenes: SceneDef[] = [
     ],
   },
   {
-    id: "principles", act: 3, actName: "PROČ VĚŘIT?", component: "Principles",
-    steps: [
-      { id: "xp1", title: "Dodat značku do zážitku", speakerNote: "Nejdřív věta. Experience principy jsou to, co značku dostane z manuálu do zážitku.", sourcePage: 35 },
-      { id: "xp1b", title: "Produkt", speakerNote: "Je naše značka v tom, co nabízíme, nejen na obalu a ve slibech.", sourcePage: 35 },
-      { id: "xp1c", title: "Chování lidí", speakerNote: "Pozná nás člověk podle toho, jak se k němu chováme na pobočce i na lince.", sourcePage: 35 },
-      { id: "xp1d", title: "AI Soul & Identity", speakerNote: "AI musí mluvit a jednat jako naše značka. Osobnost, humor, hranice.", sourcePage: 35 },
-      { id: "xp1e", title: "Digitální design", speakerNote: "Chybová hláška, flow, pattern: totéž, jen v rozhraní.", sourcePage: 35 },
-      { id: "xp1f", title: "Experience principy propojují systém", speakerNote: "Principy jsou střed. Stejné pravidlo pro produkt, lidi, AI i digitál. Když je v systému nemáme, AI se učí z toho, co tam reálně je.", sourcePage: 35 },
-    ],
-  },
-  {
     id: "bias", act: 3, actName: "PROČ VĚŘIT?", component: "Bias",
     steps: [
       { id: "bi1", title: "Naše chyby dostávají větší sílu", speakerNote: "Principy nejsou slogan. Když je v systému nemáme, AI se učí z naší historie. I z té špatné.", sources: ["nist"], sourcePage: 36 },
@@ -252,6 +241,17 @@ const allScenes: SceneDef[] = [
     steps: [
       { id: "ts2", title: "Kontrola", speakerNote: "Zoom do Kontroly. Nadpis HITL princip.", sourcePage: 38 },
       { id: "ts3", title: "HITL cyklus", speakerNote: "Klik: cyklus Human in the Loop se složí. Až dohraje, další klik: čtyři otázky a přechod k JAK.", sourcePage: 38 },
+    ],
+  },
+  {
+    id: "principles", act: 3, actName: "PROČ VĚŘIT?", component: "Principles",
+    steps: [
+      { id: "xp1", title: "Dodat značku do zážitku", speakerNote: "Nejdřív věta. Experience principy jsou to, co značku dostane z manuálu do zážitku.", sourcePage: 35 },
+      { id: "xp1b", title: "Produkt", speakerNote: "Je naše značka v tom, co nabízíme, nejen na obalu a ve slibech.", sourcePage: 35 },
+      { id: "xp1c", title: "Chování lidí", speakerNote: "Pozná nás člověk podle toho, jak se k němu chováme na pobočce i na lince.", sourcePage: 35 },
+      { id: "xp1d", title: "AI Soul & Identity", speakerNote: "AI musí mluvit a jednat jako naše značka. Osobnost, humor, hranice.", sourcePage: 35 },
+      { id: "xp1e", title: "Digitální design", speakerNote: "Chybová hláška, flow, pattern: totéž, jen v rozhraní.", sourcePage: 35 },
+      { id: "xp1f", title: "Experience principy propojují systém", speakerNote: "Principy jsou střed. Stejné pravidlo pro produkt, lidi, AI i digitál. Když je v systému nemáme, AI se učí z toho, co tam reálně je.", sourcePage: 35 },
     ],
   },
   {

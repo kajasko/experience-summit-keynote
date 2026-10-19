@@ -273,6 +273,7 @@ export function Distrust({ step, reduced }: SceneProps) {
       }}
       title={DISTRUST_TITLE}
       stats={[DISTRUST_STATS[0], DISTRUST_STATS[1], DISTRUST_STATS[2]]}
+        source="Zdroj: Accenture Song, Accenture Life Trends 2025, 2024"
     />
   );
 }

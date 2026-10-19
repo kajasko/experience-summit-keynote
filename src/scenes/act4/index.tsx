@@ -53,6 +53,7 @@ export function Orch({ step, reduced }: SceneProps) {
         }}
         title={ORCH_TITLE}
         stats={[ORCH_STATS[0], ORCH_STATS[1], PAD]}
+        source="Zdroj: SAP Global Engagement Index 2026"
       />
     );
   }
@@ -68,6 +69,7 @@ export function Orch({ step, reduced }: SceneProps) {
       }}
       title={CARE_TITLE}
       stats={[CARE_STATS[0], CARE_STATS[1], PAD]}
+        source="Zdroj: Gartner, duben 2026"
     />
   );
 }

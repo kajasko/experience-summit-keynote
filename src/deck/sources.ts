@@ -92,6 +92,12 @@ export const sources: Record<string, Source> = {
     full: "Gartner, AI Leader Personas and Leadership Networks: What Makes AI Leaders Effective, 05/08/2026. Anthony Mullen, Mike Rollings & Erick Brethenoux",
     sourcePage: 45,
   },
+  salesforce: {
+    id: "salesforce",
+    short: "Salesforce, State of the Connected Customer, 2023",
+    full: "Salesforce, State of the Connected Customer, 2023",
+    sourcePage: 0,
+  },
   nist: {
     id: "nist",
     short: "Reva Schwartz, NIST",

@@ -15,14 +15,14 @@ import { asset } from "../../engine/assets";
 const clampStep = (step: number, max: number) => Math.max(0, Math.min(step, max));
 
 const JOURNEY_TITLE = [
-  ["Zákazník", "očekává", "relevanci."],
-  ["A", "hledá", "jinak."],
+  ["Zákazník", "čeká", "adaptaci."],
+  ["Dostává", "průměr."],
 ];
 
 const JOURNEY_STATS = [
-  { id: "64", value: 64, unit: "%", cap: "preferuje zkušenost přizpůsobenou potřebám" },
-  { id: "25", value: 25, unit: "mld.", unitClass: "is-mld", cap: "vizuálních hledání přes Google Lens měsíčně" },
-  { id: "87", value: 87, unit: "%", cap: "chce možnost přejít z AI k člověku" },
+  { id: "65", value: 65, unit: "%", cap: "čeká, že se firma přizpůsobí jeho měnícím se potřebám" },
+  { id: "61", value: 61, unit: "%", cap: "říká, že s ním většina firem jedná jako s číslem" },
+  { id: "pad", value: 0, unit: "%", cap: "" },
 ] as const;
 
 export function Journey({ step, reduced }: SceneProps) {
@@ -35,10 +35,11 @@ export function Journey({ step, reduced }: SceneProps) {
       chrome={{
         kicker: "CO? · ZMĚNA CHOVÁNÍ",
         page: "32 / 75",
-        caption: activeStep === 0 ? "Roste očekávání relevance" : "Mění se způsob hledání",
+        caption: activeStep === 0 ? "Zákazník čeká adaptaci" : "Dostává průměr",
       }}
       title={JOURNEY_TITLE}
       stats={[JOURNEY_STATS[0], JOURNEY_STATS[1], JOURNEY_STATS[2]]}
+      source="Zdroj: Salesforce, State of the Connected Customer, 2023"
     />
   );
 }
@@ -340,6 +341,7 @@ export function HumanAi({ step, reduced }: SceneProps) {
         caption="Potřeba × riziko × důsledek"
         captionDot
       />
+      <div className="slide-source">Zdroj: Gartner, Customers Using GenAI for Customer Service Must Have Access to a Human Agent, 08/2026</div>
       <aside data-autonomy-proof className="autonomy-proof">
         <div data-autonomy-num className="autonomy-proof-num">
           <span data-autonomy-count>87</span>

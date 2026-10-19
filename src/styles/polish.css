@@ -474,3 +474,7 @@
 .autonomy-compass-stage {
   top: 330px;
 }
+
+/* Source line (same look as the BCG source on slide 13), sits in the footer row left of the mark */
+.slide-source { position: absolute; right: 140px; bottom: 46px; max-width: 1100px; text-align: right; font-size: 15px; font-weight: 600; color: var(--muted); z-index: var(--z-chrome); }
+.scene.is-dark .slide-source { color: rgba(220, 236, 240, 0.6); }

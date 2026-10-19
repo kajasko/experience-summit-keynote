@@ -59,6 +59,7 @@ export function Adoption({ step, reduced }: SceneProps) {
       }}
       title={ADOPTION_TITLE}
       stats={[ADOPTION_STATS[0], ADOPTION_STATS[1], ADOPTION_STATS[2]]}
+        source="Zdroje: CVVM, Umělá inteligence (AI), 06/2026; Eurostat, 02/2026; McKinsey, Europe’s Agentic Commerce Moment, 2026"
     />
   );
 }

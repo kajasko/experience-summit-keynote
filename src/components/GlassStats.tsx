@@ -26,6 +26,7 @@ export function GlassStats({
   stats,
   sceneClass = "is-actors",
   layout = "three",
+  source,
 }: {
   step: number;
   reduced: boolean;
@@ -34,6 +35,7 @@ export function GlassStats({
   stats: [GlassStatDef, GlassStatDef, GlassStatDef];
   sceneClass?: string;
   layout?: "two" | "three";
+  source?: string;
 }) {
   const root = useRef<HTMLDivElement>(null);
   const prev = useRef<number | null>(null);
@@ -189,6 +191,7 @@ export function GlassStats({
   return (
     <div ref={root} className={`scene ${sceneClass}`}>
       <SlideChrome {...chrome} captionDot />
+      {source ? <div className="slide-source">{source}</div> : null}
       <div className="safe actors-layout">
         <div className="actors-title">
           {title.map((line) => (
